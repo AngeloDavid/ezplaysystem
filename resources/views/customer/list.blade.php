@@ -24,9 +24,9 @@
                 <ul class="d-flex justify-content-center">
                     @if ($customer->status == 1)
                         <li class="mr-3"><a href="{{ url('/Clientes/'.$customer->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                        <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                        <li><a href="{{ url('/Clientes/'.$customer->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
                     @else                    
-                        <li><a href="#" class="text-success"><i class="ti-trash"></i></a></li>
+                        <li><a href="{{ url('/Clientes/'.$customer->id.'/delete')}}" class="text-success"><i class="ti-trash"></i></a></li>
                     @endif
                 </ul>
             </td>

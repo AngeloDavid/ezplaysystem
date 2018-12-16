@@ -2827,3 +2827,7 @@ table.dataTable thead td {
 }
 
 /*-------------------- END Offset Sidebar ------------------- */
+
+.custom-file-input:lang(en)~.custom-file-label::after {
+    content: "Buscar";
+}

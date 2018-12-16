@@ -3,11 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\invoice;
+use App\Costumer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
     var $title = "Factura";
+    var $estados = [
+        "AL"=>"Alabama ",
+        "AK"=>"Alaska ",
+        "AZ"=>"Arizona ",
+        "AR"=>"Arkansas ",
+        "CA"=>"California ",
+        "CO"=>"Colorado ",
+        "CT"=>"Connecticut ",
+        "DE"=>"Delaware ",
+        "DC"=>"Distrito de Columbia ",
+        "FL"=>"Florida ",
+        "GA"=>"Georgia ",
+        "HI"=>"Hawaii ",
+        "ID"=>"Idaho ",
+        "IL"=>"Illinois ",
+        "IN"=>"Indiana ",
+        "IA"=>"Iowa ",
+        "KS"=>"Kansas ",
+        "KY"=>"Kentucky ",
+        "LA"=>"Louisiana ",
+        "ME"=>"Maine ",
+        "MD"=>"Maryland ",
+        "MA"=>"Massachusetts ",
+        "MI"=>"Michigan ",
+        "MN"=>"Minnesota ",
+        "MS"=>"Mississippi ",
+        "MO"=>"Missouri ",
+        "MT"=>"Montana ",
+        "NE"=>"Nebraska ",
+        "NV"=>"Nevada ",
+        "NH"=>"New Hampshire ",
+        "NJ"=>"New Jersey ",
+        "NM"=>"New Mexico ",
+        "NY"=>"New York ",
+        "NC"=>"North Carolina ",
+        "ND"=>"North Dakota ",
+        "OH"=>"Ohio ",
+        "OK"=>"Oklahoma ",
+        "OR"=>"Oregon ",
+        "PA"=>"Pennsylvania ",
+        "RI"=>"Rhode Island ",
+        "SC"=>"South Carolina ",
+        "SD"=>"South Dakota ",
+        "TN"=>"Tennessee ",
+        "TX"=>"Texas ",
+        "UT"=>"Utah ",
+        "VT"=>"Vermont ",
+        "VA"=>"Virginia ",
+        "WA"=>"Washington ",
+        "WV"=>"West Virginia ",
+        "WI"=>"Wisconsin ",
+        "WY"=>"Wyoming "
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -15,12 +70,13 @@ class InvoiceController extends Controller
      */
     public function index()
     {
+        $facturas = DB::table('invoice')->latest('created_at')->paginate(10);
         $rutes = [
             "Inicio" => "/",   
             "Facturas" => ""
         ];
         $title=$this->title."ción";
-        return view('invoice.index',compact('title','rutes'));
+        return view('invoice.index',compact('title','rutes','facturas'));
     }
 
     /**
@@ -35,8 +91,14 @@ class InvoiceController extends Controller
             "Facturas" => "/Facturas",
             "Nuevo"=>""
         ];
+
+        $invoce= new invoice();
+        $costumer = new Costumer ();
+        $customers = DB::table('costumer')->where('status','=',1)->latest('created_at')->paginate(10);
         $title="Nueva ".$this->title;
-        return view('invoice.new',compact('title','rutes'));
+        $estados = $this->estados;
+
+        return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoce'));
     }
 
     /**

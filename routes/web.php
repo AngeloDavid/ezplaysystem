@@ -19,6 +19,9 @@ Route::get('/', function () {
     return view('welcome',compact('rutes','title'));
 });
 
+
+Route::get('/Clientes/{id}/delete', 'CustomerController@activar')->where('id','[0-9]+')->name('Clientes.activar');;
+
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController'

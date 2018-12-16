@@ -76,7 +76,7 @@ class CustomerController extends Controller
         ];
         $customers = DB::table('costumer')->latest('created_at')->paginate(10);
         if ($request->ajax()) {
-            return view('customer.list', ['customers' => $proveedors])->render();  
+            return view('customer.list', ['customers' => $customers])->render();  
         }
         return view('customer.index', compact('title','customers','rutes'));
     }
@@ -186,5 +186,20 @@ class CustomerController extends Controller
     public function destroy(Costumer $costumer)
     {
         //
+    }
+
+    public function activar($id) {
+        $costumer=costumer::find($id);
+        if( $costumer->status == 1){
+            $prom=DB::table('costumer')
+                            ->where('id',$id)
+                            ->update(['status'=>'0']);
+        }else{
+            $prom=DB::table('costumer')
+                            ->where('id',$id)
+                            ->update(['status'=>'1']);
+            
+        }        
+        return redirect()->route('Clientes.index');   
     }
 }
