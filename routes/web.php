@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $rutes = [
+        "Inicio" => "",      
+    ];
+    $title="Inicio";
+    return view('welcome',compact('rutes','title'));
 });
 
 Route::resources([

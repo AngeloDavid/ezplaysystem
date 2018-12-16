@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+    var $title = "Factura";
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +15,12 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return view('invoice.index');
+        $rutes = [
+            "Inicio" => "/",   
+            "Facturas" => ""
+        ];
+        $title=$this->title."ción";
+        return view('invoice.index',compact('title','rutes'));
     }
 
     /**
@@ -24,7 +30,13 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoice.new');
+        $rutes = [
+            "Inicio" => "/",   
+            "Facturas" => "/Facturas",
+            "Nuevo"=>""
+        ];
+        $title="Nueva ".$this->title;
+        return view('invoice.new',compact('title','rutes'));
     }
 
     /**

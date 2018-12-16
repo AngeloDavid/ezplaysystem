@@ -1,4 +1,5 @@
 @extends('masterPage')
+
 @section('scriptcss')
     <!-- Start datatable css -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
@@ -11,78 +12,44 @@
         <div class="row">
             <!-- data table start -->
             <div class="col-12 mt-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">Clientes en mora</h4>
-                        <div class="data-tables">
-                            <table id="dataTable" class="text-center">
-                                <thead class="bg-light text-capitalize">
-                                    <tr>
-                                        <th>Contacto</th>
-                                        <th>Empresa</th>
-                                        <th>Ciudad</th>                                                
-                                        <th>Fecha De Ingreso</th>
-                                        <th>Saldo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Airi Satou</td>
-                                        <td>David`s Flowers</td>
-                                        <td>Tokyo</td>                                               
-                                        <td>2008/11/28</td>
-                                        <td>$162,700</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Angelica Ramos</td>
-                                        <td>Betty`s Flowers</td>
-                                        <td>London</td>
-                                        <td>2009/10/09</td>
-                                        <td>$1,200,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>David`s Flowers</td>
-                                        <td>San Francisco</td>
-                                        <td>2009/01/12</td>
-                                        <td>$86,000</td>
-                                    </tr>
-                                    
-                                    
-                                    <tr>
-                                        <td>Caesar Vance</td>
-                                        <td>Pre-Sales Support</td>
-                                        <td>New York</td>
-                                        <td>2011/12/12</td>
-                                        <td>$106,450</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>Bradley Greer</td>
-                                        <td>Lisa`s Flowers</td>
-                                        <td>London</td>
-                                        <td>2012/10/13</td>
-                                        <td>$132,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brenden Wagner</td>
-                                        <td>Lisa`s Flowers</td>
-                                        <td>San Francisco</td>
-                                        <td>2011/06/07</td>
-                                        <td>$206,850</td>
-                                    </tr>                                            
-                                    <tr>
-                                        <td>Bruno Nash</td>
-                                        <td>Lisa`s Flowers</td>
-                                        <td>Edinburgh</td>
-                                        <td>2012/03/29</td>
-                                        <td>$433,060</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-10 mt-5">
+                                        <h4 class="header-title">Lista de Clientes</h4>
+                                    </div>
+                                    <div class="col-2 mt-5 text-right">
+                                            <a href="{{ url('/Clientes/create')}}" class="btn btn-rounded btn-primary mb-3"><i class="ti-plus"></i>&nbsp;&nbsp;&nbsp; Nuevo</a>
+                                    </div>
+                                </div>
+                                @if (count($customers)<1)
+                                    <div class="alert alert-primary" role="alert">
+                                        <h4 class="alert-heading">Sin Clientes</h4>
+                                        <p>Sus clientes aún no han sido ingresados</p>
+                                        <hr>
+                                        <p class="mb-0">    <a href="{{ url('/Clientes/create')}}" class=" mb-3"><i class="ti-plus"></i>&nbsp;&nbsp;&nbsp; Nuevo Cliente</a> </p>
+                                    </div>
+                                @else                                
+                                    <div class="single-table">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover progress-table text-center">
+                                                <thead class="text-uppercase">
+                                                    <tr>
+                                                        <th scope="col">RUC/CI/ID</th>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col">Fecha de creacion</th>
+                                                        <th scope="col">Dirrecion</th>
+                                                        <th scope="col">Estado</th>
+                                                        <th scope="col">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                @include('customer.list')
+                                            </table>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                </div>
             </div>
             
         </div>

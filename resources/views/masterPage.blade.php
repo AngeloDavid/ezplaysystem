@@ -19,16 +19,16 @@
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-user"></i><span>Clientes
                                 </span></a>
                             <ul class="collapse">
-                                <li><a href="newCliente.html">Nuevo Cliente</a></li>
-                                <li><a href="#">Lista de Clientes</a></li>
+                                <li><a href="{{ url('/Clientes/create')}}">Nuevo Cliente</a></li>
+                                <li><a href="{{ url('/Clientes')}}">Lista de Clientes</a></li>
                                 <li><a href="datatable.html">Estado de cuenta por Cliente</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-receipt"></i><span>Facturas</span></a>
                             <ul class="collapse">
-                                <li><a href="newFactura.html">Nueva Factura</a></li>
-                                <li><a href="#">Historia de Facturas</a></li>
+                                <li><a href="{{ url('/Facturas/create')}}">Nueva Factura</a></li>
+                                <li><a href="{{ url('/Facturas')}}">Historia de Facturas</a></li>
                                 <li><a href="#">Facturas pendientes</a></li>
                             </ul>
                         </li>
@@ -160,9 +160,15 @@
             <div class="row align-items-center">
                 <div class="col-sm-6">
                     <div class="breadcrumbs-area clearfix">
-                        <h4 class="page-title pull-left">EZPlay</h4>
+                        <h4 class="page-title pull-left">{{ $title  }}</h4>
                         <ul class="breadcrumbs pull-left">
-                            <li><a href="home.html">Inicio</a></li>                                
+                            @foreach ($rutes as $key => $rute)
+                              @if ($rute != "")
+                                <li><a href="{{ url($rute) }}">{{ $key }}</a></li>        
+                              @else
+                              <li><span>{{ $key }}</span></li>        
+                              @endif
+                            @endforeach
                         </ul>
                     </div>
                 </div>
