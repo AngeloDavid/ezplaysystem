@@ -97,8 +97,9 @@ class InvoiceController extends Controller
         $customers = DB::table('costumer')->where('status','=',1)->latest('created_at')->paginate(10);
         $title="Nueva ".$this->title;
         $estados = $this->estados;
-
-        return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoce'));
+        $urlForm ='Facturas';
+        $isnew= true;
+        return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoce','urlForm','isnew'));
     }
 
     /**
@@ -109,7 +110,8 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->all();
+        dump($data);
     }
 
     /**
