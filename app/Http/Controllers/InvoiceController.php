@@ -110,8 +110,49 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        
+      
+        
         $data = request()->all();
-        dump($data);
+       
+        if(isset($data['terminos']) ){
+         //  dump($data);
+            $id_customer = $data['id_customer'];
+            if (is_null($data['id_customer'])){
+              //  dd($data['id_customer']);
+                $customer_new= Costumer::create([
+                    'ruc'=>$data['ruc'], 
+                    'name'=>$data['name'],
+                    'email'=>$data['email'],
+                    'address'=>$data['address'],
+                    'city'=>$data['city'],
+                    'state'=>$data['state'],
+                    'country'=>$data['country'],
+                    'postal_code'=>$data['postal_code'],
+                    'type'=>'Juridica',
+                    'origin'=>'Extranjero',
+                    'status'=>1
+                ]);   
+                $id_customer = $customer_new->id;
+            }else {
+                $id_customer = $data['id_customer'];
+            }
+            // dd($id_customer);
+            invoice::create([
+                'code'=>$data['code'],
+                'desp'=>$data['desp'],
+                'type'=>'FACT',
+                'IVA'=> $data['IVA'],
+                'wayToPay'=>$data['wayToPay'],
+                'amount'=>$data['amount'],
+                'ivaincluded'=>$data['ivaincluded']=='on'?true:false,
+                'status'=>1,
+                'id_customer'=>$id_customer
+            ]); 
+        }
+         
+         return redirect()->route('Facturas.index');
+        // 
     }
 
     /**

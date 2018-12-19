@@ -20,6 +20,7 @@ class CreateCostumer extends Migration
             $table->string('logo')->nullable();
             $table->string('email',100);
             $table->string('address',150);
+            $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('postal_code')->nullable();            

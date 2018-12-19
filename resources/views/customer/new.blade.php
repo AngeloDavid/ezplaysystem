@@ -46,7 +46,7 @@
                           </div>
               
                           <div class="row">
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-3 mb-3">
                               <label for="country">Pais<span class="text-muted">(Opcional)</span></label>
                               <select class="custom-select d-block w-100" id="country" name="country" >
                                 <option value="" disabled>Seleccione...</option>
@@ -56,7 +56,7 @@
                                   Este campo es obligatorio
                               </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                               <label for="state">Estado<span class="text-muted">(Opcional)</span></label>
                               <select class="custom-select d-block w-100" id="state" name="state" placeholder="">
                                 <option value="" disabled >Seleccine...</option>
@@ -70,6 +70,13 @@
                               </select>
                               <div class="invalid-feedback">
                                 Please provide a valid state.
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                              <label for="postal_code">Ciudad<span class="text-muted">(Opcional)</span></label>
+                              <input type="text" class="form-control" id="city" name="city" value="{{ old('city',$costumer->city) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
                               </div>
                             </div>
                             <div class="col-md-3 mb-3">

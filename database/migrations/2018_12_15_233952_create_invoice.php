@@ -18,7 +18,8 @@ class CreateInvoice extends Migration
             $table->string('code');
             $table->string('desp',150)->nullable();
             $table->enum('type',['FACT','NCE']);
-            $table->enum('IVA',['0%','Extranjero']);
+            $table->enum('IVA',['0%','12%']);
+            $table->enum('wayToPay',['transfer','check']);
             $table->string('file')->nullable();
             $table->unsignedDecimal('amount', 8, 2);
             $table->boolean('ivaincluded');  

@@ -15,7 +15,7 @@
                             @if (!$isnew)
                                 {{ method_field('PUT') }}
                             @endif
-                          <input type="hidden" id="id" name="id">
+                          <input type="hidden" id="id_customer" name="id_customer">
                           <div class="row">
                             <div class="col-md-6 mb-3">
                               <label for="firstName">RUC/CI/ID</label>
@@ -56,7 +56,7 @@
                           </div>
               
                           <div class="row">
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-3 mb-3">
                               <label for="country">Pais<span class="text-muted">(Opcional)</span></label>
                               <select class="custom-select d-block w-100"  id="country" name="country" >
                                 <option value="" disabled>Seleccione...</option>
@@ -66,7 +66,7 @@
                                 Please select a valid country.
                               </div>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                               <label for="state">Estado<span class="text-muted">(Opcional)</span></label>
                               <select class="custom-select d-block w-100" id="state" name="state" >
                                 <option disabled>Seleccione...</option>
@@ -80,6 +80,13 @@
                               </select>
                               <div class="invalid-feedback">
                                 Please provide a valid state.
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                              <label for="postal_code">Ciudad<span class="text-muted">(Opcional)</span></label>
+                              <input type="text" class="form-control" id="city" name="city" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
                               </div>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -118,16 +125,16 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 mb-3">
-                                            <label for="state">IVA<span class="text-muted">(Opcional)</span></label>
-                                            <select class="custom-select d-block w-100" id="IVA" name="IVA" >
-                                                <option selected >0%</option>
-                                                <option>12%</option>
-                                            </select>
-                                            <div class="invalid-feedback">
-                                              Please provide a valid state.
-                                            </div>
-                                          </div>
-                                    <div class="col-md-6 mb-3">
+                                      <label for="state">IVA<span class="text-muted">(Opcional)</span></label>
+                                      <select class="custom-select d-block w-100" id="IVA" name="IVA" >
+                                          <option selected >0%</option>
+                                          <option>12%</option>
+                                      </select>
+                                      <div class="invalid-feedback">
+                                         Please provide a valid state.
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
                                             <label for="exampleFormControlFile1">Subir la factura</label>
                                             <div class="custom-file">
                                               <input type="file" class="custom-file-input" id="file" name="file" required="">
@@ -136,6 +143,16 @@
                                             <div class="invalid-feedback">
                                                 Este campo es requerido
                                             </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                      <label for="state">Forma de cobro</label>
+                                      <select class="custom-select d-block w-100" id="wayToPay" name="wayToPay" >
+                                          <option value="transfer" selected >Transferencia Bancaria</option>
+                                          <option value="check" >Cheque</option>
+                                      </select>
+                                      <div class="invalid-feedback">
+                                         Please provide a valid state.
+                                      </div>
                                     </div>
                           </div> 
                           <hr class="mb-4">
@@ -230,9 +247,10 @@
         console.log("gola",data);
 
         //Ingresar los datos consultados
-        $('#Form-create #id').val(data.id);
+        $('#Form-create #id_customer').val(data.id);
         $('#Form-create #ruc').val(data.ruc);
         $('#Form-create #name').val(data.name);
+        $('#Form-create #city').val(data.city);
         $('#Form-create #email').val(data.email);
         $('#Form-create #address').val(data.address);
         $('#Form-create #state').val(data.state);
@@ -248,11 +266,12 @@
       })
       $(".newCliente").click(function(){
         cleanCustomer(false);
-        $('#Form-create #id').val('');
-        $('#Form-create #id').val('');
+        $('#Form-create #id_customer').val('');
+        $('#Form-create #id_customer').val('');
         $('#Form-create #ruc').val('');
         $('#Form-create #name').val('');
         $('#Form-create #email').val('');
+        $('#Form-create #city').val('');
         $('#Form-create #address').val('');
         $('#Form-create #state').val('CA');
         $('#Form-create #country').val('US');
@@ -267,6 +286,7 @@
         $('#Form-create #state').prop('disabled', dato);
         $('#Form-create #country').prop('disabled', dato);
         $('#Form-create #postal_code').prop('disabled', dato);
+        $('#Form-create #city').prop('disabled', dato);
       }
     });
   </script>

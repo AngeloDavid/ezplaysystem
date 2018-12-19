@@ -16,3 +16,12 @@ Los assets se coloca en la carpeta *public*, y se hace referencia en las plantil
 Para crear un controlador se coloca el siguiente comando `php artisan make:controller UserController` o `$ php artisan make:controller CustomerController --resource --model=Costumer`
 
 Luego se crea las rutas ` Route::get('/usuarios', 'UserController@index');` 0 `Route::resource('Clientes', 'CustomerController');`
+
+## forma de pago
+    .transferencia
+    .cheque
+
+## Modelos
+
+Para crear una migration se lo hace con `php artisan make:migration add_foreign_key_invoice_table`
+

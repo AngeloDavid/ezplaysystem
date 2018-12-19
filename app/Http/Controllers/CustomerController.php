@@ -110,11 +110,13 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $data = request()->all();
+
         Costumer::create([
             'ruc'=>$data['ruc'], 
             'name'=>$data['name'],
             'email'=>$data['email'],
             'address'=>$data['address'],
+            'city'=>$data['city'],
             'state'=>$data['state'],
             'country'=>$data['country'],
             'postal_code'=>$data['postal_code'],
