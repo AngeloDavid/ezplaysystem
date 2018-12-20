@@ -101,19 +101,26 @@
                           <hr class="mb-4">      
                           <h4 class="header-title">Facturación</h4> 
                           <div class="row">
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-3 mb-3">
                                 <label for="zip">Codigo</label>
                                 <input type="text" class="form-control" id="code" name="code" placeholder="" required="" >
                                 <div class="invalid-feedback">
                                   Este campo es obligatorio
                                 </div>
                             </div>
-                            <div class="col-md-8 mb-8">
+                            <div class="col-md-6 mb-6">
                                 <label for="zip">Observacion<span class="text-muted">(Opcional)</span></label>
                                 <input type="text" class="form-control" id="desp" name="desp" placeholder="" >
                                 <div class="invalid-feedback">
                                   Este campo es obligatorio
                                 </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                              <label for="zip">Fecha de Factura</label>
+                              <input type="date" class="form-control" id="date" name="date" placeholder="" required="" >
+                              <div class="invalid-feedback">
+                                Este campo es obligatorio
+                              </div>
                             </div>
                           </div>
                           <div  class="row">
@@ -159,14 +166,13 @@
                           <div class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input" id="ivaincluded" name="ivaincluded">
                               <label class="custom-control-label" for="ivaincluded">IVA Includio</label>
-                          </div>          
+                          </div>  
                           <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" id="save_cliente" name="save_cliente">
-                                  <label class="custom-control-label" for="save_cliente">Guardar nuevo Cliente</label>
-                          </div>
-                          <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input"  name="terminos" id="terminos">
-                                  <label class="custom-control-label" for="terminos">Acpeto <a href="#" data-toggle="modal" data-target="#TERMS">Ternimos y condiciones</a></label>
+                                  <input type="checkbox" class="custom-control-input"  name="terminos" id="terminos" required="">
+                                  <label class="custom-control-label" for="terminos">Acepto <a href="#" data-toggle="modal" data-target="#TERMS">Ternimos y condiciones</a></label>
+                                  <div class="invalid-feedback">
+                                    Este campo es obligatorio
+                                 </div>
                           </div>                            
                           <div class="row">
                               <div class="col-12">
@@ -240,6 +246,8 @@
 @section('scriptjs')
   <script>
     $(document).ready(function (){
+      var dt= new Date();
+      $('#Form-create #date').val(dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+dt.getDate());
       $('.btn-select').click(function(){
         var row = $(this).parents('tr');
         var id = row.data('id');

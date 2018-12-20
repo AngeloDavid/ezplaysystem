@@ -70,13 +70,17 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $facturas = DB::table('invoice')->latest('created_at')->paginate(10);
+        $invoices = DB::table('invoice')                        
+                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.status','costumer.id','costumer.name')
+                        ->latest('created_at')
+                        ->paginate(10);
         $rutes = [
             "Inicio" => "/",   
             "Facturas" => ""
         ];
         $title=$this->title."ción";
-        return view('invoice.index',compact('title','rutes','facturas'));
+        return view('invoice.index',compact('title','rutes','invoices'));
     }
 
     /**
@@ -116,7 +120,16 @@ class InvoiceController extends Controller
         $data = request()->all();
        
         if(isset($data['terminos']) ){
-         //  dump($data);
+         //dump($data);
+            // cuando se tenga el datetimepicker
+            // $timedate = \DateTime::createFromFormat('d/m/Y H:i', $data['date']);
+            $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);
+            //dump($timedate);
+            if(gettype($timedate)== 'object')
+                $timedate = $timedate->format('Y-m-d H:i:s');
+            //dump($timedate);
+        
+                
             $id_customer = $data['id_customer'];
             if (is_null($data['id_customer'])){
               //  dd($data['id_customer']);
@@ -140,6 +153,7 @@ class InvoiceController extends Controller
             // dd($id_customer);
             invoice::create([
                 'code'=>$data['code'],
+                'date'=>$timedate,
                 'desp'=>$data['desp'],
                 'type'=>'FACT',
                 'IVA'=> $data['IVA'],

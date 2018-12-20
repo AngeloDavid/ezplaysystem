@@ -14,7 +14,7 @@
                                         <a href="{{ url('/Facturas/create')}}" class="btn btn-rounded btn-primary mb-3"><i class="ti-plus"></i>&nbsp;&nbsp;&nbsp; Nuevo</a>
                                 </div>
                             </div>
-                            @if (count($facturas)<1)
+                            @if (count($invoices)<1)
                                 <div class="alert alert-primary" role="alert">
                                     <h4 class="alert-heading">Sin Facturas</h4>
                                     <p>Por favor ingrese una factura para comenzar</p>
@@ -29,13 +29,14 @@
                                                 <tr>
                                                     <th scope="col">code</th>
                                                     <th scope="col">Cliente</th>
-                                                    <th scope="col">Fecha de creacion</th>
-                                                    <th scope="col">Monto</th>
+                                                    <th scope="col">Descripcion</th>
+                                                    <th scope="col">Fecha</th>
+                                                    <th scope="col">Monto</th>                                                    
                                                     <th scope="col">Estado</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
                                             </thead>
-                                            
+                                            @include('invoice.list')
                                         </table>
                                     </div>
                                 </div>

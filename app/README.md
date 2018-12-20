@@ -25,3 +25,4 @@ Luego se crea las rutas ` Route::get('/usuarios', 'UserController@index');` 0 `R
 
 Para crear una migration se lo hace con `php artisan make:migration add_foreign_key_invoice_table`
 
+Para refrescar `php artisan migrate:fresh`

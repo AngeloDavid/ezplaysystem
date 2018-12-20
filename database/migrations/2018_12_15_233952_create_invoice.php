@@ -13,9 +13,17 @@ class CreateInvoice extends Migration
      */
     public function up()
     {
+        /***
+         * 1 .- Enviada
+         * 2 .- Recibida         
+         * 3 .- Cancelado
+         * 4 .- Anuladao
+         */
+
         Schema::create('invoice', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
+            $table->dateTimeTz('date');
             $table->string('desp',150)->nullable();
             $table->enum('type',['FACT','NCE']);
             $table->enum('IVA',['0%','12%']);
@@ -23,7 +31,7 @@ class CreateInvoice extends Migration
             $table->string('file')->nullable();
             $table->unsignedDecimal('amount', 8, 2);
             $table->boolean('ivaincluded');  
-            $table->boolean('status'); 
+            $table->smallInteger('status'); 
             $table->timestamps();
         });
     }
