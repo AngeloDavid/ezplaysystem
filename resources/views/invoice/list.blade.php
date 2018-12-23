@@ -1,7 +1,7 @@
 <tbody>
     @foreach ($invoices as $invoice)
         <tr>
-            <th scope="row">{{ $invoice->code }}</th>
+            <th scope="row">{{ $invoice->code }} </th>
             <td>{{ $invoice->name }}</td>
             <td>{{ $invoice->desp }}</td>
             <td> {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
@@ -32,8 +32,10 @@
             <td>
                 <ul class="d-flex justify-content-center">
                     @if ($invoice->status == 1)
-                        <li class="mr-3"><a href="{{ url('/Clientes/'.$invoice->id.'/edit')}}" class="text-secondary"><i class="ti-cloud-down"></i></a></li>
-                        <li class="mr-3"><a href="{{ url('/Clientes/'.$invoice->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                    @if (! @empty($invoice->file ) )
+                        <li class="mr-3"><a target="_blank" href="storage/docs/{{ $invoice->file }}" class="text-secondary"><i class="ti-cloud-down"></i></a></li>
+                    @endif                        
+                        <li class="mr-3"><a href="{{ url('/Facturas/'.$invoice->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
                         <li><a href="{{ url('/Clientes/'.$invoice->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
                     @else                    
                         <li><a href="{{ url('/Clientes/'.$invoice->id.'/delete')}}" class="text-success"><i class="ti-trash"></i></a></li>

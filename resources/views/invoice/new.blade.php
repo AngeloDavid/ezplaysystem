@@ -1,7 +1,13 @@
 @extends('masterPage')
 @section('options')
-<li class="newCliente"  data-toggle="tooltip" data-placement="bottom" title="Nuevo Cliente" ><i class="ti-user"></i></li>    
-<li  data-toggle="tooltip" data-placement="bottom" title="Nuevo Factura" ><i class="ti-plus"></i></li>    
+  <li class="newCliente"  data-toggle="tooltip" data-placement="bottom" title="Nuevo Cliente" ><i class="ti-user"></i></li>    
+@if ($isnew)
+  <li class="newInvoice" data-toggle="tooltip" data-placement="bottom" title="Nuevo Factura" ><i class="ti-plus"></i></li>    
+@else
+  @if (! empty($invoice->file))
+    <a target="_blank" href="{{ asset('storage/docs/'. $invoice->file )}}" class="text-secondary"><li  data-toggle="tooltip" data-placement="bottom" title="Descargar Factura" ><i class="ti-cloud-down"></i></li></a>
+  @endif
+@endif
 @endsection
 @section('Centro')
 <div class="main-content-inner">
@@ -9,13 +15,34 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
+                    @if(Session::has('flash_success'))
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      <em><i class="fa fa-check-circle"></i>&nbsp;&nbsp;&nbsp;  {!! session('flash_success') !!}</em>
+                    </div>
+                    @endif
+                    @if ($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        <strong><i class="fa fa-times-circle"></i>&nbsp;&nbsp;&nbsp; Por favor corrigan los siguientes errores:</strong><p></p>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>                          
+                      </div>                        
+                  @endif
                        <h4 class="header-title">Cliente</h4>
-                        <form class="needs-validation" novalidate="" id="Form-create"  method="POST"  action="{{url($urlForm)}}"> 
+                        <form class="needs-validation" novalidate="" id="Form-create"  method="POST"  action="{{url($urlForm)}}" enctype="multipart/form-data"> 
                             {!! csrf_field() !!}
                             @if (!$isnew)
                                 {{ method_field('PUT') }}
                             @endif
-                          <input type="hidden" id="id_customer" name="id_customer">
+                          <input type="hidden" id="id_customer" name="id_customer" value="{{ old('ruc',$costumer->id) }}">
                           <div class="row">
                             <div class="col-md-6 mb-3">
                               <label for="firstName">RUC/CI/ID</label>
@@ -24,7 +51,7 @@
 
                                       <span class="input-group-text" data-toggle="modal" data-target="#exampleModalCenter"><i class="ti-search"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="ruc" name="ruc" placeholder="EX. 1724a983300001" required="">
+                                    <input type="text" class="form-control" id="ruc" name="ruc" placeholder="EX. 1724a983300001" value="{{ old('ruc',$costumer->ruc) }}" required="">
                                     <div class="invalid-feedback" style="width: 100%;">
                                       Your username is required.
                                     </div>
@@ -32,7 +59,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                               <label for="lastName">Razón social</label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Ex. Flowers Company" value="" required="">
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Ex. Flowers Company" value="{{ old('name',$costumer->name) }}" required="">
                               <div class="invalid-feedback">
                                     Este campo es requerido
                               </div>
@@ -41,7 +68,7 @@
 
                           <div class="mb-3">
                             <label for="email">Email para facturacion </label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" value="{{ old('email',$costumer->email) }}" required>
                             <div class="invalid-feedback">
                              Por favor ingrese un email correcto.
                             </div>
@@ -49,7 +76,7 @@
               
                           <div class="mb-3">
                             <label for="address">Dirrección</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required="">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" value="{{ old('address',$costumer->address) }}"  required="">
                             <div class="invalid-feedback">
                              Este campo es requerido
                             </div>
@@ -84,14 +111,14 @@
                             </div>
                             <div class="col-md-3 mb-3">
                               <label for="postal_code">Ciudad<span class="text-muted">(Opcional)</span></label>
-                              <input type="text" class="form-control" id="city" name="city" >
+                              <input type="text" class="form-control" id="city" name="city" value="{{ old('city',$costumer->city) }}" >
                               <div class="invalid-feedback">
                                   Este campo es obligatorio
                               </div>
                             </div>
                             <div class="col-md-3 mb-3">
                               <label for="zip">Codigo Postal<span class="text-muted">(Opcional)</span></label>
-                              <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="" >
+                              <input type="text" class="form-control" id="postal_code" name="postal_code" placeholder="" value="{{ old('postal_code',$costumer->postal_code) }}" >
                               <div class="invalid-feedback">
                                 Zip code required.
                               </div>
@@ -103,21 +130,21 @@
                           <div class="row">
                             <div class="col-md-3 mb-3">
                                 <label for="zip">Codigo</label>
-                                <input type="text" class="form-control" id="code" name="code" placeholder="" required="" >
+                                <input type="text" class="form-control" id="code" name="code" placeholder="" required="" value="{{ old('code',$invoice->code) }}" >
                                 <div class="invalid-feedback">
                                   Este campo es obligatorio
                                 </div>
                             </div>
                             <div class="col-md-6 mb-6">
                                 <label for="zip">Observacion<span class="text-muted">(Opcional)</span></label>
-                                <input type="text" class="form-control" id="desp" name="desp" placeholder="" >
+                                <input type="text" class="form-control" id="desp" name="desp" placeholder="" value="{{ old('desp',$invoice->desp) }}" >
                                 <div class="invalid-feedback">
                                   Este campo es obligatorio
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
-                              <label for="zip">Fecha de Factura</label>
-                              <input type="date" class="form-control" id="date" name="date" placeholder="" required="" >
+                              <label for="zip">Fecha de Factura </label>
+                              <input type="date" class="form-control" id="date" name="date" placeholder="" required="" value="{{ old('date',date('Y-m-d', strtotime($invoice->date))) }}" >
                               <div class="invalid-feedback">
                                 Este campo es obligatorio
                               </div>
@@ -126,7 +153,7 @@
                           <div  class="row">
                                 <div class="col-md-3 mb-3">
                                         <label for="subtotal">Total <span class="text-muted"></span></label>
-                                        <input type="number" class="form-control" id="amount" name="amount" placeholder="" required="" >
+                                        <input type="number" class="form-control" id="amount" name="amount" placeholder="" required="" value="{{ old('amount',$invoice->amount) }}" >
                                         <div class="invalid-feedback">
                                          Este campo es requerido
                                         </div>
@@ -134,19 +161,33 @@
                                     <div class="col-md-3 mb-3">
                                       <label for="state">IVA<span class="text-muted">(Opcional)</span></label>
                                       <select class="custom-select d-block w-100" id="IVA" name="IVA" >
+                                        @if ($invoice->iva=="12%")
+                                          <option  >0%</option>
+                                          <option selected>12%</option>
+                                        @else
                                           <option selected >0%</option>
-                                          <option>12%</option>
+                                          <option>12%</option>  
+                                        @endif                                          
                                       </select>
                                       <div class="invalid-feedback">
                                          Please provide a valid state.
                                       </div>
-                                    </div>
+                                    </div>                                    
                                     <div class="col-md-3 mb-3">
-                                            <label for="exampleFormControlFile1">Subir la factura</label>
+                                            <label for="file">Factura fisica
+                                              @if (! empty($invoice->file))
+                                                <a target="_blank" href="{{ asset('storage/docs/'. $invoice->file )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
+                                              @endif
+                                              </label>
                                             <div class="custom-file">
-                                              <input type="file" class="custom-file-input" id="file" name="file" required="">
-                                              <label class="custom-file-label" for="file">Subir el archivo</label>
-                                          </div>
+                                              <input type="file" class="custom-file-input" id="file" name="file" @if ($isnew) required="" @endif accept="application/pdf">
+                                              <label class="custom-file-label" for="file" id="file-label">
+                                                @if (empty($invoice->file) )
+                                                Subir el archivo  
+                                              @else
+                                                Archivo ya subido
+                                              @endif</label>
+                                            </div>
                                             <div class="invalid-feedback">
                                                 Este campo es requerido
                                             </div>
@@ -154,8 +195,14 @@
                                     <div class="col-md-3 mb-3">
                                       <label for="state">Forma de cobro</label>
                                       <select class="custom-select d-block w-100" id="wayToPay" name="wayToPay" >
+                                        @if ($invoice->wayToPay =="Check")
+                                          <option value="transfer"  >Transferencia Bancaria</option>
+                                          <option value="check" selected >Cheque</option>  
+                                        @else
                                           <option value="transfer" selected >Transferencia Bancaria</option>
-                                          <option value="check" >Cheque</option>
+                                          <option value="check" >Cheque</option>  
+                                        @endif
+                                          
                                       </select>
                                       <div class="invalid-feedback">
                                          Please provide a valid state.
@@ -164,7 +211,11 @@
                           </div> 
                           <hr class="mb-4">
                           <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="ivaincluded" name="ivaincluded">
+                            @if ($invoice->ivaincluded ==1)
+                              <input type="checkbox" class="custom-control-input" id="ivaincluded" name="ivaincluded" checked="checked">  
+                            @else
+                              <input type="checkbox" class="custom-control-input" id="ivaincluded" name="ivaincluded" >  
+                            @endif                              
                               <label class="custom-control-label" for="ivaincluded">IVA Includio</label>
                           </div>  
                           <div class="custom-control custom-checkbox">
@@ -173,7 +224,7 @@
                                   <div class="invalid-feedback">
                                     Este campo es obligatorio
                                  </div>
-                          </div>                            
+                          </div>  
                           <div class="row">
                               <div class="col-12">
                                 <button class="btn btn-primary btn-lg btn-block" type="submit"><i class="ti-location-arrow" ></i>&nbsp;&nbsp;&nbsp; Enviar</button>
@@ -246,15 +297,21 @@
 @section('scriptjs')
   <script>
     $(document).ready(function (){
-      var dt= new Date();
-      $('#Form-create #date').val(dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+dt.getDate());
+      @if ($isnew)
+        cleanInvoice(); 
+      @else
+      var id_customer =$('#Form-create #id_customer').val();
+        if(id_customer != null){
+          cleanCustomer(true);
+        }   
+      @endif    
+      
+      
       $('.btn-select').click(function(){
         var row = $(this).parents('tr');
         var id = row.data('id');
-        var data = JSON.parse( row.data('customer'));        
-        console.log("gola",data);
-
-        //Ingresar los datos consultados
+        var data = JSON.parse( row.data('customer'));    
+         //Ingresar los datos consultados
         $('#Form-create #id_customer').val(data.id);
         $('#Form-create #ruc').val(data.ruc);
         $('#Form-create #name').val(data.name);
@@ -274,17 +331,14 @@
       })
       $(".newCliente").click(function(){
         cleanCustomer(false);
-        $('#Form-create #id_customer').val('');
-        $('#Form-create #id_customer').val('');
-        $('#Form-create #ruc').val('');
-        $('#Form-create #name').val('');
-        $('#Form-create #email').val('');
-        $('#Form-create #city').val('');
-        $('#Form-create #address').val('');
-        $('#Form-create #state').val('CA');
-        $('#Form-create #country').val('US');
-        $('#Form-create #postal_code').val('');
+        cleanCustomerdato();
       });
+
+      $('.newInvoice').click(function(){
+        cleanInvoice();
+        cleanCustomerdato();
+        cleanCustomer(false);
+      })
 
       function cleanCustomer(dato){
        // $('#Form-create #ruc').prop('disabled', dato);
@@ -295,7 +349,49 @@
         $('#Form-create #country').prop('disabled', dato);
         $('#Form-create #postal_code').prop('disabled', dato);
         $('#Form-create #city').prop('disabled', dato);
+       
       }
+
+      function cleanInvoice(){
+
+        var dt= new Date();
+        $('#Form-create #date').val(dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+dt.getDate());
+        $('#Form-create #code').val('');
+        $('#Form-create #desp').val('');        
+        $('#Form-create #amount').val(null);
+        $('#Form-create #IVA').val('0%');
+        $('#Form-create #city').val('');
+        $('#Form-create #file-label').html('Subir su factura');
+        $('#Form-create #wayToPay').val('transfer');
+        //Checked iva 
+        $('#Form-create #ivaincluded').prop( "checked", true );;
+        $('#Form-create #postal_code').val('');
+        $('#Form-create #file').val(null);                
+      }
+      function cleanCustomerdato(){
+        $('#Form-create #id_customer').val('');
+        $('#Form-create #ruc').val('');
+        $('#Form-create #name').val('');
+        $('#Form-create #email').val('');
+        $('#Form-create #city').val('');
+        $('#Form-create #address').val('');
+        $('#Form-create #state').val('CA');
+        $('#Form-create #country').val('US');
+        $('#Form-create #postal_code').val('');
+      }
+
+      $('#Form-create #file').change(function(e){  
+        if( e.target.files.length >0){
+          var myfile =e.target.files[0].name;
+          var ext = myfile.split('.').pop();
+          if(ext=="pdf"){            
+              $('#file-label').html(e.target.files[0].name);
+          } else{
+            $('#file-label').html('Subir su factura');
+            $(this).val(null);
+          }
+        }
+      });
     });
   </script>
 @endsection

@@ -72,9 +72,10 @@ class InvoiceController extends Controller
     {
         $invoices = DB::table('invoice')                        
                         ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.status','costumer.id','costumer.name')
-                        ->latest('created_at')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name')
+                        ->latest('date')
                         ->paginate(10);
+        //dump($invoices);
         $rutes = [
             "Inicio" => "/",   
             "Facturas" => ""
@@ -96,14 +97,14 @@ class InvoiceController extends Controller
             "Nuevo"=>""
         ];
 
-        $invoce= new invoice();
+        $invoice= new invoice();
         $costumer = new Costumer ();
         $customers = DB::table('costumer')->where('status','=',1)->latest('created_at')->paginate(10);
         $title="Nueva ".$this->title;
         $estados = $this->estados;
         $urlForm ='Facturas';
         $isnew= true;
-        return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoce','urlForm','isnew'));
+        return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoice','urlForm','isnew'));
     }
 
     /**
@@ -114,59 +115,62 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        
-      
-        
+
         $data = request()->all();
        
-        if(isset($data['terminos']) ){
-         //dump($data);
-            // cuando se tenga el datetimepicker
-            // $timedate = \DateTime::createFromFormat('d/m/Y H:i', $data['date']);
-            $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);
-            //dump($timedate);
-            if(gettype($timedate)== 'object')
-                $timedate = $timedate->format('Y-m-d H:i:s');
-            //dump($timedate);
-        
-                
-            $id_customer = $data['id_customer'];
-            if (is_null($data['id_customer'])){
-              //  dd($data['id_customer']);
-                $customer_new= Costumer::create([
-                    'ruc'=>$data['ruc'], 
-                    'name'=>$data['name'],
-                    'email'=>$data['email'],
-                    'address'=>$data['address'],
-                    'city'=>$data['city'],
-                    'state'=>$data['state'],
-                    'country'=>$data['country'],
-                    'postal_code'=>$data['postal_code'],
-                    'type'=>'Juridica',
-                    'origin'=>'Extranjero',
-                    'status'=>1
-                ]);   
-                $id_customer = $customer_new->id;
-            }else {
-                $id_customer = $data['id_customer'];
+        if(isset($data['terminos']) ){     
+
+          //  dump(request()->file('file'));
+            //Subir archivo -- tener encuenta que en el formulario lleve enctype="multipart/form-data"
+            if ($request->file('file')!=null && $request->file('file')!='') {
+                $pr_im=$request->file('file')->hashName('');
+                $request->file->store('public/docs');
+            }else{
+                $pr_im=null;
             }
-            // dd($id_customer);
-            invoice::create([
-                'code'=>$data['code'],
-                'date'=>$timedate,
-                'desp'=>$data['desp'],
-                'type'=>'FACT',
-                'IVA'=> $data['IVA'],
-                'wayToPay'=>$data['wayToPay'],
-                'amount'=>$data['amount'],
-                'ivaincluded'=>$data['ivaincluded']=='on'?true:false,
-                'status'=>1,
-                'id_customer'=>$id_customer
-            ]); 
-        }
-         
-         return redirect()->route('Facturas.index');
-        // 
+            if(is_null($pr_im)){
+             //Mensaje de error   
+            }else{
+                $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);            
+                if(gettype($timedate)== 'object')
+                    $timedate = $timedate->format('Y-m-d H:i:s');
+                $id_customer = null;
+                if (is_null($data['id_customer'])){              
+                    $customer_new= Costumer::create([
+                        'ruc'=>$data['ruc'], 
+                        'name'=>$data['name'],
+                        'email'=>$data['email'],
+                        'address'=>$data['address'],
+                        'city'=>$data['city'],
+                        'state'=>$data['state'],
+                        'country'=>$data['country'],
+                        'postal_code'=>$data['postal_code'],
+                        'type'=>'Juridica',
+                        'origin'=>'Extranjero',
+                        'status'=>1
+                    ]);   
+                    $id_customer = $customer_new->id;
+                }else {
+                    $id_customer = $data['id_customer'];
+                }
+                // dd($id_customer);    
+                invoice::create([
+                    'code'=>$data['code'],
+                    'date'=>$timedate,
+                    'desp'=>$data['desp'],
+                    'type'=>'FACT',
+                    'IVA'=> $data['IVA'],
+                    'wayToPay'=>$data['wayToPay'],
+                    'amount'=>$data['amount'],
+                    'ivaincluded'=>$data['ivaincluded']=='on'?true:false,
+                    'status'=>1,
+                    'id_customer'=>$id_customer,
+                    'file'=>$pr_im
+                ]); 
+            }            
+        }         
+        return redirect()->route('Facturas.create');
+        
     }
 
     /**
@@ -186,9 +190,22 @@ class InvoiceController extends Controller
      * @param  \App\invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(invoice $invoice)
+    public function edit( $id)
     {
-        //
+        $rutes = [
+            "Inicio" => "/",
+            "Facturas"=> "/Facturas",            
+            "Editar" => ""
+        ];
+        $invoice = invoice::find($id);
+        $costumer =Costumer::find($invoice->id_customer);
+        $customers = DB::table('costumer')->where('status','=',1)->latest('created_at')->paginate(10);
+        $title="Editar ".$this->title;
+        $estados = $this->estados;
+        $urlForm ='Facturas/'.$id;
+        $isnew= false;
+        //dump($costumer);
+        return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoice','urlForm','isnew'));        
     }
 
     /**
@@ -198,9 +215,57 @@ class InvoiceController extends Controller
      * @param  \App\invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, invoice $invoice)
+    public function update(Request $request, $id)
     {
-        //
+        $data = request()->all();
+        $invoice= invoice::find($id);
+        if(isset($data['terminos']) ){     
+
+         //  dump($request->file('file'));
+            // //Subir archivo -- tener encuenta que en el formulario lleve enctype="multipart/form-data"
+            if ($request->file('file')!=null && $request->file('file')!='') {
+                $pr_im=$request->file('file')->hashName('');
+                $request->file->store('public/docs');
+            }else{
+                $pr_im=$invoice->file;
+                
+            }
+            
+            $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);            
+                if(gettype($timedate)== 'object')
+                    $timedate = $timedate->format('Y-m-d H:i:s');
+                $id_customer = null;
+                if (is_null($data['id_customer'])){              
+                    $customer_new= Costumer::create([
+                        'ruc'=>$data['ruc'], 
+                        'name'=>$data['name'],
+                        'email'=>$data['email'],
+                        'address'=>$data['address'],
+                        'city'=>$data['city'],
+                        'state'=>$data['state'],
+                        'country'=>$data['country'],
+                        'postal_code'=>$data['postal_code'],
+                        'type'=>'Juridica',
+                        'origin'=>'Extranjero',
+                        'status'=>1
+                    ]);   
+                    $id_customer = $customer_new->id;
+                }else {
+                    $id_customer = $data['id_customer'];
+                }
+                
+                $data['date']= $timedate;                                              
+                $data['ivaincluded']= $data['ivaincluded']=='on'?true:false;                
+                $data['id_customer']=$id_customer;
+                $date['file'] = "gola";  
+                   
+                dump($pr_im);             
+                dump($data);                          
+                $invoice->update($data); 
+                
+                $invoice->save();                     
+        }   
+      //return redirect()->route('Facturas.edit',['id'=>$id]);
     }
 
     /**
