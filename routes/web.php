@@ -20,8 +20,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('/Clientes/{id}/delete', 'CustomerController@activar')->where('id','[0-9]+')->name('Clientes.activar');;
-
+Route::get('/Clientes/{id}/delete', 'CustomerController@activar')->where('id','[0-9]+')->name('Clientes.activar');
+Route::get('/Facturas/{id}/delete', 'invoiceController@anular')->where('id','[0-9]+')->name('Facturas.anular');
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController'

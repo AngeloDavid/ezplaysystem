@@ -179,9 +179,46 @@ class InvoiceController extends Controller
      * @param  \App\invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(invoice $invoice)
+    public function show($id)
     {
-        //
+        $invoice = invoice::find($id);
+        $rutes = [
+            "Inicio" => "/",
+            "Facturas"=> "/Facturas",            
+            $invoice->code => ""
+        ];
+        $prices=[
+            "subtotal"=>0,
+            "iva"=>0,
+            "total"=>0
+        ];
+        $customer =Costumer::find($invoice->id_customer);               
+        if($invoice->iva=="0%"){
+            $prices['subtotal'] = $invoice->amount;
+            $prices['total'] = $invoice->amount;
+        }else{
+            $iva =substr(trim($invoice->IVA), 0, -1);            
+            
+            if($invoice->ivaincluded){         
+                $iva = ((float) $iva / 100) + 1;
+                $prices['subtotal'] = ($invoice->amount)/$iva  ;
+                $prices['iva'] =$invoice->amount -$prices['subtotal']  ;
+                $prices['total'] = $invoice->amount;
+            }else{
+                $iva = (float) $iva / 100;
+                $prices['subtotal'] = $invoice->amount;
+                $prices['iva'] = $invoice->amount * $iva  ;
+                $prices['total'] = $prices['subtotal']+ $prices['iva'];
+            }
+        }
+
+      //  dump($prices);
+    
+        
+        $title="Mostrar ".$this->title;
+        $estados = $this->estados;
+        $urlForm ='Facturas/'.$id;                
+        return view('invoice.show',compact('title','rutes','estados','customer','invoice','urlForm','prices'));        
     }
 
     /**
@@ -227,8 +264,7 @@ class InvoiceController extends Controller
                 $pr_im=$request->file('file')->hashName('');
                 $request->file->store('public/docs');
             }else{
-                $pr_im=$invoice->file;
-                
+                $pr_im=$invoice->file;                
             }
             
             $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);            
@@ -256,16 +292,15 @@ class InvoiceController extends Controller
                 
                 $data['date']= $timedate;                                              
                 $data['ivaincluded']= $data['ivaincluded']=='on'?true:false;                
-                $data['id_customer']=$id_customer;
-                $date['file'] = "gola";  
-                   
-                dump($pr_im);             
-                dump($data);                          
+                $data['id_customer']=$id_customer; 
+                unset($data['file']);
+                $data['file']=$pr_im;                         
+               // dump($data);
                 $invoice->update($data); 
-                
-                $invoice->save();                     
+               // dump($invoice);
+                $invoice->save();                  
         }   
-      //return redirect()->route('Facturas.edit',['id'=>$id]);
+    return redirect()->route('Facturas.edit',['id'=>$id]);
     }
 
     /**
@@ -277,5 +312,15 @@ class InvoiceController extends Controller
     public function destroy(invoice $invoice)
     {
         //
+    }
+
+    public function anular($id) {
+        $costumer=costumer::find($id);
+        if( $costumer->status <3 ){
+            $prom=DB::table('invoice')
+                            ->where('id',$id)
+                            ->update(['status'=>'4']);
+        }        
+        return redirect()->route('Facturas.index');   
     }
 }

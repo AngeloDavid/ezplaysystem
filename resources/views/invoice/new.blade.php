@@ -8,6 +8,7 @@
     <a target="_blank" href="{{ asset('storage/docs/'. $invoice->file )}}" class="text-secondary"><li  data-toggle="tooltip" data-placement="bottom" title="Descargar Factura" ><i class="ti-cloud-down"></i></li></a>
   @endif
 @endif
+<a href="{{ url('/Facturas')}}"> <li data-toggle="tooltip" data-placemet="bottom" title="Lista de Facturas"><i class="ti-view-list-alt"></i></li></a>
 @endsection
 @section('Centro')
 <div class="main-content-inner">
@@ -159,11 +160,12 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 mb-3">
-                                      <label for="state">IVA<span class="text-muted">(Opcional)</span></label>
+                                      <label for="state">IVA <span class="text-muted">(Opcional)</span></label>
                                       <select class="custom-select d-block w-100" id="IVA" name="IVA" >
-                                        @if ($invoice->iva=="12%")
-                                          <option  >0%</option>
-                                          <option selected>12%</option>
+                                        
+                                        @if ($invoice->IVA=="12%")
+                                          <option value="0%" >0%</option>
+                                          <option value="12%" selected>12%</option>
                                         @else
                                           <option selected >0%</option>
                                           <option>12%</option>  
@@ -195,7 +197,7 @@
                                     <div class="col-md-3 mb-3">
                                       <label for="state">Forma de cobro</label>
                                       <select class="custom-select d-block w-100" id="wayToPay" name="wayToPay" >
-                                        @if ($invoice->wayToPay =="Check")
+                                        @if ($invoice->wayToPay =="check")
                                           <option value="transfer"  >Transferencia Bancaria</option>
                                           <option value="check" selected >Cheque</option>  
                                         @else

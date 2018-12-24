@@ -108,7 +108,7 @@
                                         <textarea class="form-control" id="notes" name="notes" placeholder="" >
                                             {{ old('notes',$costumer->notes) }}
                                         </textarea>
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback"
                                         .*.
                                         </div>
                             </div>
