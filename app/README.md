@@ -13,7 +13,7 @@ Los assets se coloca en la carpeta *public*, y se hace referencia en las plantil
 `<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">`
 
 ## Controladores
-Para crear un controlador se coloca el siguiente comando `php artisan make:controller UserController` o `$ php artisan make:controller CustomerController --resource --model=Costumer`
+Para crear un controlador se coloca el siguiente comando `php artisan make:controller UserController` o ` php artisan make:controller CustomerController --resource --model=Costumer`
 
 Luego se crea las rutas ` Route::get('/usuarios', 'UserController@index');` 0 `Route::resource('Clientes', 'CustomerController');`
 

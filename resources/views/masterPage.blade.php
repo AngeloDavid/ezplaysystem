@@ -5,7 +5,7 @@
     <div class="sidebar-menu">
         <div class="sidebar-header">
             <div class="logo">
-                <a href="home.html"><img src="{{ asset('images/icon/ezplayrose.png')}}" alt="logo"></a>
+                <a href="{{ url('/')}}"><img src="{{ asset('images/icon/ezplayrose.png')}}" alt="logo"></a>
             </div>
         </div>
         <div class="main-menu">
@@ -13,7 +13,7 @@
                 <nav>
                     <ul class="metismenu" id="menu">
                         <li class="active">
-                            <a href="home.html" aria-expanded="true"><i class="ti-home"></i><span>Inicio</span></a>                                
+                            <a href="{{ url('/')}}" aria-expanded="true"><i class="ti-home"></i><span>Inicio</span></a>                                
                         </li>
                         <li>
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-user"></i><span>Clientes
@@ -30,6 +30,14 @@
                                 <li><a href="{{ url('/Facturas/create')}}">Nueva Factura</a></li>
                                 <li><a href="{{ url('/Facturas')}}">Historia de Facturas</a></li>
                                 <li><a href="#">Facturas pendientes</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-server"></i><span>Empresas
+                                </span></a>
+                            <ul class="collapse">
+                                <li><a href="{{ url('/Empresas/create')}}">Nueva Empresa</a></li>
+                                <li><a href="{{ url('/Empresas')}}">Lista de Empresas</a></li>
                             </ul>
                         </li>
                         <li>

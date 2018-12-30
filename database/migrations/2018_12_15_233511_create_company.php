@@ -22,6 +22,8 @@ class CreateCompany extends Migration
             $table->string('address',150);
             $table->string('city')->nullable();
             $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postal_code')->nullable();  
             $table->enum('type',['Natural','Juridica']);
             $table->string('phone1',20)->nullable();
             $table->string('phone2',20)->nullable();
