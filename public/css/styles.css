@@ -2313,7 +2313,7 @@ table.dataTable thead td {
 
 .login-form-head {
     text-align: center;
-    background: #8655FC;
+    background: #fff;
     padding: 50px;
 }
 
@@ -2332,7 +2332,8 @@ table.dataTable thead td {
 }
 
 .login-form-body {
-    padding: 50px;
+    padding: 50px;    
+    border-top: #b7d2e8 1px solid;
 }
 
 .form-gp {
@@ -2351,7 +2352,7 @@ table.dataTable thead td {
 
 .form-gp.focused label {
     top: -15px;
-    color: #7e74ff;
+    color: #1c73b8;
 }
 
 .form-gp input {
@@ -2381,7 +2382,7 @@ table.dataTable thead td {
     position: absolute;
     right: 5px;
     bottom: 15px;
-    color: #7e74ff;
+    color: #1c73b8;
     font-size: 16px;
 }
 

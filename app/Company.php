@@ -8,8 +8,8 @@ class Company extends Model
 {
     public $table = "company";
     protected $fillable = [
-        'ruc', 'name', 'logo','email','address','state','city',
+        'ruc', 'name', 'logo','email','userApp','password','address','state','city',
         'country','postal_code','type','origin','phone1','phone2',
-        'contact','notes','status'
+        'contact','notes','status','id_role'
     ];
 }

@@ -19,6 +19,8 @@ class CreateCompany extends Migration
             $table->string('name',100);            
             $table->string('logo')->nullable();
             $table->string('email',100);
+            $table->string('userApp',100)->nullable()->unique();
+            $table->string('password');
             $table->string('address',150);
             $table->string('city')->nullable();
             $table->string('country')->nullable();
@@ -30,6 +32,7 @@ class CreateCompany extends Migration
             $table->string('contact')->nullable();
             $table->string('notes',255)->nullable(); 
             $table->boolean('status'); 
+            $table->integer('id_role')->unsigned();
             $table->timestamps();
         });
     }

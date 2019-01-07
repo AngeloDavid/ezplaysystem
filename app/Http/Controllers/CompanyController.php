@@ -36,12 +36,49 @@ class CompanyController extends Controller
             "23"=>"Santo Domingo de los Tsachilas",
             "24"=>"Santa Elena"
         ];
+    
+        public function home(){
+            $title="Login";
+            return view('login',compact('title'));
+        }
+        public function login(Request $request){
+            \Session::put('user',array());
+            
+            $pw=encrypt($request->password);
+    
+            if ($request->userApp!=null && $request->userApp!='') {
+                $Usuarios = DB::table('users')
+                        ->select('email','password')
+                        ->where('userApp','=',$request->userApp)
+                        ->whereIn('id_role', [1, 2])
+                        ->first();
+                if ($Usuarios!=null) {
+                    if (decrypt($Usuarios->password)===$request->password) {
+                        $User = DB::table('users')
+                        ->where('userApp','=',$request->userApp)
+                        ->first();
+                        \Session::put('user',$User);
+                                   
+                        return redirect('/');
+                    }else{
+                        return back()->with('errmsj','Usuario o Contraseña Incorrectos.');
+                    }
+                }else{
+                    return back()->with('errmsj','Usuario o Contraseña Incorrectos.');
+                }
+            }else{
+                return back()->with('errmsj','Usuario o Contraseña Incorrectos.');
+            }        
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    
+    
+     public function index(Request $request)
     {
         
         $title = $this->title.'s';
@@ -90,6 +127,8 @@ class CompanyController extends Controller
             'ruc'=>$data['ruc'], 
             'name'=>$data['name'],
             'email'=>$data['email'],
+            'userApp' =>$data['ruc'],
+            'password' => encrypt($data['ruc']),
             'address'=>$data['address'],
             'city'=>$data['city'],
             'state'=>$data['state'],
@@ -99,7 +138,8 @@ class CompanyController extends Controller
             'phone1'=>$data['phone1'],
             'contact'=>$data['contact'],
             'notes' => $data['notes'],
-            'status'=>1
+            'status'=>1,
+            'id_role'=>2
            ]);
            return redirect()->route('Empresas.index');
     }
@@ -176,5 +216,13 @@ class CompanyController extends Controller
             
         }        
         return redirect()->route('Empresas.index');   
+    }
+
+    public function resetarPWD($id)
+    {
+        $company=Company::find($id);
+        $company->password = encrypt($company->ruc);
+        $company->save();
+        return redirect()->route('Empresas.edit',['id'=>$id]);
     }
 }

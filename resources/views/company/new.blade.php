@@ -1,5 +1,11 @@
 @extends('masterPage')
-
+@section('options')
+@if (!$isnew)
+  <a href="{{ url('/Empresas/'.$company->id.'/resetarPWD')}}">
+    <li class="newInvoice" data-toggle="tooltip" data-placement="bottom" title="Resetear Contraseña" ><i class="ti-unlock"></i></li>    
+  </a>
+@endif
+@endsection
 @section('Centro')
 <div class="main-content-inner">
     <div class="row">
@@ -112,6 +118,31 @@
                                         .*.
                                         </div>
                             </div>
+                          <hr class="mb-4">                   
+                          <h4 class="header-title">Contraseña</h4>    
+                          <div class="row">
+                            <div class="col-md-4 mb-3">
+                              <label for="postal_code">Contraseña Anterior</label>
+                              <input type="pasword" class="form-control" id="userApp" name="userApp" value="{{ old('userApp',$company->userApp) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
+                              </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <label for="postal_code">Nueva Contraseña </label>
+                              <input type="pasword" class="form-control" id="password" name="password" value="{{ old('password',$company->password) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
+                              </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <label for="postal_code">Confirmar Contraseña </label>
+                              <input type="pasword" class="form-control" id="password" name="password" value="{{ old('password',$company->password) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
+                              </div>
+                            </div>
+                          </div>                          
                           <hr class="mb-4">                   
                           <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
                         </form>

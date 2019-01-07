@@ -19,10 +19,18 @@ Route::get('/', function () {
     return view('welcome',compact('rutes','title'));
 });
 
+Route::get('/login', 'CompanyController@home')->name('homeLogin');
+Route::post('/validate', 'CompanyController@login');
+Route::get('/logout', function(){
+	\Session::forget('user');
+    return redirect('/login');
+});
 
 Route::get('/Clientes/{id}/delete', 'CustomerController@activar')->where('id','[0-9]+')->name('Clientes.activar');
 Route::get('/Facturas/{id}/delete', 'invoiceController@anular')->where('id','[0-9]+')->name('Facturas.anular');
 Route::get('/Empresas/{id}/delete', 'CompanyController@activar')->where('id','[0-9]+')->name('Clientes.activar');
+Route::get('/Empresas/{id}/resetarPWD', 'CompanyController@resetarPWD')->where('id','[0-9]+')->name('Clientes.resetearPwd');
+
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController',
