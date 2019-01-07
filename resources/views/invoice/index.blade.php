@@ -30,6 +30,9 @@
                                                     <th scope="col">code</th>
                                                     <th scope="col">Cliente</th>
                                                     <th scope="col">Descripcion</th>
+                                                    @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
+                                                        <th scope="col">Empresa</th>    
+                                                    @endif                                                    
                                                     <th scope="col">Fecha</th>
                                                     <th scope="col">Monto</th>                                                    
                                                     <th scope="col">Estado</th>

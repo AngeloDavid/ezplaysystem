@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\invoice;
 use App\Costumer;
+use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -70,9 +71,11 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = DB::table('invoice')                        
+        $company = \Session::get('user');
+       $invoices = DB::table('invoice')                        
                         ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name')
+                        ->where('invoice.id_company','=',$company->id)
                         ->latest('date')
                         ->paginate(10);
         //dump($invoices);
@@ -82,6 +85,27 @@ class InvoiceController extends Controller
         ];
         $title=$this->title."ción";
         return view('invoice.index',compact('title','rutes','invoices'));
+    }
+
+    public function allinvoices()
+    {
+        if($this->isadmin()){
+            $invoices = DB::table('invoice')                        
+                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+                        ->leftjoin('company','invoice.id_company','=','company.id')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->latest('date')
+                        ->paginate(10);
+        
+            $rutes = [
+                "Inicio" => "/",   
+                "Facturas" => ""
+            ];
+            $title="Facturas por Empresa";
+            return view('invoice.index',compact('title','rutes','invoices'));    
+        }else{
+            return redirect('/logout');
+        }        
     }
 
     /**
@@ -115,61 +139,67 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-
         $data = request()->all();
-       
-        if(isset($data['terminos']) ){     
-
-          //  dump(request()->file('file'));
-            //Subir archivo -- tener encuenta que en el formulario lleve enctype="multipart/form-data"
-            if ($request->file('file')!=null && $request->file('file')!='') {
-                $pr_im=$request->file('file')->hashName('');
-                $request->file->store('public/docs');
-            }else{
-                $pr_im=null;
-            }
-            if(is_null($pr_im)){
-             //Mensaje de error   
-            }else{
-                $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);            
-                if(gettype($timedate)== 'object')
-                    $timedate = $timedate->format('Y-m-d H:i:s');
-                $id_customer = null;
-                if (is_null($data['id_customer'])){              
-                    $customer_new= Costumer::create([
-                        'ruc'=>$data['ruc'], 
-                        'name'=>$data['name'],
-                        'email'=>$data['email'],
-                        'address'=>$data['address'],
-                        'city'=>$data['city'],
-                        'state'=>$data['state'],
-                        'country'=>$data['country'],
-                        'postal_code'=>$data['postal_code'],
-                        'type'=>'Juridica',
-                        'origin'=>'Extranjero',
-                        'status'=>1
-                    ]);   
-                    $id_customer = $customer_new->id;
-                }else {
-                    $id_customer = $data['id_customer'];
+        if(!is_null(\Session::get('user'))) 
+        {
+            if ( isset($data['terminos']) ){ 
+                $company= \Session::get('user');
+                //Subir archivo -- tener encuenta que en el formulario lleve enctype="multipart/form-data"
+                if ($request->file('file')!=null && $request->file('file')!='') {
+                    $pr_im=$request->file('file')->hashName('');
+                    $request->file->store('public/docs');
+                }else{
+                    $pr_im=null;
                 }
-                // dd($id_customer);    
-                invoice::create([
-                    'code'=>$data['code'],
-                    'date'=>$timedate,
-                    'desp'=>$data['desp'],
-                    'type'=>'FACT',
-                    'IVA'=> $data['IVA'],
-                    'wayToPay'=>$data['wayToPay'],
-                    'amount'=>$data['amount'],
-                    'ivaincluded'=>$data['ivaincluded']=='on'?true:false,
-                    'status'=>1,
-                    'id_customer'=>$id_customer,
-                    'file'=>$pr_im
-                ]); 
-            }            
-        }         
-        return redirect()->route('Facturas.create');
+                if(is_null($pr_im)){
+                    return back()->with('errmsj','Error, el archivo ingreasado no es correcto');
+                }else{
+                    $timedate = \DateTime::createFromFormat('Y-m-d', $data['date']);            
+                    if(gettype($timedate)== 'object')
+                        $timedate = $timedate->format('Y-m-d H:i:s');
+                    $id_customer = null;
+                    if (is_null($data['id_customer'])){              
+                        $customer_new= Costumer::create([
+                            'ruc'=>$data['ruc'], 
+                            'name'=>$data['name'],
+                            'email'=>$data['email'],
+                            'address'=>$data['address'],
+                            'city'=>$data['city'],
+                            'state'=>$data['state'],
+                            'country'=>$data['country'],
+                            'postal_code'=>$data['postal_code'],
+                            'type'=>'Juridica',
+                            'origin'=>'Extranjero',
+                            'status'=>1,
+                            'id_company'=>$company->id
+                        ]);   
+                        $id_customer = $customer_new->id;
+                    }else {
+                        $id_customer = $data['id_customer'];
+                    }
+                    // dd($id_customer);    
+                    invoice::create([
+                        'code'=>$data['code'],
+                        'date'=>$timedate,
+                        'desp'=>$data['desp'],
+                        'type'=>'FACT',
+                        'IVA'=> $data['IVA'],
+                        'wayToPay'=>$data['wayToPay'],
+                        'amount'=>$data['amount'],
+                        'ivaincluded'=>$data['ivaincluded']=='on'?true:false,
+                        'status'=>1,
+                        'id_customer'=>$id_customer,
+                        'file'=>$pr_im,
+                        'id_company'=>$company->id
+                    ]); 
+                   // dump($company->id);
+                }            
+            }         
+            \Session::flash('flash_success',"Factura ingresada correctamente");      
+            return redirect()->route('Facturas.create');
+        }else{
+            return redirect('/login');
+        }        
         
     }
 
@@ -315,12 +345,39 @@ class InvoiceController extends Controller
     }
 
     public function anular($id) {
-        $costumer=costumer::find($id);
-        if( $costumer->status <3 ){
+        $invoice=invoice::find($id);
+        if( $invoice->status <3 ){
             $prom=DB::table('invoice')
                             ->where('id',$id)
                             ->update(['status'=>'4']);
         }        
         return redirect()->route('Facturas.index');   
     }
+
+    public function changestatus($id) {
+        $costumer=invoice::find($id);
+
+        if( $costumer->status <3 ){
+            $status =$costumer->status +1;
+            $prom=DB::table('invoice')
+                            ->where('id',$id)
+                            ->update(['status'=>$status]);
+        }        
+        return redirect()->route('Empresas.allinvoices');   
+    }
+
+    private function isadmin()
+    {
+        if(!is_null(\Session::get('user'))){
+            $company = \Session::get('user');
+            if($company->id_role ==1)
+                return true;
+            else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+
 }

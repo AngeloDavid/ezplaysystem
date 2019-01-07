@@ -1,10 +1,6 @@
 @extends('masterPage')
 @section('options')
-@if (!$isnew and !$isprofile)
-  <a href="{{ url('/Empresas/'.$company->id.'/resetarPWD')}}">
-    <li class="newInvoice" data-toggle="tooltip" data-placement="bottom" title="Resetear Contraseña" ><i class="ti-unlock"></i></li>    
-  </a>
-@endif
+
 @endsection
 @section('Centro')
 <div class="main-content-inner">
@@ -12,29 +8,12 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-                    @if(session()->has('errmsj'))
-                    <div class="alert alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span class="fa fa-times"></span>
-                        </button>
-                      {{ session('errmsj') }}
-                    </div>
-                    @endif
-                    @if(Session::has('flash_success'))
-                    <div class="alert alert-success alert-dismissible fade show">
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                  <span class="fa fa-times"></span>
-                          </button>
-                      <em><i class="fa fa-check-circle"></i>&nbsp;&nbsp;&nbsp;  {!! session('flash_success') !!}</em>
-                    </div>
-                    @endif
                        <h4 class="header-title">Datos de la Empresa <small>{{ $company->name }}</small></h4>
                         <form class="needs-validation" novalidate="" name="Form1" id="Form1" novalidate method="POST"  action="{{url($urlForm)}}"> 
                             {!! csrf_field() !!}
                             @if (!$isnew)
                                 {{ method_field('PUT') }}
                             @endif
-                            <input type="hidden" value="{{ $isprofile }}" name="isprofile" id="isprofile">
                           <div class="row">
                             <div class="col-md-6 mb-3">
                               <label for="ruc">RUC/CI/ID</label>
@@ -109,10 +88,9 @@
                                   Este campo es obligatorio
                               </div>
                             </div>
-                          </div>                            
-                          @if (!$isprofile)
-                            <hr class="mb-4"> 
-                            <h4 class="header-title">Datos de contacto</h4>    
+                          </div>
+                          <hr class="mb-4">      
+                          <h4 class="header-title">Datos de contacto</h4>    
                             <div class="mb-3">
                                 <label for="">Nombre <span class="text-muted">(Opcional)</span></label>
                                 <input type="text" class="form-control" id="contact" name="contact" placeholder="" value="{{ old('contact',$company->contact) }}" >
@@ -124,7 +102,7 @@
                                     <label for="">Telefono <span class="text-muted">(Opcional)</span></label>
                                     <input type="text" class="form-control" id="phone1" name="phone1" placeholder=""  value="{{ old('contact',$company->phone1) }}" >
                                     <div class="invalid-feedback">
-                                    .*.
+                                     .*.
                                     </div>
                             </div>
                             <div class="mb-3">
@@ -136,34 +114,31 @@
                                         .*.
                                         </div>
                             </div>
-                          @endif   
-                          @if ($isprofile)
-                            <hr class="mb-4">                   
-                            <h4 class="header-title">Contraseña</h4>    
-                            <div class="row">
-                              <div class="col-md-4 mb-3">
-                                <label for="postal_code">Contraseña Anterior</label>
-                                <input type="password" class="form-control" id="userApp" name="passwordold"  >
-                                <div class="invalid-feedback">
-                                    Este campo es obligatorio
-                                </div>
+                          <hr class="mb-4">                   
+                          <h4 class="header-title">Cambiar Contraseña</h4>    
+                          <div class="row">
+                            <div class="col-md-4 mb-3">
+                              <label for="postal_code">Contraseña Anterior</label>
+                              <input type="pasword" class="form-control" id="userApp" name="userApp" value="{{ old('userApp',$company->userApp) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
                               </div>
-                              <div class="col-md-4 mb-3">
-                                <label for="postal_code">Nueva Contraseña </label>
-                                <input type="password" class="form-control" id="passwordnow" name="passwordnow"  >
-                                <div class="invalid-feedback">
-                                    Este campo es obligatorio
-                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <label for="postal_code">Nueva Contraseña </label>
+                              <input type="pasword" class="form-control" id="password" name="password" value="{{ old('password',$company->password) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
                               </div>
-                              <div class="col-md-4 mb-3">
-                                <label for="postal_code">Confirmar Contraseña </label>
-                                <input type="password" class="form-control" id="passwordconf" name="passwordconf"  >
-                                <div class="invalid-feedback">
-                                    Este campo es obligatorio
-                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <label for="postal_code">Confirmar Contraseña </label>
+                              <input type="pasword" class="form-control" id="password" name="password" value="{{ old('password',$company->password) }}" >
+                              <div class="invalid-feedback">
+                                  Este campo es obligatorio
                               </div>
-                            </div>   
-                          @endif                                                  
+                            </div>
+                          </div>                          
                           <hr class="mb-4">                   
                           <button class="btn btn-primary btn-lg btn-block" type="submit">Guardar</button>
                         </form>

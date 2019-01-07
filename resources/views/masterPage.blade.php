@@ -1,5 +1,10 @@
 @extends('base')
 @section('Contenido')
+@if(!Session::get('user'))
+    <script type="text/javascript">
+        window.location = "{{url('/login')}}";//here double curly bracket
+    </script>
+@else
 <div class="page-container">
     <!-- sidebar menu area start -->
     <div class="sidebar-menu">
@@ -21,7 +26,7 @@
                             <ul class="collapse">
                                 <li><a href="{{ url('/Clientes/create')}}">Nuevo Cliente</a></li>
                                 <li><a href="{{ url('/Clientes')}}">Lista de Clientes</a></li>
-                                <li><a href="datatable.html">Estado de cuenta por Cliente</a></li>
+                                {{--  <li><a href="datatable.html">Estado de cuenta por Cliente</a></li>  --}}
                             </ul>
                         </li>
                         <li>
@@ -29,9 +34,12 @@
                             <ul class="collapse">
                                 <li><a href="{{ url('/Facturas/create')}}">Nueva Factura</a></li>
                                 <li><a href="{{ url('/Facturas')}}">Historia de Facturas</a></li>
-                                <li><a href="#">Facturas pendientes</a></li>
+                                @if(Session::get('user')->id_role=='1')          
+                                <li><a href="{{ url('/TodasFacturas') }}">Todas las facturas</a></li>
+                                @endif
                             </ul>
                         </li>
+                        @if(Session::get('user')->id_role=='1')  
                         <li>
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-server"></i><span>Empresas
                                 </span></a>
@@ -40,8 +48,9 @@
                                 <li><a href="{{ url('/Empresas')}}">Lista de Empresas</a></li>
                             </ul>
                         </li>
+                        @endif
                         <li>
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-panel"></i><span>Configuracion</span></a>                                
+                            <a href="{{ url('/Perfil')}}" aria-expanded="true"><i class="ti-panel"></i><span>Perfil</span></a>                                
                         </li>
                         
                     </ul>
@@ -75,11 +84,11 @@
                         @yield('options')                       
                         <li id="full-view"><i class="ti-fullscreen"></i></li>
                         <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
-                        <li class="dropdown">
+                        {{--  <li class="dropdown">
                             <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
                                 <span>2</span>
                             </i>                                
-                        </li>
+                        </li>  --}}
                         <!-- <li class="dropdown">
                             <i class="fa fa-envelope-o dropdown-toggle" data-toggle="dropdown"><span>3</span></i>
                             <div class="dropdown-menu notify-box nt-enveloper-box">
@@ -184,11 +193,16 @@
                 <div class="col-sm-6 clearfix">
                     <div class="user-profile pull-right">
                         <img class="avatar user-thumb" src="{{ asset('images/author/avatar.png')}}" alt="avatar">
-                        <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Flores Ecuador <i class="fa fa-angle-down"></i></h4>
+                        <h4 class="user-name dropdown-toggle" data-toggle="dropdown">
+                            {{ Session::get('user')->name }}
+                            @if ( Session::get('user')->id_role==1)
+                                <strong>Administrador</strong>
+                            @endif
+                         <i class="fa fa-angle-down"></i></h4>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Mensajes</a>
-                            <a class="dropdown-item" href="#">Perfil</a>
-                            <a class="dropdown-item" href="index.html">Cerrar Sesion</a>
+                            {{--  <a class="dropdown-item" href="#">Mensajes</a>  --}}
+                            <a class="dropdown-item" href="{{ url('/Perfil')}}">Perfil</a>
+                            <a class="dropdown-item" href="{{ url('/logout')}}">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>
@@ -206,4 +220,5 @@
     </footer>
     <!-- footer area end-->
 </div>
+@endif
 @endsection

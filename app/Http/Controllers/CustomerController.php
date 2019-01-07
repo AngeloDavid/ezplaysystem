@@ -88,6 +88,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
+
         $rutes = [
             "Inicio" => "/",
             "Clientes"=> "/Clientes",            
@@ -110,24 +111,30 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $data = request()->all();
+        if(!is_null(\Session::get('user'))) {
+            $company =\Session::get('user');
+            Costumer::create([
+                'ruc'=>$data['ruc'], 
+                'name'=>$data['name'],
+                'email'=>$data['email'],
+                'address'=>$data['address'],
+                'city'=>$data['city'],
+                'state'=>$data['state'],
+                'country'=>$data['country'],
+                'postal_code'=>$data['postal_code'],
+                'type'=>'Juridica',
+                'origin'=>'Extranjero',
+                'phone1'=>$data['phone1'],
+                'contact'=>$data['contact'],
+                'notes' => $data['notes'],
+                'status'=>1,
+                'id_company' =>$company->id
+            ]);
 
-        Costumer::create([
-            'ruc'=>$data['ruc'], 
-            'name'=>$data['name'],
-            'email'=>$data['email'],
-            'address'=>$data['address'],
-            'city'=>$data['city'],
-            'state'=>$data['state'],
-            'country'=>$data['country'],
-            'postal_code'=>$data['postal_code'],
-            'type'=>'Juridica',
-            'origin'=>'Extranjero',
-            'phone1'=>$data['phone1'],
-            'contact'=>$data['contact'],
-            'notes' => $data['notes'],
-            'status'=>1
-           ]);
-           return redirect()->route('Clientes.index');
+            return redirect()->route('Clientes.index');
+        }else{
+            return redirect('/login');
+        }        
     }
 
     /**

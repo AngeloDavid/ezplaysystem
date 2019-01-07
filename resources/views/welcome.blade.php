@@ -1,7 +1,7 @@
 @extends('masterPage')
 @section('Centro')
 <div class="main-content-inner">
-    <!-- sales report area start -->
+    {{--  <!-- sales report area start -->
     <div class="sales-report-area mt-5 mb-5">
         <div class="row">
             <div class="col-md-4">
@@ -92,7 +92,7 @@
     <!-- market value area start -->
     <div class="row mt-5 mb-5">
         
-    </div>
+    </div>  --}}
     <!-- market value area end -->
     <!-- row area start -->
     <div class="row">
@@ -103,7 +103,14 @@
         <div class="col-lg-12 mt-sm-30 mt-xs-30">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-sm-flex justify-content-between align-items-center">
+                    <h4>Bienvenido,   {{ Session::get('user')->name }}</h4>
+                    <p>Eliga una opcion del menu principal, para comenzar</p>
+                    <h5>Accesos rapidos</h5>
+                    <ul                        
+                        <li><a href="{{ url('/Clientes')}}">Lista de Clientes</a></li>
+                        <li><a href="{{ url('/Facturas/create')}}">Nueva Factura</a></li>
+                    </ul>
+                    {{--  <div class="d-sm-flex justify-content-between align-items-center">
                         <h4 class="header-title">Facturas recientes</h4>
                         <div class="trd-history-tabs">
                             <ul class="nav" role="tablist">
@@ -187,7 +194,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
                 </div>
             </div>
         </div>

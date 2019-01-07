@@ -47,14 +47,14 @@ class CompanyController extends Controller
             $pw=encrypt($request->password);
     
             if ($request->userApp!=null && $request->userApp!='') {
-                $Usuarios = DB::table('users')
-                        ->select('email','password')
+                $Usuarios = DB::table('company')
+                        ->select('userApp','password')
                         ->where('userApp','=',$request->userApp)
                         ->whereIn('id_role', [1, 2])
                         ->first();
                 if ($Usuarios!=null) {
                     if (decrypt($Usuarios->password)===$request->password) {
-                        $User = DB::table('users')
+                        $User = DB::table('company')
                         ->where('userApp','=',$request->userApp)
                         ->first();
                         \Session::put('user',$User);
@@ -80,17 +80,21 @@ class CompanyController extends Controller
     
      public function index(Request $request)
     {
-        
-        $title = $this->title.'s';
-        $rutes = [
-            "Inicio" => "/",
-            "Empresas"=> "",            
-        ];
-        $companies = DB::table('company')->latest('created_at')->paginate(10);
-        if ($request->ajax()) {
-            return view('company.list', ['companies' => $companies])->render();  
+        if($this->isadmin()){
+            $title = $this->title.'s';
+            $rutes = [
+                "Inicio" => "/",
+                "Empresas"=> "",            
+            ];
+            $companies = DB::table('company')->latest('created_at')->where('id_role','<>','1')->paginate(10);
+            if ($request->ajax()) {
+                return view('company.list', ['companies' => $companies])->render();  
+            }
+            return view('company.index', compact('title','companies','rutes'));
+        }else{
+            return redirect('/logout');
         }
-        return view('company.index', compact('title','companies','rutes'));
+        
     }
 
     /**
@@ -100,17 +104,22 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $rutes = [
-            "Inicio" => "/",
-            "Empresas"=> "/Empresas",            
-            "Nuevo" => ""
-        ];
-        $title= "Nuevo ".$this->title;
-        $estados= $this->estados;
-        $isnew =true;
-        $urlForm ='Empresas';
-        $company = new Company ();
-        return view('company.new', compact('estados', 'title','isnew','urlForm','company','rutes'));
+        if($this->isadmin()){
+            $rutes = [
+                "Inicio" => "/",
+                "Empresas"=> "/Empresas",            
+                "Nuevo" => ""
+            ];
+            $title= "Nuevo ".$this->title;
+            $estados= $this->estados;
+            $isnew =true;
+            $isprofile=false;
+            $urlForm ='Empresas';
+            $company = new Company ();
+            return view('company.new', compact('estados', 'title','isnew','isprofile','urlForm','company','rutes'));
+        }else{
+            return redirect('/logout');
+        }
     }
 
     /**
@@ -152,7 +161,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return redirect()->route('Empresas.index');
     }
 
     /**
@@ -162,18 +171,23 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $rutes = [
-            "Inicio" => "/",
-            "Empresas"=> "/Empresas",            
-            "Editar" => ""
-        ];
-        $company=Company::find($id);
-        $isnew=false;
-        $estados= $this->estados;
-        $title= "Editar ".$this->title;
-        $urlForm ='Empresas/'.$id;
-        return view ('company.new',compact( 'estados', 'title','isnew','urlForm','company','rutes'));
+    {   
+        if($this->isadmin()){
+            $rutes = [
+                "Inicio" => "/",
+                "Empresas"=> "/Empresas",            
+                "Editar" => ""
+            ];
+            $company=Company::find($id);
+            $isnew=false;
+            $isprofile=false;
+            $estados= $this->estados;
+            $title= "Editar ".$this->title;
+            $urlForm ='Empresas/'.$id;
+            return view ('company.new',compact( 'estados', 'title','isnew','isprofile','urlForm','company','rutes'));
+        }else{
+            return redirect('/logout');
+        }
     }
 
     /**
@@ -185,11 +199,30 @@ class CompanyController extends Controller
      */
     public function update($id)
     {
-        $data = request()->all();
+        $data = request()->all();       
+        if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){
+            $company=Company::find($id);            
+            if(decrypt($company->password)===$data['passwordold']){
+                if($data['passwordnow'] ==  $data['passwordconf'] ){
+                    $data['password']= encrypt($data['passwordnow']);                     
+                }else{
+                    return back()->with('errmsj','Error las contraseñas no coinciden');
+                }
+            }else {                
+                return back()->with('errmsj','Error la contraseña es incorrecta');
+            }
+        }
+        
         $company=Company::find($id);
         $company->update ($data);
         $company->save();
-        return redirect()->route('Empresas.edit',['id'=>$id]);
+        \Session::flash('flash_success',"Informacion actualizada correctamente.");      
+        if($data['isprofile'] == 1){
+            return redirect()->route('Empresas.profile');
+        }else{
+            return redirect()->route('Empresas.edit',['id'=>$id]);
+        }
+       // 
     }
 
     /**
@@ -224,5 +257,34 @@ class CompanyController extends Controller
         $company->password = encrypt($company->ruc);
         $company->save();
         return redirect()->route('Empresas.edit',['id'=>$id]);
+    }
+
+    public function profile()
+    {
+        $rutes = [
+            "Inicio" => "/",
+            "Perfil"=> "",    
+        ];
+        $company= \Session::get('user');
+        $company=Company::find($company->id);
+        $isnew=false;
+        $isprofile=true;
+        $estados= $this->estados;
+        $title= "Perfil de la  ".$this->title;
+        $urlForm ='Empresas/'.$company->id;
+        return view ('company.new',compact( 'estados', 'title','isnew','isprofile','urlForm','company','rutes'));
+    }
+    private function isadmin()
+    {
+        if(!is_null(\Session::get('user'))){
+            $company = \Session::get('user');
+            if($company->id_role ==1)
+                return true;
+            else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 }

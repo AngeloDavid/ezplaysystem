@@ -35,8 +35,9 @@
     </div>
     <!-- preloader area end -->
     <!-- page container area start -->
-    @yield('Contenido')
     
+    @yield('Contenido')
+ 
     <!-- offset area end -->
     <!-- jquery latest version -->
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js')}}"></script>
