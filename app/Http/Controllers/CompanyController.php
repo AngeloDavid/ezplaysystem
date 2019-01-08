@@ -130,6 +130,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        if($this->isadmin()){
         $data = request()->all();
 
         Company::create([
@@ -151,6 +152,9 @@ class CompanyController extends Controller
             'id_role'=>2
            ]);
            return redirect()->route('Empresas.index');
+        }else{
+            return redirect('/logout');
+        }
     }
 
     /**
@@ -199,6 +203,7 @@ class CompanyController extends Controller
      */
     public function update($id)
     {
+        if($this->isadmin()){
         $data = request()->all();       
         if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){
             $company=Company::find($id);            
@@ -222,7 +227,9 @@ class CompanyController extends Controller
         }else{
             return redirect()->route('Empresas.edit',['id'=>$id]);
         }
-       // 
+        }else{
+            return redirect('logout');
+        }
     }
 
     /**
@@ -237,6 +244,7 @@ class CompanyController extends Controller
     }
     
     public function activar($id) {
+        if($this->isadmin()){
         $company=Company::find($id);
         if( $company->status == 1){
             $prom=DB::table('company')
@@ -249,14 +257,21 @@ class CompanyController extends Controller
             
         }        
         return redirect()->route('Empresas.index');   
+        }else{
+            return redirect('/logout');
+        }
     }
 
     public function resetarPWD($id)
     {
-        $company=Company::find($id);
-        $company->password = encrypt($company->ruc);
-        $company->save();
-        return redirect()->route('Empresas.edit',['id'=>$id]);
+        if($this->isadmin()){
+            $company=Company::find($id);
+            $company->password = encrypt($company->ruc);
+            $company->save();
+            return redirect()->route('Empresas.edit',['id'=>$id]);
+        }else{
+            return redirect('/logut');
+        }
     }
 
     public function profile()

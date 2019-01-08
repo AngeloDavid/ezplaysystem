@@ -69,16 +69,20 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $title = $this->title.'s';
-        $rutes = [
-            "Inicio" => "/",
-            "Clientes"=> "",            
-        ];
-        $customers = DB::table('costumer')->latest('created_at')->paginate(10);
-        if ($request->ajax()) {
-            return view('customer.list', ['customers' => $customers])->render();  
+        if(!is_null(\Session::get('user'))){
+            $title = $this->title.'s';
+            $rutes = [
+                "Inicio" => "/",
+                "Clientes"=> "",            
+            ];
+            $customers = DB::table('costumer')->where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(10);
+            if ($request->ajax()) {
+                return view('customer.list', ['customers' => $customers])->render();  
+            }
+            return view('customer.index', compact('title','customers','rutes'));
+        }else{
+            return redirect('/logout');
         }
-        return view('customer.index', compact('title','customers','rutes'));
     }
 
     /**
@@ -88,18 +92,21 @@ class CustomerController extends Controller
      */
     public function create()
     {
-
-        $rutes = [
-            "Inicio" => "/",
-            "Clientes"=> "/Clientes",            
-            "Nuevo" => ""
-        ];
-        $title= "Nuevo ".$this->title;
-        $estados= $this->estados;
-        $isnew =true;
-        $urlForm ='Clientes';
-        $costumer = new Costumer ();
-        return view('customer.new', compact('estados', 'title','isnew','urlForm','costumer','rutes'));
+        if(!is_null(\Session::get('user'))){
+            $rutes = [
+                "Inicio" => "/",
+                "Clientes"=> "/Clientes",            
+                "Nuevo" => ""
+            ];
+            $title= "Nuevo ".$this->title;
+            $estados= $this->estados;
+            $isnew =true;
+            $urlForm ='Clientes';
+            $costumer = new Costumer ();
+            return view('customer.new', compact('estados', 'title','isnew','urlForm','costumer','rutes'));
+        }else{
+            return redirect('/logout');
+        }
     }
 
     /**
@@ -144,8 +151,8 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Costumer $costumer)
-    {
-        //
+    {        
+        return redirect()->back();   
     }
 
     /**
@@ -156,18 +163,21 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $rutes = [
-            "Inicio" => "/",
-            "Clientes"=> "/Clientes",            
-            "Editar" => ""
-        ];
-        $costumer=Costumer::find($id);
-        $isnew=false;
-        $estados= $this->estados;
-        $title= "Editar ".$this->title;
-        $urlForm ='Clientes/'.$id;
-        return view ('customer.new',compact( 'estados', 'title','isnew','urlForm','costumer','rutes'));
-        
+        if(!is_null(\Session::get('user'))){
+            $rutes = [
+                "Inicio" => "/",
+                "Clientes"=> "/Clientes",            
+                "Editar" => ""
+            ];
+            $costumer=Costumer::find($id);
+            $isnew=false;
+            $estados= $this->estados;
+            $title= "Editar ".$this->title;
+            $urlForm ='Clientes/'.$id;
+            return view ('customer.new',compact( 'estados', 'title','isnew','urlForm','costumer','rutes'));
+        }else{
+            return redirect('/logout');
+        }
     }
 
     /**
@@ -179,11 +189,15 @@ class CustomerController extends Controller
      */
     public function update($id)
     {
+        if(!is_null(\Session::get('user'))){
         $data = request()->all();
         $costumer=costumer::find($id);
         $costumer->update ($data);
         $costumer->save();
         return redirect()->route('Clientes.edit',['id'=>$id]);
+        }else{
+            return redirect('/logut');
+        }
     }
 
     /**
@@ -198,17 +212,21 @@ class CustomerController extends Controller
     }
 
     public function activar($id) {
-        $costumer=costumer::find($id);
-        if( $costumer->status == 1){
-            $prom=DB::table('costumer')
-                            ->where('id',$id)
-                            ->update(['status'=>'0']);
+        if(!is_null(\Session::get('user'))){
+            $costumer=costumer::find($id);
+            if( $costumer->status == 1){
+                $prom=DB::table('costumer')
+                                ->where('id',$id)
+                                ->update(['status'=>'0']);
+            }else{
+                $prom=DB::table('costumer')
+                                ->where('id',$id)
+                                ->update(['status'=>'1']);
+                
+            }        
+            return redirect()->route('Clientes.index');   
         }else{
-            $prom=DB::table('costumer')
-                            ->where('id',$id)
-                            ->update(['status'=>'1']);
-            
-        }        
-        return redirect()->route('Clientes.index');   
+            return redirect('/logout');
+        }
     }
 }

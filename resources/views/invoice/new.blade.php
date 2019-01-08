@@ -286,16 +286,28 @@
   </div>
 </div>
 <div class="modal fade" id="TERMS">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
           <div class="modal-header">
               <h5 class="modal-title">Terminos y Condiciones</h5>
               <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           </div>
           <div class="modal-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet ipsum nec semper vestibulum. Curabitur fringilla fringilla aliquet. Sed nisi eros, egestas non dolor vel, efficitur gravida tellus. Fusce aliquet odio at est ornare, eget eleifend felis maximus. Nullam semper interdum augue at pellentesque. Curabitur volutpat mauris eros, sit amet finibus enim scelerisque nec. Quisque pretium vel nibh molestie pretium. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget convallis augue. Fusce leo orci, suscipit in tempus faucibus, varius id dui. Nunc dapibus mauris enim, molestie porttitor urna mollis at.</p>
-            <p>Praesent quis ante a nibh eleifend euismod. Morbi venenatis in nulla nec laoreet. Integer dignissim erat in purus molestie, eu consectetur leo rutrum. Nulla posuere laoreet ante, ac sagittis velit lobortis sed. Sed gravida ut diam et volutpat. Nullam convallis, orci sit amet semper tincidunt, nisl nunc sollicitudin libero, sed viverra purus mi eu nibh. Praesent eu ullamcorper est, non pretium tortor. Donec et metus quis augue rhoncus pharetra ut a purus. Duis pulvinar congue enim, et scelerisque ante tristique ut.</p>
-            <p>Duis vitae massa pretium, faucibus lacus sit amet, tempor turpis. Vestibulum pharetra ex dignissim sem rhoncus, eget pharetra libero molestie. Nullam ac vehicula leo. Integer imperdiet consequat consectetur. Morbi orci quam, lacinia vel tellus id, viverra mollis erat. Maecenas mollis est metus, non interdum purus pretium sed. Proin nec neque ut nunc elementum volutpat quis at velit. Praesent sed quam sed libero dictum sollicitudin non lacinia justo. Curabitur facilisis dui quis laoreet sagittis. Vivamus lacinia nunc at tellus aliquet dapibus.</p>
+              <h4>Condiciones de Uso de los Servicios Payezrose</h4>
+              <p>Le damos la bienvenida a Payezrose.
+              El presente Acuerdo es un contrato entre usted y Payezrose, se aplica a la utilización de todos los Servicios Payezrose. El uso de los Servicios Payezrose implica que usted debe aceptar todos los términos y condiciones contenidos en este Acuerdo. Usted debe leer atentamente todos estos términos.
+              El presente es un documento importante que usted debe leer atentamente antes de decidir utilizar los Servicios Payezrose. Tenga en cuenta lo siguiente:
+              Los pagos recibidos en su Cuenta podrán cancelarse posteriormente, por ejemplo, si un pago es objeto de un Contracargo, Cancelación, Reclamación o si se invalida por otra razón. Esto quiere decir que un pago se puede retirar de su Cuenta después de que usted haya entregado al comprador los bienes o servicios que fueron adquiridos.
+              Si usted es un Vendedor, puede reducir los riesgos que conllevan las transacciones realizadas desde su Cuenta siguiendo los criterios establecidos en la cláusula Protección al Vendedor de Payezrose.
+              Nosotros podemos cerrar, suspender o restringir el acceso a su Cuenta o a los Servicios Payezrose y/o restringir el acceso a sus fondos si infringe este Acuerdo, la Política de Uso Aceptable de Payezrose o cualquier otro acuerdo que haya usted celebrado con Payezrose.
+              Este Acuerdo corresponde a una solicitud de los Servicios de Payezrose.</p><br><br>
+              <h5>1. Servicios de pago y requisitos.</h5><br>
+              <strong>1.1 Servicios de pago. Payezrose es un proveedor de botones de pago y actúa como tal creando, hospedando, manteniendo y proporcionándole nuestros Servicios Payezrose a usted a través de Internet. Nuestros servicios le permiten recibir pagos de cualquier persona </strong>
+              <p>que tenga una tarjeta de crédito y recibir dichos pagos en aquellas cuentas donde se indique. La disponibilidad de nuestros servicios Payezrose varía según el país/la región
+              Payezrose no es una empresa transportista común ni una empresa de servicios públicos.
+              </p><br>
+              <strong>1.2 Requisitos. Para reunir los requisitos y poder utilizar los Servicios Payezrose, debe tener 18 años o más, en función de la mayoría de edad de su jurisdicción.</strong>
+              <p>Usted debe colocar su país/región de residencia correcto en la Cuenta. <p><br>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>              
@@ -365,7 +377,9 @@
       function cleanInvoice(){
 
         var dt= new Date();
-        $('#Form-create #date').val(dt.getFullYear()+'-'+(dt.getMonth()+1)+'-'+dt.getDate());
+        var month = dt.getMonth()<10? '0'+(dt.getMonth()+1):dt.getMonth();
+        var day = dt.getDate()<10? '0'+dt.getDate():dt.getDate();
+        $('#Form-create #date').val(dt.getFullYear()+'-'+month+'-'+day);
         $('#Form-create #code').val('');
         $('#Form-create #desp').val('');        
         $('#Form-create #amount').val(null);

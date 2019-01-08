@@ -103,7 +103,10 @@
         <div class="col-lg-12 mt-sm-30 mt-xs-30">
             <div class="card">
                 <div class="card-body">
-                    <h4>Bienvenido,   {{ Session::get('user')->name }}</h4>
+                    <h4>Bienvenido,   
+                        @if (Session::get('user') != null )
+                        {{ Session::get('user')->name }}
+                        @endif </h4>
                     <p>Eliga una opcion del menu principal, para comenzar</p>
                     <h5>Accesos rapidos</h5>
                     <ul                        

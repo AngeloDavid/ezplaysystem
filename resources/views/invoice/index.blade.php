@@ -38,8 +38,38 @@
                                                     <th scope="col">Estado</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
+                                                @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
+                                                    <tr class="search-box">
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="code" id="code" ></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="cli" id="cli"></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="desc" id="desc"></td>
+                                                        
+                                                            <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="emp" id="emp" ></td>    
+                                                                                                        
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" ></td>                                                    
+                                                        <td scope="col">
+                                                            <select class="custom-select input-rounded w-100" id="status" name="status" >
+                                                                <option disabled>Seleccione...</option>
+                                                                <option value="-1">Todas</option>
+                                                                <option value="1">Enviadas</option>
+                                                                <option value="2">Recibidas</option>
+                                                                <option value="3">Canceladas</option>
+                                                                <option value="4">Anuladas</option>
+                                                            </select>
+                                                        </td>
+                                                        <td scope="col">
+                                                            <div class="btn-group mb-xl-3 " role="group" aria-label="Basic example">
+                                                                <button id="btn-search" type="button" class="btn btn-info"><i class="ti-search"></i></button>
+                                                                <button id="btn-borrar" type="button" class="btn btn-info"><i class="ti-eraser"></i></button>                                                            
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endif 
                                             </thead>
+                                            <tbody id="htmldt">
                                             @include('invoice.list')
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -50,4 +80,56 @@
         
     </div>
 </div>  
+@endsection
+@section('scriptjs')
+    <script>
+        $(document).ready(function (){
+            @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
+                cleanSearch();
+            @endif
+            $('#btn-borrar').click(function(e){
+                cleanSearch();
+            });
+            $('#btn-search').click(function(e){
+                console.log('search');
+                var urlGEt = "{{url('/Facturas/buscar')}}/"+
+                ($('#code').val().trim() == ''?"%20":$('#code').val().trim()) +"/"+
+                ($('#cli').val().trim() == ''?"%20":$('#cli').val().trim())+"/"+   
+                ($('#desc').val().trim() == ''?"%20":$('#desc').val().trim())+"/"+
+                ($('#emp').val().trim() == ''?"%20":$('#emp').val().trim())+"/"+ 
+                ($('#fecha').val().trim() == ''?"%20":$('#fecha').val().trim())+"/"+
+                ($('#amount').val().trim() == ''?"%20":$('#amount').val().trim())+"/"+
+                ($('#status').val().trim() == ''?"%20":$('#status').val().trim())+"/";
+                console.log('url',urlGEt);
+                $.ajax({
+                    url:urlGEt,
+                    method:"GET",
+                    success: function(data){
+                        console.log('sucss',data);
+                        if(data.tpmsj='success'){
+                            console.log(data.datahtml);
+                            $('#htmldt').html(data.datahtml);
+                        }
+                    },
+                    error :function(data){
+                        console.log('error',data);
+                    }
+                });
+            });
+
+            
+            function cleanSearch(){
+                var dt= new Date();
+                var month = dt.getMonth()<10? '0'+(dt.getMonth()+1):dt.getMonth();
+                var day = dt.getDate()<10? '0'+dt.getDate():dt.getDate();
+                $('#fecha').val('');
+                $('#code').val('');
+                $('#cli').val('');   
+                $('#emp').val('');        
+                $('#amount').val(null);
+                $('#desc').val('');
+                $('#status').val(-1);                                
+              }
+        });
+    </script>
 @endsection

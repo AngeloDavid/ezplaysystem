@@ -1,4 +1,4 @@
-<tbody>
+
     @foreach ($invoices as $invoice)
         <tr>
             <th scope="row">{{ $invoice->code }} </th>
@@ -65,4 +65,3 @@
             </td>
         </tr>
     @endforeach
-</tbody>
