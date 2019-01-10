@@ -4,6 +4,8 @@
 3. Tambien se debe configurar el archivo *.env* que contiene la configuracion global del proyecto y al final colocar el comando `php artisan key:generate`
 4. Acontinuacion, si el proyecto ya tiene las *migraciones* se debe colocar `php artisan migrate` previa creacion de la base datos.
 5. Tambien se debe ejecutar el comando `php artisan storage:link` para hacer el acceso directo al local storage
+6. Para generar los seed `php artisan db:seed`
+
 ## Vistas.
 Todas las vistas se crean conmo *blade.php*  en la carpeta 
 - resources
@@ -26,3 +28,7 @@ Luego se crea las rutas ` Route::get('/usuarios', 'UserController@index');` 0 `R
 Para crear una migration se lo hace con `php artisan make:migration add_foreign_key_invoice_table`
 
 Para refrescar `php artisan migrate:fresh`
+
+##Seeders
+Para crear los seeder se usa: 
+`php artisan make:seeder ProfessionSeeder`
