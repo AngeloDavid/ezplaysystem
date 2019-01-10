@@ -203,7 +203,8 @@ class CompanyController extends Controller
     {
         if(!is_null(\Session::get('user'))){
         $data = request()->all();  
-        $company=Company::find($id);      
+        $company=Company::find($id);    
+        if(isset($data['passwordold']) && isset($data['passwordnow']) && isset($data['passwordconf']))
         if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){          
             if(decrypt($company->password)===$data['passwordold']){
                 if($data['passwordnow'] ==  $data['passwordconf'] ){

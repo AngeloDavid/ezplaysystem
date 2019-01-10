@@ -2832,3 +2832,9 @@ table.dataTable thead td {
 .custom-file-input:lang(en)~.custom-file-label::after {
     content: "Buscar";
 }
+
+.modal-body{
+    text-align: justify;
+    padding-left: 2.5em;
+    padding-right: 2.5em
+}

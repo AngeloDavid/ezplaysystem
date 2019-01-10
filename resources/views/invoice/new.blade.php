@@ -289,11 +289,11 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title">Terminos y Condiciones</h5>
+              <h4 class="modal-title">Condiciones de Uso de los Servicios Payezrose</h4>
               <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           </div>
-          <div class="modal-body">
-              <h4>Condiciones de Uso de los Servicios Payezrose</h4>
+          <div class="modal-body" stye="text-align: justify;">
+              
               <p>Le damos la bienvenida a Payezrose.
               El presente Acuerdo es un contrato entre usted y Payezrose, se aplica a la utilización de todos los Servicios Payezrose. El uso de los Servicios Payezrose implica que usted debe aceptar todos los términos y condiciones contenidos en este Acuerdo. Usted debe leer atentamente todos estos términos.
               El presente es un documento importante que usted debe leer atentamente antes de decidir utilizar los Servicios Payezrose. Tenga en cuenta lo siguiente:
@@ -302,12 +302,50 @@
               Nosotros podemos cerrar, suspender o restringir el acceso a su Cuenta o a los Servicios Payezrose y/o restringir el acceso a sus fondos si infringe este Acuerdo, la Política de Uso Aceptable de Payezrose o cualquier otro acuerdo que haya usted celebrado con Payezrose.
               Este Acuerdo corresponde a una solicitud de los Servicios de Payezrose.</p><br><br>
               <h5>1. Servicios de pago y requisitos.</h5><br>
-              <strong>1.1 Servicios de pago. Payezrose es un proveedor de botones de pago y actúa como tal creando, hospedando, manteniendo y proporcionándole nuestros Servicios Payezrose a usted a través de Internet. Nuestros servicios le permiten recibir pagos de cualquier persona </strong>
-              <p>que tenga una tarjeta de crédito y recibir dichos pagos en aquellas cuentas donde se indique. La disponibilidad de nuestros servicios Payezrose varía según el país/la región
+              <strong>1.1 Servicios de pago.</strong>
+              <p>Payezrose es un proveedor de botones de pago y actúa como tal creando, hospedando, manteniendo y proporcionándole nuestros Servicios Payezrose a usted a través de Internet. Nuestros servicios le permiten recibir pagos de cualquier persona que tenga una tarjeta de crédito y recibir dichos pagos en aquellas cuentas donde se indique. La disponibilidad de nuestros servicios Payezrose varía según el país/la región
               Payezrose no es una empresa transportista común ni una empresa de servicios públicos.
               </p><br>
-              <strong>1.2 Requisitos. Para reunir los requisitos y poder utilizar los Servicios Payezrose, debe tener 18 años o más, en función de la mayoría de edad de su jurisdicción.</strong>
-              <p>Usted debe colocar su país/región de residencia correcto en la Cuenta. <p><br>
+              <strong>1.2 Requisitos.</strong>
+              <p>Para reunir los requisitos y poder utilizar los Servicios Payezrose, debe tener 18 años o más, en función de la mayoría de edad de su jurisdicción.            Usted debe colocar su país/región de residencia correcto en la Cuenta. <p><br>
+              <strong>1.3 Información.</strong>
+              <p>Para aperturar y mantener una Cuenta, debe proporcionarnos información correcta y actualizada.</p><br>
+                <strong> a.	Su Información de Contacto.</strong> <p> Es su responsabilidad mantener actualizado su correo electrónico principal, de manera que Payezrose pueda comunicarse con usted de manera electrónica. Usted comprende y acepta que si Payezrose le envía una Comunicación electrónica y no la recibe debido a que su dirección principal de correo electrónico registrada es incorrecta, está desactualizada, está bloqueada por su proveedor de servicio, o por cualquier otro motivo no puede recibir Comunicaciones electrónicas, Payezrose considerará que dicha Comunicación sí ha sido enviada efectivamente. Tenga en cuenta que si utiliza un filtro de correo no deseado que bloquea o desvía los correos electrónicos de los remitentes que no aparecen en su libreta de direcciones de correo electrónico, deberá agregar a Payezrose a su libreta de direcciones para que pueda ver las Comunicaciones que le enviamos. </p><br>
+                  <p>Puede actualizar su correo electrónico o domicilio principal en cualquier momento si inicia sesión en el sitio web de Payezrose. Si su correo ya no es válido y genera la devolución de las Comunicaciones electrónicas que le envía Payezrose, ésta considerará que su Cuenta está inactiva y no podrá hacer ningún movimiento con su cuenta Payezrose hasta que recibamos una dirección de correo electrónico principal válida y en funcionamiento de su parte.</p><br>
+                <strong>b.	Verificación de Identidad.</strong><p> Usted autoriza a Payezrose, directamente o a través de terceros, a realizar todas las consultas que consideremos necesarias para validar su identidad. Dentro de estas consultas se incluye solicitarle más Información o documentación, tener que proporcionar su número de contribuyente o número de identificación nacional, realizar algunos pasos para confirmar la titularidad de su correo electrónico o de instrumentos financieros, solicitarle un reporte crediticio o comparar su Información con bases de datos de terceros o a través de otras fuentes.<p><br>
+                <strong>c.	Autorización de Reporte Crediticio.</strong><p> Si usted abre una Cuenta Empresas, se considerará que está proporcionando a Payezrose instrucciones y autorización por escrito, de conformidad con cualquier ley aplicable, para que obtenga de un buró de crédito su reporte crediticio personal y/o comercial. También autoriza a que Payezrose obtenga su reporte crediticio personal y/o comercial: (a) cuando solicita ciertos productos nuevos, o (b) en cualquier momento en que Payezrose considere razonablemente que puede haber un nivel de riesgo mayor asociado a su Cuenta Empresas.</p><br>
+              <strong>1.4 Dueño Beneficiario.</strong>
+              <p>Usted debe ser el propietario real de la Cuenta y solo realizar negocios a nombre propio.</p><br>
+              <strong>1.5 Presentación de Payezrose</strong>
+              <p>Usted acepta proporcionar igual trato a Payezrose y/o a otras formas de pago o marcas que ofrezca en sus puntos de venta (por ejemplo, sitios web o aplicaciones móviles). Esto incluye al menos condiciones iguales o sustancialmente similares de: ubicación del logotipo, posición en cualquier punto de venta y trato en términos de flujo de pago, términos, condiciones, restricciones o comisiones, en cada caso según se compare con otras marcas y formas de pago en sus puntos de venta.</p><br>
+              <p>En las declaraciones ante sus clientes o en comunicaciones públicas, usted acepta no describir en forma errónea a Payezrose como una forma de pago o mostrar preferencia por otras formas de pago por sobre Payezrose.  En todos sus puntos de venta, usted acepta no intentar disuadir o inhibir a sus clientes de utilizar Payezrose; así como tampoco instar al cliente a utilizar una forma de pago alternativa.  Si autoriza a sus clientes a pagar con Payezrose, cualquieras sean las formas de pago en exhibición que acepte (dentro de cualquier punto de venta o en sus materiales de marketing, publicidad y otras comunicaciones con el cliente), usted acepta mostrar las marcas de pago de Payezrose de forma al menos tan prominente y positiva como muestra todas las demás formas de pago.<p><br><br>
+              <h5>2. Recibo de pagos.</h5><br>
+              <strong>2.1 Límites de Cobro.</strong>
+              <p>Nosotros podemos, a nuestra sola discreción, establecer límites para el importe de los cobros que usted puede enviar a través de los Servicios Payezrose. Usted puede ver su límite de envío, si lo tuviera, iniciando sesión en su Cuenta. Si verificó su Cuenta, podrá aumentar los límites de envío.</p><br>
+              <strong>2.2 Retrasos de Procesamiento del Comercio.</strong>
+              <p>Cuando usted envía cobros a ciertos Comercios, usted proporciona una autorización a dicho Comercio para que procese su pago y complete la transacción. El pago se retendrá como pendiente hasta que el Comercio procese el pago. Algunos Comercios pueden retrasarse en el procesamiento de su pago. En tales casos, su autorización seguirá siendo válida por hasta 30 Días. Si el pago requiere de conversión de divisas, el tipo de cambio se determinará en el momento en que el Comercio Payezrose procese el pago y complete la transacción. </p><br><br>
+              <h5>3. Requisitos de uso.</h5><br>
+              <strong>3.1 Capacidad para Recibir Pagos. </strong>
+              <p>Payezrose puede permitir que cualquier persona (con o sin una cuenta Payezrose) inicie un pago a su cuenta Empresas.  Al integrarse a nuestro pago en línea/plataforma cualquier funcionalidad que tenga el propósito de habilitar a un pagador sin Cuenta para enviar un pago a su cuenta Empresas, usted acepta las condiciones de uso de dicha funcionalidad que Payezrose pone a su disposición en el sitio web </p><br>
+              <strong>3.2 Sin Recargos.</strong>
+              <p> Usted acepta que no impondrá ningún recargo o cualquier otra comisión por aceptar Payezrose como forma de cobro sin nuestro consentimiento previo por escrito. Usted puede cobrar una comisión de gestión relacionada con la venta de bienes o servicios, siempre y cuando dicha comisión no sea superior a la comisión de gestión que cobre por transacciones ajenas a Payezrose.</p><br><br>
+              <h5>4. Saldos de la cuenta.</h5><br>
+              <strong>4.1 Compensación de Importes Adeudados y cuyas fechas de pago han pasado.</strong>
+              <p> Si usted adeuda cualquier cantidad a Payezrose, a una filial o a ezrose, Payezrose puede descontar de su Cuenta las cantidades necesarios para pagar los importes vencidos por más de 180 Días</p><br><br>
+              <h5>5. Pago de fondos.</h5><br>
+              <strong>5.1 ¿Cómo recibo mi dinero?</strong> 
+              <p>En función del país/la región donde haya registrado su Cuenta, puede retirar los fondos de la Cuenta recibido por cualquiera de estos medios: (a) transferencia electrónica a su cuenta bancaria en EE. UU. o a su cuenta bancaria local, (b) transfiriéndolos electrónicamente a su tarjeta marca Visa, (c) a través de una transferencia automática iniciada por Payezrose a su instrumento financiero asociado o (d) por medio de la solicitud de un cheque físico por correo. En ciertos países, su capacidad para hacer retiros a una cuenta bancaria local podría requerir el uso de Payezrose Retiros. </p><br>
+              <p>Por lo general, solo enviaremos cheques a direcciones confirmadas, a menos que tenga una Cuenta Verificada. No enviaremos cheques a apartados postales. Si desea enviar un cheque a una dirección que no cumple con estos requisitos, debe comunicarse con el Servicio de Atención al Cliente y proporcionar la documentación que solicitamos para verificar su asociación con la dirección. Si no cobra el cheque en el plazo de 180 días a partir de la fecha de emisión, retornaremos los fondos a su saldo (descontada una comisión).</p><br>
+              <strong>5.2 Límites de Retiro.</strong>
+              <p> En función del grado en que haya Verificado su Cuenta, nosotros podemos restringir su capacidad de retirar fondos.</p><br>
+              <strong>5.3 Comisiones por Retiro.</strong>
+              <p> Cuando retire su Saldo, y en función del método de retiro, se le cargará una comisión por retiro de Saldo (Comisiones). Además, si retira su saldo en una divisa distinta de la divisa en que está el saldo de su Cuenta, adicionalmente se le cargará una Comisión por Conversión de Divisas.</p><br><br>
+              <h5>6. Cierre de su cuenta.</h5><br>
+              <strong>6.1 Cómo cerrar su Cuenta.</strong>
+              <p> Usted puede cancelar su Cuenta en cualquier momento siguiendo las instrucciones del Perfil de Cuenta. Después del cierre de una cuenta, se cancelará cualquier transacción en trámite y caducarán todos los saldos asociados a los Códigos de canje, a menos que no esté permitido por la ley. Debe retirar su Saldo antes de cancelar su Cuenta.</p><br>
+              <strong>6.2 Restricciones del Cierre de la Cuenta.</strong>
+              <p>Usted no puede evadir ninguna investigación mediante la cancelación de su Cuenta. Si cierra su Cuenta mientras estamos llevando a cabo una investigación, podemos retener sus fondos para proteger a Payezrose, sus filiales o a terceros, contra el riesgo de Cancelaciones, Contracargos, Reclamaciones, comisiones, multas, penalizaciones y otras responsabilidades. Usted seguirá siendo responsable de todas las obligaciones relacionadas con su Cuenta, incluso después de la cancelación de la misma.</p>
+              
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>              
