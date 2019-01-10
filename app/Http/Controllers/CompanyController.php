@@ -42,9 +42,7 @@ class CompanyController extends Controller
             return view('login',compact('title'));
         }
         public function login(Request $request){
-            \Session::put('user',array());
-            
-            $pw=encrypt($request->password);
+           // $pw=encrypt($request->password);
     
             if ($request->userApp!=null && $request->userApp!='') {
                 $Usuarios = DB::table('company')
@@ -203,10 +201,10 @@ class CompanyController extends Controller
      */
     public function update($id)
     {
-        if($this->isadmin()){
-        $data = request()->all();       
-        if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){
-            $company=Company::find($id);            
+        if(!is_null(\Session::get('user'))){
+        $data = request()->all();  
+        $company=Company::find($id);      
+        if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){          
             if(decrypt($company->password)===$data['passwordold']){
                 if($data['passwordnow'] ==  $data['passwordconf'] ){
                     $data['password']= encrypt($data['passwordnow']);                     
@@ -218,12 +216,12 @@ class CompanyController extends Controller
             }
         }
         
-        $company=Company::find($id);
         $company->update ($data);
         $company->save();
         \Session::flash('flash_success',"Informacion actualizada correctamente.");      
         if($data['isprofile'] == 1){
             return redirect()->route('Empresas.profile');
+            \Session::put('user',$company);
         }else{
             return redirect()->route('Empresas.edit',['id'=>$id]);
         }
