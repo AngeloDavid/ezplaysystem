@@ -7,6 +7,8 @@ use App\Costumer;
 use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMAils;
 
 class InvoiceController extends Controller
 {
@@ -270,7 +272,9 @@ class InvoiceController extends Controller
                         'file'=>$pr_im,
                         'id_company'=>$company->id
                     ]); 
-                   // dump($company->id);
+                    Mail::to('flores.angelo1995@gmail.com')->send( new InvoiceMAils(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));
+                   Mail::to(\Session::get('user')->email)->send( new InvoiceMAils(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,false,' ingresada '));
+                   
                 }            
             }         
             \Session::flash('flash_success',"Factura ingresada correctamente");      

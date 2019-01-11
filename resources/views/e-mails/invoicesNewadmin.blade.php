@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>EZPAY -    {{ $title }} </title>
+    <title>EZPAY - norificacion </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/icon/ezplayrose.png')}}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
@@ -27,16 +27,44 @@
 
 <body>
     <!--[if lt IE 8]>
-        <p class="browserupgrade">
-            Estás utilizando un navegador <strong>obsoleto </strong>. Por favor  <a href="http://browsehappy.com/">Actualiza tu navegdor</a> para mejorar tu experiencia</p>
-    <![endif]-->
+            <p class="browserupgrade">
+                Estás utilizando un navegador <strong>obsoleto </strong>. Por favor  <a href="http://browsehappy.com/">Actualiza tu navegdor</a> para mejorar tu experiencia</p>
+        <![endif]-->
+    <!-- preloader area start -->
     <div id="preloader">
         <div class="loader"></div>
     </div>
     <!-- preloader area end -->
     <!-- page container area start -->
     
-    @yield('Contenido')
+    <div class="login-area">
+        <div class="container">
+            <div class="login-box ptb--100">
+                <form>
+                    <div class="login-form-head">
+                        <img src="{{ asset('images/icon/ezplayrose.png')}}" alt="logo"  width="50%"><br><br>
+                    <h5 style="text-align:center; color:#1c73b8;" >Factura Recibida</h5>                       
+                    </div>
+                    <div class="login-form-body">                        
+                        <div class="form-gp">
+                            <p>Estimado, <strong>Administrador</strong><br><br>
+                                El cliente <strong>nombre </strong> ha ingresado una nueva factura.
+                                El numero es: <strong># 334444 </strong>
+                                Para seguimiento de la factura, visite  plataforma Ezpay
+                            </p>
+                        </div>
+                        <div class="submit-btn-area">
+                            <a class="btn btn-rounded btn-primary mb-3" href="{{ url('/TodasFacturas')}}">EZPay <i class="ti-arrow-right"></i></a>                            
+                        </div>
+                        <div class="form-footer text-center mt-5">
+                            <p class="text-muted">Conoce más en: <a href="https://pay.ezrose.com/">pay.ezrose.com</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
  
     <!-- offset area end -->
     <!-- jquery latest version -->

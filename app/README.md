@@ -4,7 +4,7 @@
 3. Tambien se debe configurar el archivo *.env* que contiene la configuracion global del proyecto y al final colocar el comando `php artisan key:generate`
 4. Acontinuacion, si el proyecto ya tiene las *migraciones* se debe colocar `php artisan migrate` previa creacion de la base datos.
 5. Tambien se debe ejecutar el comando `php artisan storage:link` para hacer el acceso directo al local storage
-6. Para generar los seed `php artisan db:seed`
+6. Para generar los seed `'sudo composer dump-autoload `  `php artisan db:seed`
 
 ## Vistas.
 Todas las vistas se crean conmo *blade.php*  en la carpeta 
@@ -32,3 +32,18 @@ Para refrescar `php artisan migrate:fresh`
 ##Seeders
 Para crear los seeder se usa: 
 `php artisan make:seeder ProfessionSeeder`
+------------------------------------------------------------
+
+# MAIL LARAVEL
+
+1. Primero escribimos los paramteros del servidor MAIL. En el archivo *.env*
+2. Creamos la calse de Mailable. `php artisan make:mail DemoEmail`
+3. se Crea la vista para dicho mail
+4. se ingresa los parametros del email en el constructor de la clase
+5. En el controlador donde llamaos a al metodo de la funcion escribimos :
+`use Illuminate\Support\Facades\Mail;`
+6. se coloca la siguiente sentencia
+`Mail::to('flores.angelo1995@gmail.com')->send( new InvoiceMAils(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));`
+
+
+

@@ -40,3 +40,7 @@ Route::resources([
     'Facturas'=> 'InvoiceController',
     'Empresas'=> 'CompanyController'
 ]);
+Route::get('/mail', function ()
+{
+    return view('e-mails.invoicesNewadmin');
+});
