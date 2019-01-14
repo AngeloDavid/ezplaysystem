@@ -34,7 +34,8 @@ Route::get('/Facturas/{id}/status', 'InvoiceController@changestatus')->where('id
 Route::get('/Empresas/{id}/delete', 'CompanyController@activar')->where('id','[0-9]+')->name('Clientes.activar');
 Route::get('/Empresas/{id}/resetarPWD', 'CompanyController@resetarPWD')->where('id','[0-9]+')->name('Empresas.resetearPwd');
 Route::get('/TodasFacturas', 'InvoiceController@allinvoices')->where('id','[0-9]+')->name('Empresas.allinvoices');
-Route::get('/Facturas/buscar/{code}/{cli}/{desc}/{emp}/{fecha}/{amount}/{status}','invoiceController@searchinvoice')->name('Empresas.search');
+Route::get('/Facturas/buscar_admin/{code}/{cli}/{desc}/{emp}/{fecha}/{amount}/{status}','InvoiceController@searchinvoiceadmin')->name('Empresas.searchadmin');
+Route::get('/Facturas/buscar/{code}/{cli}/{desc}/{fecha}/{amount}/{status}','InvoiceController@searchinvoice')->name('Empresas.search');
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController',
