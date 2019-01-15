@@ -53,9 +53,10 @@
                                                                 <option disabled>Seleccione...</option>
                                                                 <option value="-1">Todas</option>
                                                                 <option value="1">Enviadas</option>
-                                                                <option value="2">Recibidas</option>
-                                                                <option value="3">Canceladas</option>
-                                                                <option value="4">Anuladas</option>
+                                                                <option value="2">Procesadas</option>
+                                                                <option value="3">Pagadas por cliente</option>
+                                                                <option value="4">Depo/transf completada</option>
+                                                                <option value="0">Anuladas</option>
                                                             </select>
                                                         </td>
                                                         <td scope="col">

@@ -13,7 +13,7 @@
                 @switch($invoice->status)
                             @case(1)
                                 <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 33.33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div><br>
                                 @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
                                 <a href="{{ url('/Facturas/'.$invoice->id.'/status')}}" class="text-secondary">
@@ -25,21 +25,33 @@
                                 @break
                             @case(2)
                                 <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar" role="progressbar" style="width: 66.66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div><br>
                                 @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
                                 <a href="{{ url('/Facturas/'.$invoice->id.'/status')}}" class="text-secondary">
-                                    <span class="status-p bg-warning">Enviado</span></td>    
+                                    <span class="status-p bg-info">Procesada</span></td>    
                                 </a>
                                 @else
-                                    <span class="status-p bg-warning">Recibida</span></td>    
+                                    <span class="status-p bg-info">Procesada</span></td>    
                                 @endif
                                 @break
                             @case(3)
                                 <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div><br>
+                                @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
+                                <a href="{{ url('/Facturas/'.$invoice->id.'/status')}}" class="text-secondary">
+                                    <span class="status-p bg-warning">Pagada por cliente</span></td>    
+                                </a>
+                                @else
+                                    <span class="status-p bg-warning">Pagada por cliente</span></td>    
+                                @endif
+                                @break
+                            @case(4)
+                                <div class="progress" style="height: 8px;">
                                     <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div><br>
-                                <span class="status-p bg-success">Cancelada</span></td>    
+                                <span class="status-p bg-success">Depositado o transferencia completada</span></td>    
                                 @break
                             @default
                                 <span class="status-p bg-danger">Anulado</span></td>                            

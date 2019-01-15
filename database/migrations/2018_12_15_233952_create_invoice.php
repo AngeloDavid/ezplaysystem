@@ -15,9 +15,10 @@ class CreateInvoice extends Migration
     {
         /***
          * 1 .- Enviada
-         * 2 .- Recibida         
-         * 3 .- Cancelado
-         * 4 .- Anulado
+         * 2 .- Procesada         
+         * 3 .- Pagada por cliente
+         * 4 .- Depositado o transferencia completada -- archivo de pago
+         * 0 .- Anulado
          */
 
         Schema::create('invoice', function (Blueprint $table) {

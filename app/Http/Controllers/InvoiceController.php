@@ -357,7 +357,7 @@ class InvoiceController extends Controller
                         'file'=>$pr_im,
                         'id_company'=>$company->id
                     ]); 
-                    Mail::to('flores.angelo1995@gmail.com')->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));
+                    Mail::to('payezrose@ezrose.com')->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));
                    Mail::to(\Session::get('user')->email)->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,false,' ingresada '));
                    
                 }            
@@ -529,7 +529,7 @@ class InvoiceController extends Controller
             if( $invoice->status <3 ){
                 $prom=DB::table('invoice')
                                 ->where('id',$id)
-                                ->update(['status'=>'4']);
+                                ->update(['status'=>'0']);
             }        
             return redirect()->route('Facturas.index');   
         }else{
@@ -541,7 +541,7 @@ class InvoiceController extends Controller
         if(!is_null(\Session::get('user'))){
             $costumer=invoice::find($id);
 
-            if( $costumer->status <3 ){
+            if( $costumer->status <4 ){
                 $status =$costumer->status +1;
                 $prom=DB::table('invoice')
                                 ->where('id',$id)
