@@ -69,14 +69,15 @@
                                                 
                                             </thead>
                                             <tbody id="htmldt">
-                                            @include('invoice.list')
+                                                @include('invoice.list')                                                
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             @endif
-                        </div>
-                    </div>
+                            
+                        </div>                        
+                </div>
         </div>
         
     </div>
@@ -90,7 +91,17 @@
             var isadmin = false;
             @endif   
         $(document).ready(function (){
-            
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+        
+                $('li').removeClass('active');
+                $(this).parent('li').addClass('active');
+        
+                var url = $(this).attr('href');  
+                getInvoices(url);
+                window.history.pushState("", "", url);
+            });
+
             cleanSearch();
             $('#btn-borrar').click(function(e){
                 cleanSearch();
@@ -108,6 +119,26 @@
                 ($('#amount').val().trim() == ''?"%20":$('#amount').val().trim())+"/"+
                 ($('#status').val().trim() == ''?"%20":$('#status').val().trim())+"/";
                 console.log('url',urlGEt);
+               getInvoices(urlGEt);
+            });
+
+            
+            function cleanSearch(){
+                var dt= new Date();
+                var month = dt.getMonth()<10? '0'+(dt.getMonth()+1):dt.getMonth();
+                var day = dt.getDate()<10? '0'+dt.getDate():dt.getDate();
+                $('#fecha').val('');
+                $('#code').val('');
+                $('#cli').val(''); 
+                if(isadmin){
+                    $('#emp').val('');        
+                }                  
+                $('#amount').val(null);
+                $('#desc').val('');
+                $('#status').val(-1);                                
+              }
+
+            function getInvoices(urlGEt){
                 $.ajax({
                     url:urlGEt,
                     method:"GET",
@@ -132,23 +163,7 @@
                         console.log('error',data);
                     }
                 });
-            });
-
-            
-            function cleanSearch(){
-                var dt= new Date();
-                var month = dt.getMonth()<10? '0'+(dt.getMonth()+1):dt.getMonth();
-                var day = dt.getDate()<10? '0'+dt.getDate():dt.getDate();
-                $('#fecha').val('');
-                $('#code').val('');
-                $('#cli').val(''); 
-                if(isadmin){
-                    $('#emp').val('');        
-                }                  
-                $('#amount').val(null);
-                $('#desc').val('');
-                $('#status').val(-1);                                
-              }
+            }
         });
     </script>
 @endsection

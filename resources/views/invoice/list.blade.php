@@ -1,4 +1,4 @@
-
+                                           
     @foreach ($invoices as $invoice)
         <tr>
             <th scope="row">{{ $invoice->code }} </th>
@@ -77,3 +77,9 @@
             </td>
         </tr>
     @endforeach
+
+    <tr>
+        <td colspan="8">
+        {{ $invoices->links('pagination') }}
+        </td>
+    </tr>

@@ -93,7 +93,7 @@ class InvoiceController extends Controller
         }
     }
 
-    public function allinvoices()
+    public function allinvoices(Request $request)
     {
         if($this->isadmin()){
             $invoices = DB::table('invoice')                        
@@ -101,13 +101,23 @@ class InvoiceController extends Controller
                         ->leftjoin('company','invoice.id_company','=','company.id')
                         ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
-                        ->paginate(10);
-        
+                        ->paginate(5);
+            // dd($invoices);
             $rutes = [
                 "Inicio" => "/",   
                 "Facturas" => ""
             ];
             $title="Facturas por Empresa";
+            if ($request->ajax()) {
+                $invoicelist = view('invoice.list', compact('invoices','title'));
+                $contents =  $invoicelist->render();
+                return response()->json(array(
+                    'tpmsj'=>'success',
+                    'message'=>'Consulta realizada con exito',
+                    'datahtml'=> $contents
+                )
+                );
+            }
             return view('invoice.index',compact('title','rutes','invoices'));    
         }else{
             return redirect('/logout');
@@ -117,7 +127,7 @@ class InvoiceController extends Controller
     public function searchinvoiceadmin($code,$cli,$desc,$emp,$fecha,$amount,$status)
     {
         //numero de inoices por pagina
-        $pages=10;
+        $pages=5;
         if($this->isadmin()){          
             $code = trim($code) == ''?'':'%'.$code.'%';
             $cli = trim($cli) == ''?'':'%'.$cli.'%';
