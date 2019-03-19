@@ -77,7 +77,7 @@
             </td>
         </tr>
     @endforeach
-
+    {{-- paginacion de tabla  --}}
     <tr>
         <td colspan="8">
         {{ $invoices->links('pagination') }}

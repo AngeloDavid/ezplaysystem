@@ -32,6 +32,8 @@ Para refrescar `php artisan migrate:fresh`
 ##Seeders
 Para crear los seeder se usa: 
 `php artisan make:seeder ProfessionSeeder`
+run seed
+`php artisan db:seed --class=ProfessionSeeder`
 ------------------------------------------------------------
 
 # MAIL LARAVEL
@@ -46,4 +48,7 @@ Para crear los seeder se usa:
 `Mail::to('flores.angelo1995@gmail.com')->send( new InvoiceMAils(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));`
 
 
+## EXCEL LARAVEL
+1. debemos instalar el paquete `composer require maatwebsite/excel` [mas info] (https://laraveles.com/exportar-datos-excel-laravel/)
+ 
 

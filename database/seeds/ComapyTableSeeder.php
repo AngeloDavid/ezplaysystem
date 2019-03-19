@@ -25,6 +25,7 @@ class ComapyTableSeeder extends Seeder
             'type'=>'Juridica',
             'phone1'=>'',
             'contact'=>'',
+            'legalRepre'=>'',
             'notes' => '',
             'status'=>1,
             'id_role'=>1

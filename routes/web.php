@@ -33,9 +33,11 @@ Route::get('/Facturas/{id}/delete', 'InvoiceController@anular')->where('id','[0-
 Route::get('/Facturas/{id}/status', 'InvoiceController@changestatus')->where('id','[0-9]+')->name('Facturas.changestatus');
 Route::get('/Empresas/{id}/delete', 'CompanyController@activar')->where('id','[0-9]+')->name('Clientes.activar');
 Route::get('/Empresas/{id}/resetarPWD', 'CompanyController@resetarPWD')->where('id','[0-9]+')->name('Empresas.resetearPwd');
-Route::get('/TodasFacturas', 'InvoiceController@allinvoices')->where('id','[0-9]+')->name('Empresas.allinvoices');
+Route::get('/TodasFacturas', 'InvoiceController@allinvoices')->name('Empresas.allinvoices');
+Route::get('/ExportFacturas', 'InvoiceController@exportEXCELINVOICES')->name('Empresas.export');
 Route::get('/Facturas/buscar_admin/{code}/{cli}/{desc}/{emp}/{fecha}/{amount}/{status}','InvoiceController@searchinvoiceadmin')->name('Empresas.searchadmin');
 Route::get('/Facturas/buscar/{code}/{cli}/{desc}/{fecha}/{amount}/{status}','InvoiceController@searchinvoice')->name('Empresas.search');
+Route::get('/Clientes/buscar/{ruc}/{name}/{date}/{place}/{status}','CustomerController@CustomerController')->name('Clientes.search');
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController',

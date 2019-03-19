@@ -29,7 +29,7 @@
                     </div>
                     @endif
                        <h4 class="header-title">Datos de la Empresa <small>{{ $company->name }}</small></h4>
-                        <form class="needs-validation" novalidate="" name="Form1" id="Form1" novalidate method="POST"  action="{{url($urlForm)}}"> 
+                        <form class="needs-validation" novalidate="" name="Form1" id="Form1" novalidate method="POST"  action="{{ url($urlForm) }}" enctype="multipart/form-data"> 
                             {!! csrf_field() !!}
                             @if (!$isnew)
                                 {{ method_field('PUT') }}
@@ -111,22 +111,77 @@
                             </div>
                           </div>                            
                           @if (!$isprofile)
-                            <hr class="mb-4"> 
-                            <h4 class="header-title">Datos de contacto</h4>    
-                            <div class="mb-3">
-                                <label for="">Nombre <span class="text-muted">(Opcional)</span></label>
-                                <input type="text" class="form-control" id="contact" name="contact" placeholder="" value="{{ old('contact',$company->contact) }}" >
-                                <div class="invalid-feedback">
-                                .*.
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                    <label for="">Telefono <span class="text-muted">(Opcional)</span></label>
-                                    <input type="text" class="form-control" id="phone1" name="phone1" placeholder=""  value="{{ old('contact',$company->phone1) }}" >
-                                    <div class="invalid-feedback">
-                                    .*.
-                                    </div>
-                            </div>
+                          <hr class="mb-4"> 
+                          <div class="row">
+                              <div class="col-md-6 mb-3">
+                                  <h4 class="header-title">Datos de contacto</h4>    
+                                  <div class="mb-3">
+                                      <label for="">Nombre <span class="text-muted">(Opcional)</span></label>
+                                      <input type="text" class="form-control" id="contact" name="contact" placeholder="" value="{{ old('contact',$company->contact) }}" >
+                                      <div class="invalid-feedback">
+                                      .*.
+                                      </div>
+                                  </div>                                  
+                                  <div class="mb-3">
+                                      <label for="">Telefono <span class="text-muted">(Opcional)</span></label>
+                                      <input type="text" class="form-control" id="phone1" name="phone1" placeholder=""  value="{{ old('contact',$company->phone1) }}" >
+                                      <div class="invalid-feedback">
+                                      .*.
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                  <h4 class="header-title">Representante Legal</h4>    
+                                  <div class="mb-3">
+                                      <label for="">Nombre <span class="text-muted">(Opcional)</span></label>
+                                      <input type="text" class="form-control" id="legalRepre" name="legalRepre" placeholder=""  value="{{ old('legalRepre',$company->legalRepre) }}" >
+                                      <div class="invalid-feedback">
+                                      .*.
+                                      </div>
+                                  </div>
+                                  <div class="mb-3" >
+                                      <label for="file">Nombramiento Legal
+                                          @if (! empty($company->documentNom))
+                                            <a target="_blank" href="{{ asset('storage/docsNom/'. $invoice->documentNom )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
+                                          @endif
+                                          </label>
+                                        <div class="custom-file">
+                                          <input type="file" class="custom-file-input" id="documentNom" name="documentNom" @if ($isnew) required="" @endif accept="application/pdf">
+                                          <label class="custom-file-label" for="documentNom" id="file-documentNom">
+                                            @if (empty($company->documentNom) )
+                                            Subir el archivo  
+                                          @else
+                                            Archivo ya subido
+                                          @endif</label>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Este campo es requerido
+                                        </div>
+                                  </div>
+                                  <div class="mb-3" >
+                                      <label for="file">Copia de Cédula
+                                          @if (! empty($company->documentID))
+                                            <a target="_blank" href="{{ asset('storage/docsID/'. $invoice->documentID )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
+                                          @endif
+                                          </label>
+                                        <div class="custom-file">
+                                          <input type="file" class="custom-file-input" id="documentID" name="documentID" @if ($isnew) required="" @endif accept="application/pdf">
+                                          <label class="custom-file-label" for="documentID" id="file-documentID">
+                                            @if (empty($company->documentID) )
+                                            Subir el archivo  
+                                          @else
+                                            Archivo ya subido
+                                          @endif</label>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Este campo es requerido
+                                        </div>
+                                  </div>
+                              </div>
+                          </div>
+                            
+                            
+                          <hr class="mb-4"> 
                             <div class="mb-3">
                                         <label for="email">Observaciones <span class="text-muted">(Opcional)</span></label>
                                         <textarea class="form-control" id="notes" name="notes" placeholder="" >
@@ -174,4 +229,35 @@
         
     </div>
 </div>
+@endsection
+
+@section('scriptjs')
+    <script>
+        $(document).ready(function (){
+        $('#documentNom').change(function(e){  
+          if( e.target.files.length >0){
+            var myfile =e.target.files[0].name;
+            var ext = myfile.split('.').pop();
+            if(ext=="pdf"){            
+                $('#file-documentNom').html(e.target.files[0].name);
+            } else{
+              $('#file-documentNom').html('Subir su factura');
+              $(this).val(null);
+            }
+          }
+        });
+        $('#documentID').change(function(e){  
+          if( e.target.files.length >0){
+            var myfile =e.target.files[0].name;
+            var ext = myfile.split('.').pop();
+            if(ext=="pdf"){            
+                $('#file-documentID').html(e.target.files[0].name);
+            } else{
+              $('#file-documentID').html('Subir su factura');
+              $(this).val(null);
+            }
+          }
+        });
+      });
+    </script>
 @endsection

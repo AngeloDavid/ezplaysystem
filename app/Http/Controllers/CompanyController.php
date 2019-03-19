@@ -131,6 +131,20 @@ class CompanyController extends Controller
         if($this->isadmin()){
         $data = request()->all();
 
+        if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
+            $pr_dNom=$request->file('documentNom')->hashName('');
+            //dump($request->file('documentNom'));
+            $request->file->store('public/docsNom');
+        }else{
+            $pr_dNom=null;
+        }
+        if ($request->file('documentID')!=null && $request->file('documentID')!='') {
+            $pr_dId=$request->file('documentID')->hashName('');
+            $request->file->store('public/docsID');
+        }else{
+            $pr_dId=null;
+        }
+
         Company::create([
             'ruc'=>$data['ruc'], 
             'name'=>$data['name'],
@@ -145,6 +159,9 @@ class CompanyController extends Controller
             'type'=>'Juridica',
             'phone1'=>$data['phone1'],
             'contact'=>$data['contact'],
+            'legalRepre'=>$data['legalRepre'],
+            'documentNom'=> $pr_dNom,
+            'documentID'=> $pr_dId,
             'notes' => $data['notes'],
             'status'=>1,
             'id_role'=>2
@@ -199,7 +216,7 @@ class CompanyController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request,$id)
     {
         if(!is_null(\Session::get('user'))){
         $data = request()->all();  
@@ -216,9 +233,24 @@ class CompanyController extends Controller
                 return back()->with('errmsj','Error la contraseña es incorrecta');
             }
         }
-        
-        $company->update ($data);
-        $company->save();
+        // dump($request->file('documentNom'));
+        if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
+            $pr_dNom=$request->file('documentNom')->hashName('');
+            $request->file->store('public/docsNom');
+        }else{
+            $pr_dNom=null;
+        }
+        if ($request->file('documentID')!=null && $request->file('documentID')!='') {
+            $pr_dId=$request->file('documentID')->hashName('');
+            $request->file->store('public/docsID');
+        }else{
+            $pr_dId=null;
+        }
+        $data['documentNom']=$pr_dNom;
+        $data['documentID']=$pr_dId; 
+        dump($data);
+        // $company->update ($data);        
+        // $company->save();
         \Session::flash('flash_success',"Informacion actualizada correctamente.");      
         if($data['isprofile'] == 1){
             return redirect()->route('Empresas.profile');

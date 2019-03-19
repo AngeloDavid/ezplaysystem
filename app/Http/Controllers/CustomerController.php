@@ -85,6 +85,42 @@ class CustomerController extends Controller
         }
     }
 
+    public function searchCustomer($ruc,$name,$date,$place,$status)
+    {
+        if(!is_null(\Session::get('user'))){
+            $company = \Session::get('user');                 
+            $ruc = trim($ruc) == ''?'':'%'.$ruc.'%';
+            $name = trim($name) == ''?'':'%'.$name.'%';            
+            $date= trim($date) == ''?'':'%'.$date.'%';
+            $place= trim($place) == ''?'':'%'.$place.'%';
+            $status  = $status == -1? '' : $status;
+            if($status != ''){
+                $customers = DB::table('costumer')
+                    ->where('id_company','=',$company->id)
+                    -> where(
+                        function ($query)use ($ruc,$name,$date,$place,$status)
+                        {
+                                $query->orWhere('costumer.ruc','like',$ruc)
+                                ->orWhere('costumer.name','like',$name)
+                                ->orWhere('costumer.created_at','like',$date)
+                                ->orWhere('costumer.address','like',$place)
+                                ->orWhere('costumer.city','like',$place)
+                                ->orWhere('costumer.country','like',$place)
+                                ->orWhere('invoice.status','like',$status);
+                        }
+                    )->latest('created_at')->paginate(10);
+            }
+        }
+        $invoicelist = view('customer.list', compact('customers'));
+        $contents =  $invoicelist->render();
+        return response()->json(array(
+                'tpmsj'=>'success',
+                'message'=>'Consulta realizada con exito',
+                'datahtml'=> $contents
+        )
+        );
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -120,6 +156,7 @@ class CustomerController extends Controller
         $data = request()->all();
         if(!is_null(\Session::get('user'))) {
             $company =\Session::get('user');
+            
             Costumer::create([
                 'ruc'=>$data['ruc'], 
                 'name'=>$data['name'],

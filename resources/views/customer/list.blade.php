@@ -1,4 +1,4 @@
-<tbody>
+
     @foreach ($customers as $customer)
         <tr>
             <th scope="row">{{ $customer->ruc }}</th>
@@ -32,6 +32,9 @@
             </td>
         </tr>
     @endforeach
-        
-        
-    </tbody>
+    <tr>
+            <td colspan="8">
+            {{ $customers->links('pagination') }}
+            </td>
+        </tr>
+    

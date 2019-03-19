@@ -42,8 +42,30 @@
                                                         <th scope="col">Estado</th>
                                                         <th scope="col">Acciones</th>
                                                     </tr>
+                                                    <tr class="search-box">
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="ruc" id="ruc" ></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="name" id="name"></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="date" id="date"></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="place" id="place"></td>
+                                                        <td scope="col">
+                                                            <select class="custom-select input-rounded w-100" id="status" name="status" >
+                                                                <option disabled>Seleccione...</option>
+                                                                <option value="-1">Todas</option>
+                                                                <option value="1">Habilitados</option>
+                                                                <option value="0">Deshabilitados</option>                                                                
+                                                            </select>
+                                                        </td>
+                                                        <td scope="col">
+                                                            <div class="btn-group mb-xl-3 " role="group" aria-label="Basic example">
+                                                                <button id="btn-search" type="button" class="btn btn-info"><i class="ti-search"></i></button>
+                                                                <button id="btn-borrar" type="button" class="btn btn-info"><i class="ti-eraser"></i></button>                                                            
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 </thead>
-                                                @include('customer.list')
+                                                <tbody id="htmldt">
+                                                        @include('customer.list')
+                                                </tbody>                                                
                                             </table>
                                         </div>
                                     </div>
@@ -56,9 +78,66 @@
     </div>  
 @endsection
 @section('scriptjs')
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            cleanSearch();
+
+            $('#btn-borrar').click(function(e){
+                cleanSearch();
+            });
+            
+            $('#btn-search').click(function(e){
+                console.log('search');
+                var urlGEt = isadmin?"{{url('/Facturas/buscar_admin')}}/":"{{url('/Facturas/buscar')}}/";                                 
+                urlGEt +=($('#code').val().trim() == ''?"%20":$('#code').val().trim()) +"/"+
+                ($('#cli').val().trim() == ''?"%20":$('#cli').val().trim())+"/"+   
+                ($('#desc').val().trim() == ''?"%20":$('#desc').val().trim())+"/";
+                if(isadmin){
+                    urlGEt+=($('#emp').val().trim() == ''?"%20":$('#emp').val().trim())+"/";
+                }                
+                urlGEt+=($('#fecha').val().trim() == ''?"%20":$('#fecha').val().trim())+"/"+
+                ($('#amount').val().trim() == ''?"%20":$('#amount').val().trim())+"/"+
+                ($('#status').val().trim() == ''?"%20":$('#status').val().trim())+"/";
+                console.log('url',urlGEt);
+                getclientes(urlGEt);
+            });
+
+           // metodos 
+           function cleanSearch() {
+            $('#ruc').val('');
+            $('#name').val('');
+            $('#date').val('')  ;
+            $('#place').val('');
+            $('#status').val(-1);
+           } 
+
+           // obtener clientes
+           function getclientes(urlGEt){
+            $.ajax({
+                url:urlGEt,
+                method:"GET",
+                success: function(data){
+                    console.log('sucss',data);
+                    if(data.tpmsj='success'){                            
+                        if(data.datahtml=='')
+                        {
+                            $('#htmldt').html(`
+                            <tr >
+                                <td colspan="7">
+                                    No existe registros
+                                </td>
+                            </tr>
+                            `);
+                        }else{
+                            $('#htmldt').html(data.datahtml);
+                        }                            
+                    }
+                },
+                error :function(data){
+                    console.log('error',data);
+                }
+            });
+        }
+        } )
+    </script>    
 @endsection

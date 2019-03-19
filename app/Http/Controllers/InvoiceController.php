@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMails;
-
+use Maatwebsite\Excel\Facades\Excel;
 class InvoiceController extends Controller
 {
     var $title = "Factura";
@@ -91,6 +91,24 @@ class InvoiceController extends Controller
         }else{
             return redirect('/logout'); 
         }
+    }
+    public function exportEXCELINVOICES()
+    {    
+        $invoices = invoice::all();
+        dd($invoices[0]);
+       // return Excel::download($invoices, 'report.xlsx');    
+
+        // Excel::download('invoice', function($excel) {
+        
+          
+        
+        //     $excel->sheet('Users', function($sheet) use($invoices) {
+        
+        //     $sheet->fromArray($invoices);
+        
+        // });
+        
+        // })->export('xlsx');
     }
 
     public function allinvoices(Request $request)
