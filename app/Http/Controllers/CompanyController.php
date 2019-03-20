@@ -236,21 +236,21 @@ class CompanyController extends Controller
         // dump($request->file('documentNom'));
         if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
             $pr_dNom=$request->file('documentNom')->hashName('');
-            $request->file->store('public/docsNom');
+            $request->file('documentNom')->store('public/docsNom');
         }else{
-            $pr_dNom=null;
+            $pr_dNom=$company->documentNom;
         }
         if ($request->file('documentID')!=null && $request->file('documentID')!='') {
             $pr_dId=$request->file('documentID')->hashName('');
-            $request->file->store('public/docsID');
+            $request->file('documentID')->store('public/docsID');
         }else{
-            $pr_dId=null;
+            $pr_dId=$company->documentID;
         }
         $data['documentNom']=$pr_dNom;
         $data['documentID']=$pr_dId; 
-        dump($data);
-        // $company->update ($data);        
-        // $company->save();
+        // dump($data);
+        $company->update ($data);        
+        $company->save();
         \Session::flash('flash_success',"Informacion actualizada correctamente.");      
         if($data['isprofile'] == 1){
             return redirect()->route('Empresas.profile');

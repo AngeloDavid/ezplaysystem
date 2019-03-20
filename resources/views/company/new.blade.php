@@ -142,7 +142,7 @@
                                   <div class="mb-3" >
                                       <label for="file">Nombramiento Legal
                                           @if (! empty($company->documentNom))
-                                            <a target="_blank" href="{{ asset('storage/docsNom/'. $invoice->documentNom )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
+                                            <a target="_blank" href="{{ asset('storage/docsNom/'. $company->documentNom )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
                                           @endif
                                           </label>
                                         <div class="custom-file">
@@ -161,7 +161,7 @@
                                   <div class="mb-3" >
                                       <label for="file">Copia de Cédula
                                           @if (! empty($company->documentID))
-                                            <a target="_blank" href="{{ asset('storage/docsID/'. $invoice->documentID )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
+                                            <a target="_blank" href="{{ asset('storage/docsID/'. $company->documentID )}}" class="text-secondary"><i class="ti-cloud-down"></i></a>    
                                           @endif
                                           </label>
                                         <div class="custom-file">
