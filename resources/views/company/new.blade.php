@@ -133,8 +133,8 @@
                               <div class="col-md-6 mb-3">
                                   <h4 class="header-title">Representante Legal</h4>    
                                   <div class="mb-3">
-                                      <label for="">Nombre <span class="text-muted">(Opcional)</span></label>
-                                      <input type="text" class="form-control" id="legalRepre" name="legalRepre" placeholder=""  value="{{ old('legalRepre',$company->legalRepre) }}" >
+                                      <label for="">Nombre </label>
+                                      <input type="text" class="form-control" id="legalRepre" name="legalRepre" placeholder=""  value="{{ old('legalRepre',$company->legalRepre) }}"  required="" >
                                       <div class="invalid-feedback">
                                       .*.
                                       </div>

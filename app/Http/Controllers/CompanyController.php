@@ -134,39 +134,51 @@ class CompanyController extends Controller
         if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
             $pr_dNom=$request->file('documentNom')->hashName('');
             //dump($request->file('documentNom'));
-            $request->file->store('public/docsNom');
+            $request->file('documentNom')->store('public/docsNom');
         }else{
             $pr_dNom=null;
         }
         if ($request->file('documentID')!=null && $request->file('documentID')!='') {
             $pr_dId=$request->file('documentID')->hashName('');
-            $request->file->store('public/docsID');
+            $request->file('documentID')->store('public/docsID');
         }else{
             $pr_dId=null;
         }
-
-        Company::create([
-            'ruc'=>$data['ruc'], 
-            'name'=>$data['name'],
-            'email'=>$data['email'],
-            'userApp' =>$data['ruc'],
-            'password' => encrypt($data['ruc']),
-            'address'=>$data['address'],
-            'city'=>$data['city'],
-            'state'=>$data['state'],
-            'country'=>$data['country'],
-            'postal_code'=>$data['postal_code'],
-            'type'=>'Juridica',
-            'phone1'=>$data['phone1'],
-            'contact'=>$data['contact'],
-            'legalRepre'=>$data['legalRepre'],
-            'documentNom'=> $pr_dNom,
-            'documentID'=> $pr_dId,
-            'notes' => $data['notes'],
-            'status'=>1,
-            'id_role'=>2
-           ]);
-           return redirect()->route('Empresas.index');
+        try {
+            Company::create([
+                'ruc'=>$data['ruc'], 
+                'name'=>$data['name'],
+                'email'=>$data['email'],
+                'userApp' =>$data['ruc'],
+                'password' => encrypt($data['ruc']),
+                'address'=>$data['address'],
+                'city'=>$data['city'],
+                'state'=>$data['state'],
+                'country'=>$data['country'],
+                'postal_code'=>$data['postal_code'],
+                'type'=>'Juridica',
+                'phone1'=>$data['phone1'],
+                'contact'=>$data['contact'],
+                'legalRepre'=>$data['legalRepre'],
+                'documentNom'=> $pr_dNom,
+                'documentID'=> $pr_dId,
+                'notes' => $data['notes'],
+                'status'=>1,
+                'id_role'=>2
+               ]);
+               
+               return redirect()->route('Empresas.index');
+        } catch (\Exception $exception) {            
+            switch ($exception->getCode()) {
+                case '23000':
+                    return back()->with('errmsj','!!Error!! La empresa con RUC:'.$exception->getBindings()[0].'ya se encuentra registrada');
+                    break;                
+                default:
+                return back()->with('errmsj','!!Error!!, Code'.$exception->code.'. Mensaje:'.$exception->message);
+                    break;
+            }            
+        }
+        
         }else{
             return redirect('/logout');
         }
@@ -219,45 +231,55 @@ class CompanyController extends Controller
     public function update(Request $request,$id)
     {
         if(!is_null(\Session::get('user'))){
-        $data = request()->all();  
-        $company=Company::find($id);    
-        if(isset($data['passwordold']) && isset($data['passwordnow']) && isset($data['passwordconf']))
-        if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){          
-            if(decrypt($company->password)===$data['passwordold']){
-                if($data['passwordnow'] ==  $data['passwordconf'] ){
-                    $data['password']= encrypt($data['passwordnow']);                     
-                }else{
-                    return back()->with('errmsj','Error las contraseñas no coinciden');
+            $data = request()->all();  
+            $company=Company::find($id);    
+            if(isset($data['passwordold']) && isset($data['passwordnow']) && isset($data['passwordconf']))
+            if($data['passwordold']!= null && $data['passwordnow']!= null && $data['passwordconf']!= null){          
+                if(decrypt($company->password)===$data['passwordold']){
+                    if($data['passwordnow'] ==  $data['passwordconf'] ){
+                        $data['password']= encrypt($data['passwordnow']);                     
+                    }else{
+                        return back()->with('errmsj','Error las contraseñas no coinciden');
+                    }
+                }else {                
+                    return back()->with('errmsj','Error la contraseña es incorrecta');
                 }
-            }else {                
-                return back()->with('errmsj','Error la contraseña es incorrecta');
             }
-        }
-        // dump($request->file('documentNom'));
-        if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
-            $pr_dNom=$request->file('documentNom')->hashName('');
-            $request->file('documentNom')->store('public/docsNom');
-        }else{
-            $pr_dNom=$company->documentNom;
-        }
-        if ($request->file('documentID')!=null && $request->file('documentID')!='') {
-            $pr_dId=$request->file('documentID')->hashName('');
-            $request->file('documentID')->store('public/docsID');
-        }else{
-            $pr_dId=$company->documentID;
-        }
-        $data['documentNom']=$pr_dNom;
-        $data['documentID']=$pr_dId; 
-        // dump($data);
-        $company->update ($data);        
-        $company->save();
-        \Session::flash('flash_success',"Informacion actualizada correctamente.");      
-        if($data['isprofile'] == 1){
-            return redirect()->route('Empresas.profile');
-            \Session::put('user',$company);
-        }else{
-            return redirect()->route('Empresas.edit',['id'=>$id]);
-        }
+            // dump($request->file('documentNom'));
+            if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
+                $pr_dNom=$request->file('documentNom')->hashName('');
+                $request->file('documentNom')->store('public/docsNom');
+            }else{
+                $pr_dNom=$company->documentNom;
+            }
+            if ($request->file('documentID')!=null && $request->file('documentID')!='') {
+                $pr_dId=$request->file('documentID')->hashName('');
+                $request->file('documentID')->store('public/docsID');
+            }else{
+                $pr_dId=$company->documentID;
+            }
+            $data['documentNom']=$pr_dNom;
+            $data['documentID']=$pr_dId; 
+            try {
+                $company->update ($data);        
+                $company->save();
+                \Session::flash('flash_success',"Informacion actualizada correctamente.");      
+                if($data['isprofile'] == 1){
+                    return redirect()->route('Empresas.profile');
+                    \Session::put('user',$company);
+                }else{
+                    return redirect()->route('Empresas.edit',['id'=>$id]);
+                }
+            } catch (\Exception $exception) {
+                switch ($exception->getCode()) {
+                    case '23000':
+                        return back()->with('errmsj','!!Error!! La empresa con RUC: '.$exception->getBindings()[0].' ya se encuentra registrada');
+                        break;                
+                    default:
+                    return back()->with('errmsj','!!Error!!, Code'.$exception->code.'. Mensaje:'.$exception->message);
+                        break;
+                }
+            }            
         }else{
             return redirect('logout');
         }
@@ -320,6 +342,7 @@ class CompanyController extends Controller
         $urlForm ='Empresas/'.$company->id;
         return view ('company.new',compact( 'estados', 'title','isnew','isprofile','urlForm','company','rutes'));
     }
+
     private function isadmin()
     {
         if(!is_null(\Session::get('user'))){
