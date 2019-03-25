@@ -82,6 +82,16 @@ class InvoiceController extends Controller
                             ->latest('date')
                             ->paginate(10);
             //dump($invoices);
+            if ($request->ajax()) {
+                $invoicelist = view('invoice.list', compact('invoices','title'));
+                $contents =  $invoicelist->render();
+                return response()->json(array(
+                    'tpmsj'=>'success',
+                    'message'=>'Consulta realizada con exito',
+                    'datahtml'=> $contents
+                )
+                );
+            }
             $rutes = [
                 "Inicio" => "/",   
                 "Facturas" => ""

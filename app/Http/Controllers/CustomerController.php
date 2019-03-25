@@ -75,9 +75,16 @@ class CustomerController extends Controller
                 "Inicio" => "/",
                 "Clientes"=> "",            
             ];
-            $customers = DB::table('costumer')->where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(10);
+            $customers = DB::table('costumer')->where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(5);
             if ($request->ajax()) {
-                return view('customer.list', ['customers' => $customers])->render();  
+                $invoicelist = view('customer.list', compact('customers'));
+                $contents =  $invoicelist->render();
+                return response()->json(array(
+                        'tpmsj'=>'success',
+                        'message'=>'Consulta realizada con exito',
+                        'datahtml'=> $contents
+                )
+                );
             }
             return view('customer.index', compact('title','customers','rutes'));
         }else{
@@ -108,13 +115,13 @@ class CustomerController extends Controller
                                 ->orWhere('costumer.country','like',$place)
                                 ->orWhere('costumer.status','like',$status);
                         }
-                    )->latest('created_at')->paginate(10);
+                    )->latest('created_at')->paginate(5);
                    
             }else {
                 if ($ruc == '' && $name == '' && $date== '' && $place == '' ){
                     $customers = DB::table('costumer')
                     ->where('id_company','=',$company->id)
-                    ->latest('created_at')->paginate(10);
+                    ->latest('created_at')->paginate(5);
                 }else{
                     $customers = DB::table('costumer')
                     ->where('id_company','=',$company->id)
@@ -128,7 +135,7 @@ class CustomerController extends Controller
                                 ->orWhere('costumer.city','like',$place)
                                 ->orWhere('costumer.country','like',$place);
                         }
-                    )->latest('created_at')->paginate(10);
+                    )->latest('created_at')->paginate(5);
                 }
             }
 
@@ -186,27 +193,36 @@ class CustomerController extends Controller
         if(!is_null(\Session::get('user'))) {
             $company =\Session::get('user');
             
-            Costumer::create([
-                'ruc'=>$data['ruc'], 
-                'name'=>$data['name'],
-                'email'=>$data['email'],
-                'address'=>$data['address'],
-                'city'=>$data['city'],
-                'state'=>$data['state'],
-                'country'=>$data['country'],
-                'postal_code'=>$data['postal_code'],
-                'type'=>'Juridica',
-                'origin'=>'Extranjero',
-                'phone1'=>$data['phone1'],
-                'contact'=>$data['contact'],
-                'notes' => $data['notes'],
-                'status'=>1,
-                'id_company' =>$company->id
-            ]);
-
-            return redirect()->route('Clientes.index');
+            $costumer = DB::table('costumer')
+                    ->where('id_company','=',$company->id)
+                    ->Where('costumer.ruc','like',$data['ruc'])
+                    ->select('costumer.ruc')
+                    ->first();
+            if(is_null($costumer) ){
+                Costumer::create([
+                    'ruc'=>$data['ruc'], 
+                    'name'=>$data['name'],
+                    'email'=>$data['email'],
+                    'address'=>$data['address'],
+                    'city'=>$data['city'],
+                    'state'=>$data['state'],
+                    'country'=>$data['country'],
+                    'postal_code'=>$data['postal_code'],
+                    'type'=>'Juridica',
+                    'origin'=>'Extranjero',
+                    'phone1'=>$data['phone1'],
+                    'contact'=>$data['contact'],
+                    'notes' => $data['notes'],
+                    'status'=>1,
+                    'id_company' =>$company->id
+                ]);
+                \Session::flash('flash_success',"Cliente :".$data['name']."  Ingresado Correctatmente");      
+                return redirect()->route('Clientes.create');
+            }else{
+                return back()->with('errmsj','No pueder haber 2 o mas clientes con el mismo  RUC/CI/ID. ('.$data['ruc'].')');
+            }            
         }else{
-            return redirect('/login');
+           return redirect('/login');
         }        
     }
 

@@ -17,20 +17,20 @@
             <div class="card">
                 <div class="card-body">
                     @if(Session::has('flash_success'))
-                    <div class="alert alert-success alert-dismissible fade show">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span class="fa fa-times"></span>
-                        </button>
-                    <em><i class="fa fa-check-circle"></i>&nbsp;&nbsp;&nbsp;  {!! session('flash_success') !!}</em>
-                  </div>
-                  @if(session()->has('errmsj'))
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span class="fa fa-times"></span>
+                            </button>
+                        <em><i class="fa fa-check-circle"></i>&nbsp;&nbsp;&nbsp;  {!! session('flash_success') !!}</em>
+                      </div>                 
+                    @endif
+                    @if(session()->has('errmsj'))
                     <div class="alert alert-danger" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span class="fa fa-times"></span>
                         </button>
                       {{ session('errmsj') }}
                     </div>
-                    @endif
                     @endif
                     @if ($errors->any())
                     <div class="alert alert-danger" role="alert">

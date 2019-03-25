@@ -88,23 +88,18 @@
             
             $('body').on('click', '.pagination a', function(e) {
                 e.preventDefault();
-        
+                console.log('hola');
+
                 $('li').removeClass('active');
                 $(this).parent('li').addClass('active');
         
-                var url = $(this).attr('href');  
-                getInvoices(url);
+                var url = $(this).attr('href');                  
+                getclientes(url);
                 window.history.pushState("", "", url);
             });
 
             $('#btn-search').click(function(e){
-                $('#htmldt').html(`
-                                <tr >
-                                    <td colspan="7">
-                                        Buscando ...
-                                    </td>
-                                </tr>
-                                `);
+               
                 var urlGEt = "{{url('/Clientes/buscar')}}/";                                 
                 urlGEt +=
                     ($('#ruc').val().trim() == ''?"%20":$('#ruc').val().trim()) +"/"+
@@ -127,11 +122,17 @@
 
            // obtener clientes
            function getclientes(urlGEt){
+            $('#htmldt').html(`
+            <tr >
+                <td colspan="7">
+                    Buscando ...
+                </td>
+            </tr>
+            `);
             $.ajax({
                 url:urlGEt,
                 method:"GET",
-                success: function(data){
-                    console.log('sucss',data);
+                success: function(data){                    
                     if(data.tpmsj='success'){                            
                         if(data.datahtml!='')
                         {
