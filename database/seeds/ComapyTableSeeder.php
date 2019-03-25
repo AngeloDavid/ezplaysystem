@@ -12,10 +12,10 @@ class ComapyTableSeeder extends Seeder
     public function run()
     {
         Company::create([
-            'ruc'=>'1111111111112', 
+            'ruc'=>'0908834674', 
             'name'=>'juanito Perez',
             'email'=>'juan@perez.com',
-            'userApp' =>'1111111111112',
+            'userApp' =>'0908834674',
             'password' => encrypt('1111111111112'),
             'address'=>'Quito',
             'city'=>'Quito',

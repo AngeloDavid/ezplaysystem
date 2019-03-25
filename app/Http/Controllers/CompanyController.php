@@ -329,7 +329,7 @@ class CompanyController extends Controller
 
     public function profile()
     {
-        if($this->isadmin()){
+        if(!is_null(\Session::get('user'))){
             $rutes = [
                 "Inicio" => "/",
                 "Perfil"=> "",    
