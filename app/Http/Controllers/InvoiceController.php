@@ -71,7 +71,7 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if(!is_null(\Session::get('user'))){
             $company = \Session::get('user');

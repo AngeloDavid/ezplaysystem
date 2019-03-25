@@ -329,18 +329,23 @@ class CompanyController extends Controller
 
     public function profile()
     {
-        $rutes = [
-            "Inicio" => "/",
-            "Perfil"=> "",    
-        ];
-        $company= \Session::get('user');
-        $company=Company::find($company->id);
-        $isnew=false;
-        $isprofile=true;
-        $estados= $this->estados;
-        $title= "Perfil de la  ".$this->title;
-        $urlForm ='Empresas/'.$company->id;
-        return view ('company.new',compact( 'estados', 'title','isnew','isprofile','urlForm','company','rutes'));
+        if($this->isadmin()){
+            $rutes = [
+                "Inicio" => "/",
+                "Perfil"=> "",    
+            ];
+            $company= \Session::get('user');
+            $company=Company::find($company->id);
+            $isnew=false;
+            $isprofile=true;
+            $estados= $this->estados;
+            $title= "Perfil de la  ".$this->title;
+            $urlForm ='Empresas/'.$company->id;
+            return view ('company.new',compact( 'estados', 'title','isnew','isprofile','urlForm','company','rutes'));
+        }else{
+            return redirect('/logout');   
+        }
+        
     }
 
     private function isadmin()
