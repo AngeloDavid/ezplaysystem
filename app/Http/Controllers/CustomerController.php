@@ -106,19 +106,48 @@ class CustomerController extends Controller
                                 ->orWhere('costumer.address','like',$place)
                                 ->orWhere('costumer.city','like',$place)
                                 ->orWhere('costumer.country','like',$place)
-                                ->orWhere('invoice.status','like',$status);
+                                ->orWhere('costumer.status','like',$status);
                         }
                     )->latest('created_at')->paginate(10);
+                   
+            }else {
+                if ($ruc == '' && $name == '' && $date== '' && $place == '' ){
+                    $customers = DB::table('costumer')
+                    ->where('id_company','=',$company->id)
+                    ->latest('created_at')->paginate(10);
+                }else{
+                    $customers = DB::table('costumer')
+                    ->where('id_company','=',$company->id)
+                    -> where(
+                        function ($query)use ($ruc,$name,$date,$place,$status)
+                        {
+                                $query->orWhere('costumer.ruc','like',$ruc)
+                                ->orWhere('costumer.name','like',$name)
+                                ->orWhere('costumer.created_at','like',$date)
+                                ->orWhere('costumer.address','like',$place)
+                                ->orWhere('costumer.city','like',$place)
+                                ->orWhere('costumer.country','like',$place);
+                        }
+                    )->latest('created_at')->paginate(10);
+                }
             }
+
+            $invoicelist = view('customer.list', compact('customers'));
+            $contents =  $invoicelist->render();
+            return response()->json(array(
+                    'tpmsj'=>'success',
+                    'message'=>'Consulta realizada con exito',
+                    'datahtml'=> $contents
+            )
+            );
+        }else{
+            return response()->json(array(
+                'tpmsj'=>'error',
+                'message'=>'Problemas de conexion',
+                'datahtml'=> ''
+            )
+            );
         }
-        $invoicelist = view('customer.list', compact('customers'));
-        $contents =  $invoicelist->render();
-        return response()->json(array(
-                'tpmsj'=>'success',
-                'message'=>'Consulta realizada con exito',
-                'datahtml'=> $contents
-        )
-        );
     }
 
     /**

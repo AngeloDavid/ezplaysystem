@@ -1,5 +1,5 @@
                                            
-    @foreach ($invoices as $invoice)
+    @forelse ($invoices as $invoice)
         <tr>
             <th scope="row">{{ $invoice->code }} </th>
             <td>{{ $invoice->name }}</td>
@@ -16,8 +16,8 @@
                                     <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div><br>
                                 @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
-                                <a href="{{ url('/Facturas/'.$invoice->id.'/status')}}" class="text-secondary">
-                                    <span class="status-p bg-primary">Enviado</span></td>    
+                                <a class="text-secondary" href="{{ url('/Facturas/'.$invoice->id.'/status')}}" >
+                                    <span class="status-p bg-primary">Enviado</span></td>   
                                 </a>
                                 @else
                                     <span class="status-p bg-primary">Enviado</span></td>    
@@ -76,7 +76,14 @@
                 </ul>
             </td>
         </tr>
-    @endforeach
+        
+    @empty        
+        <tr >
+            <td colspan="7">
+                No existe registros
+            </td>
+        </tr>
+    @endforelse
     {{-- paginacion de tabla  --}}
     <tr>
         <td colspan="8">

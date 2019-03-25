@@ -37,7 +37,7 @@ Route::get('/TodasFacturas', 'InvoiceController@allinvoices')->name('Empresas.al
 Route::get('/ExportFacturas', 'InvoiceController@exportEXCELINVOICES')->name('Empresas.export');
 Route::get('/Facturas/buscar_admin/{code}/{cli}/{desc}/{emp}/{fecha}/{amount}/{status}','InvoiceController@searchinvoiceadmin')->name('Empresas.searchadmin');
 Route::get('/Facturas/buscar/{code}/{cli}/{desc}/{fecha}/{amount}/{status}','InvoiceController@searchinvoice')->name('Empresas.search');
-Route::get('/Clientes/buscar/{ruc}/{name}/{date}/{place}/{status}','CustomerController@CustomerController')->name('Clientes.search');
+Route::get('/Clientes/buscar/{ruc}/{name}/{date}/{place}/{status}','CustomerController@searchCustomer')->name('Clientes.search');
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController',

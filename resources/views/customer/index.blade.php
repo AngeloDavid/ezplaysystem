@@ -86,18 +86,32 @@
                 cleanSearch();
             });
             
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+        
+                $('li').removeClass('active');
+                $(this).parent('li').addClass('active');
+        
+                var url = $(this).attr('href');  
+                getInvoices(url);
+                window.history.pushState("", "", url);
+            });
+
             $('#btn-search').click(function(e){
-                console.log('search');
-                var urlGEt = isadmin?"{{url('/Facturas/buscar_admin')}}/":"{{url('/Facturas/buscar')}}/";                                 
-                urlGEt +=($('#code').val().trim() == ''?"%20":$('#code').val().trim()) +"/"+
-                ($('#cli').val().trim() == ''?"%20":$('#cli').val().trim())+"/"+   
-                ($('#desc').val().trim() == ''?"%20":$('#desc').val().trim())+"/";
-                if(isadmin){
-                    urlGEt+=($('#emp').val().trim() == ''?"%20":$('#emp').val().trim())+"/";
-                }                
-                urlGEt+=($('#fecha').val().trim() == ''?"%20":$('#fecha').val().trim())+"/"+
-                ($('#amount').val().trim() == ''?"%20":$('#amount').val().trim())+"/"+
-                ($('#status').val().trim() == ''?"%20":$('#status').val().trim())+"/";
+                $('#htmldt').html(`
+                                <tr >
+                                    <td colspan="7">
+                                        Buscando ...
+                                    </td>
+                                </tr>
+                                `);
+                var urlGEt = "{{url('/Clientes/buscar')}}/";                                 
+                urlGEt +=
+                    ($('#ruc').val().trim() == ''?"%20":$('#ruc').val().trim()) +"/"+
+                    ($('#name').val().trim() == ''?"%20":$('#name').val().trim())+"/"+   
+                    ($('#date').val().trim() == ''?"%20":$('#date').val().trim())+"/"+
+                    ($('#place').val().trim() == ''?"%20":$('#place').val().trim())+"/"+
+                    ($('#status').val().trim() == ''?"%20":$('#status').val().trim())+"/";
                 console.log('url',urlGEt);
                 getclientes(urlGEt);
             });
@@ -119,16 +133,8 @@
                 success: function(data){
                     console.log('sucss',data);
                     if(data.tpmsj='success'){                            
-                        if(data.datahtml=='')
+                        if(data.datahtml!='')
                         {
-                            $('#htmldt').html(`
-                            <tr >
-                                <td colspan="7">
-                                    No existe registros
-                                </td>
-                            </tr>
-                            `);
-                        }else{
                             $('#htmldt').html(data.datahtml);
                         }                            
                     }

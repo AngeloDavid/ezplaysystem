@@ -107,7 +107,13 @@
                 cleanSearch();
             });
             $('#btn-search').click(function(e){
-                console.log('search');
+                $('#htmldt').html(`
+                <tr >
+                    <td colspan="7">
+                        Buscando ...
+                    </td>
+                </tr>
+                `);
                 var urlGEt = isadmin?"{{url('/Facturas/buscar_admin')}}/":"{{url('/Facturas/buscar')}}/";                                 
                 urlGEt +=($('#code').val().trim() == ''?"%20":$('#code').val().trim()) +"/"+
                 ($('#cli').val().trim() == ''?"%20":$('#cli').val().trim())+"/"+   

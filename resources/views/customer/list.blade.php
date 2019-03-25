@@ -1,5 +1,5 @@
 
-    @foreach ($customers as $customer)
+    @forelse ($customers as $customer)
         <tr>
             <th scope="row">{{ $customer->ruc }}</th>
             <td>{{ $customer->name }}</td>
@@ -31,10 +31,15 @@
                 </ul>
             </td>
         </tr>
-    @endforeach
-    <tr>
-            <td colspan="8">
-            {{ $customers->links('pagination') }}
+    @empty        
+        <tr >
+            <td colspan="7">
+                No existe registros
             </td>
         </tr>
-    
+    @endforelse
+    <tr>
+        <td colspan="8">
+        {{ $customers->links('pagination') }}
+        </td>
+    </tr>
