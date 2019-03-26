@@ -387,6 +387,7 @@ class InvoiceController extends Controller
                         'desp'=>$data['desp'],
                         'type'=>'FACT',
                         'IVA'=> $data['IVA'],
+                        'rate'=> $data['rate'],
                         'wayToPay'=>$data['wayToPay'],
                         'amount'=>$data['amount'],
                         'ivaincluded'=>$data['ivaincluded']=='on'?true:false,
@@ -426,12 +427,14 @@ class InvoiceController extends Controller
             $prices=[
                 "subtotal"=>0,
                 "iva"=>0,
+                "totalIva"=>0,
+                'rate'=>0,
                 "total"=>0
             ];
             $customer =Costumer::find($invoice->id_customer);               
             if($invoice->iva=="0%"){
                 $prices['subtotal'] = $invoice->amount;
-                $prices['total'] = $invoice->amount;
+                $prices['totalIva'] = $invoice->amount;
             }else{
                 $iva =substr(trim($invoice->IVA), 0, -1);            
                 
@@ -439,15 +442,18 @@ class InvoiceController extends Controller
                     $iva = ((float) $iva / 100) + 1;
                     $prices['subtotal'] = ($invoice->amount)/$iva  ;
                     $prices['iva'] =$invoice->amount -$prices['subtotal']  ;
-                    $prices['total'] = $invoice->amount;
+                    $prices['totalIva'] = $invoice->amount;
                 }else{
                     $iva = (float) $iva / 100;
                     $prices['subtotal'] = $invoice->amount;
                     $prices['iva'] = $invoice->amount * $iva  ;
-                    $prices['total'] = $prices['subtotal']+ $prices['iva'];
+                    $prices['totalIva'] = $prices['subtotal']+ $prices['iva'];
                 }
+            
             }        
-
+            $tax= (float) $invoice->rate / 100 ;
+            $prices['rate'] =  $prices['totalIva']  * $tax;
+            $prices['total'] = $prices['rate'] + $prices['totalIva'];
         //  dump($prices);
         
             
@@ -533,18 +539,22 @@ class InvoiceController extends Controller
                     }else {
                         $id_customer = $data['id_customer'];
                     }
-                    
-                    $data['date']= $timedate;                                              
-                    $data['ivaincluded']= $data['ivaincluded']=='on'?true:false;                
+                   dump($data);
+                    $data['date']= $timedate; 
+                    if(isset($data['ivaincluded'])){
+                        $data['ivaincluded']= $data['ivaincluded']=='on'?true:false;
+                    }else{
+                        $data['ivaincluded']= false;
+                    }                    
                     $data['id_customer']=$id_customer; 
                     unset($data['file']);
                     $data['file']=$pr_im;                         
-                // dump($data);
+                //  dump($data);
                     $invoice->update($data); 
                 // dump($invoice);
                     $invoice->save();                  
             }   
-            return redirect()->route('Facturas.edit',['id'=>$id]);
+           return redirect()->route('Facturas.edit',['id'=>$id]);
         }else{
             return redirect('/logout');
         }

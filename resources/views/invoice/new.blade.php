@@ -160,15 +160,15 @@
                             </div>
                           </div>
                           <div  class="row">
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-2 mb-3">
                                         <label for="subtotal">Total <span class="text-muted"></span></label>
                                         <input type="number" class="form-control" id="amount" name="amount" placeholder="" required="" value="{{ old('amount',$invoice->amount) }}" >
                                         <div class="invalid-feedback">
                                          Este campo es requerido
                                         </div>
                                     </div>
-                                    <div class="col-md-3 mb-3">
-                                      <label for="state">IVA <span class="text-muted">(Opcional)</span></label>
+                                    <div class="col-md-2 mb-3">
+                                      <label for="state">Impuestos </label>
                                       <select class="custom-select d-block w-100" id="IVA" name="IVA" >
                                         
                                         @if ($invoice->IVA=="12%")
@@ -182,7 +182,14 @@
                                       <div class="invalid-feedback">
                                          Please provide a valid state.
                                       </div>
-                                    </div>                                    
+                                    </div>     
+                                    <div class="col-md-2 mb-3">
+                                        <label for="subtotal">Costo de transacción <span class="text-muted"></span></label>
+                                        <input type="number" step="any"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder="" required="" value="{{ old('rate',$invoice->rate) }}" >
+                                        <div class="invalid-feedback">
+                                        Este campo es requerido
+                                        </div>
+                                    </div>                               
                                     <div class="col-md-3 mb-3">
                                             <label for="file">Factura fisica
                                               @if (! empty($invoice->file))
@@ -226,7 +233,7 @@
                             @else
                               <input type="checkbox" class="custom-control-input" id="ivaincluded" name="ivaincluded" >  
                             @endif                              
-                              <label class="custom-control-label" for="ivaincluded">IVA Includio</label>
+                              <label class="custom-control-label" for="ivaincluded">Impuestos Incluidos</label>
                           </div>  
                           <div class="custom-control custom-checkbox">
                                   <input type="checkbox" class="custom-control-input"  name="terminos" id="terminos" required="">

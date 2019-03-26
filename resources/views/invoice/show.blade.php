@@ -73,6 +73,13 @@
                                             <td>IVA {{ $invoice->IVA }} </td>
                                             <td>$  {{ number_format($prices['iva'],2) }}</td>
                                     </tr>
+                                    <tr>
+                                            <td class="text-center"></td>
+                                            <td class="text-left"></td>
+                                            <td></td>
+                                            <td>C. T.  {{ $invoice->rate }}%</td>
+                                            <td>$  {{ number_format($prices['rate'],2) }}</td>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
