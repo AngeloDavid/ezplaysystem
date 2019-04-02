@@ -168,7 +168,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 mb-3">
-                                      <label for="state">Impuestos </label>
+                                      <label for="state">IVA </label>
                                       <select class="custom-select d-block w-100" id="IVA" name="IVA" >
                                         
                                         @if ($invoice->IVA=="12%")
@@ -184,7 +184,7 @@
                                       </div>
                                     </div>     
                                     <div class="col-md-2 mb-3">
-                                        <label for="subtotal">Costo de transacción <span class="text-muted"></span></label>
+                                        <label for="subtotal">Costo de transacción <span class="text-muted">%</span></label>
                                         <input type="number" step="any"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder="" required="" value="{{ old('rate',$invoice->rate) }}" >
                                         <div class="invalid-feedback">
                                         Este campo es requerido

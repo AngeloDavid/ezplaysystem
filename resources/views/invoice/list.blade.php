@@ -17,10 +17,10 @@
                                 </div><br>
                                 @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
                                 <a class="text-secondary" href="{{ url('/Facturas/'.$invoice->id.'/status')}}" >
-                                    <span class="status-p bg-primary">Enviado</span></td>   
+                                    <span class="status-p bg-primary">Ingresada</span></td>   
                                 </a>
                                 @else
-                                    <span class="status-p bg-primary">Enviado</span></td>    
+                                    <span class="status-p bg-primary">Ingresada</span></td>    
                                 @endif
                                 @break
                             @case(2)
@@ -29,10 +29,10 @@
                                 </div><br>
                                 @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
                                 <a href="{{ url('/Facturas/'.$invoice->id.'/status')}}" class="text-secondary">
-                                    <span class="status-p bg-info">Procesada</span></td>    
+                                    <span class="status-p bg-info">Enviada</span></td>    
                                 </a>
                                 @else
-                                    <span class="status-p bg-info">Procesada</span></td>    
+                                    <span class="status-p bg-info">Enviada</span></td>    
                                 @endif
                                 @break
                             @case(3)
@@ -62,13 +62,14 @@
                     @if (! @empty($invoice->file ) )
                         <li class="mr-3"><a target="_blank" href="storage/docs/{{ $invoice->file }}" class="text-secondary"><i class="ti-cloud-down"></i></a></li>
                     @endif  
-                    @if ($invoice->status == 1) 
-                        @if ($title !='Facturación')
-                            @if (Session::get('user')->id==$invoice->id_company )                                               
-                            <li class="mr-3"><a href="{{ url('/Facturas/'.$invoice->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                            <li><a href="{{ url('/Facturas/'.$invoice->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>                    
-                            @endif                        
-                        @endif                        
+                    @if ($invoice->status == 1 || $invoice->status == 2)                    
+                        
+                        @if ($title =='Facturación')                         
+                            @if (Session::get('user')->id== $invoice->id_company )                                               
+                                <li class="mr-3"><a href="{{ url('/Facturas/'.$invoice->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                            @endif       
+                        @endif
+                        <li><a href="{{ url('/Facturas/'.$invoice->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>                        
                     @endif
                     @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
 

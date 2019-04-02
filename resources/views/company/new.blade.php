@@ -28,45 +28,58 @@
                       <em><i class="fa fa-check-circle"></i>&nbsp;&nbsp;&nbsp;  {!! session('flash_success') !!}</em>
                     </div>
                     @endif
-                       <h4 class="header-title">Datos de la Empresa <small>{{ $company->name }}</small></h4>
+                    <h4 class="header-title">Datos de la Empresa <small>{{ $company->name }}</small></h4>
+
                         <form class="needs-validation" novalidate="" name="Form1" id="Form1" novalidate method="POST"  action="{{ url($urlForm) }}" enctype="multipart/form-data"> 
                             {!! csrf_field() !!}
                             @if (!$isnew)
                                 {{ method_field('PUT') }}
                             @endif
                             <input type="hidden" value="{{ $isprofile }}" name="isprofile" id="isprofile">
-                          <div class="row">
-                            <div class="col-md-6 mb-3">
-                              <label for="ruc">RUC/CI/ID</label>
-                              <input type="text" class="form-control" id="ruc" name="ruc" placeholder="ex. 1724195191001" value="{{ old('ruc',$company->ruc) }}" required="">
-                              <div class="invalid-feedback">
-                               Este campo es obligatorio
-                              </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                              <label for="lastName">Razón social</label>
-                              <input type="text" class="form-control" id="name" name="name" placeholder="Ex. Flowers Company" value="{{ old('name',$company->name) }}" required="">
-                              <div class="invalid-feedback">
-                                  Este campo es obligatorio
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="mb-3">
-                            <label for="email">Email para facturacion </label>
-                            <input type="email" class="form-control"  id="email" name="email" placeholder="Ex: ejemplo@correo.com" value="{{ old('email',$company->email) }}" required>
-                            <div class="invalid-feedback">
-                             Por favor ingrese un email correcto.
-                            </div>
-                          </div>
-              
-                          <div class="mb-3">
-                            <label for="address">Dirrección</label>
-                            <input type="text" class="form-control"  id="address" name="address" placeholder="" value="{{ old('address',$company->address) }}" required="">
-                            <div class="invalid-feedback">
-                             Este campo es obligatorio
-                            </div>
-                          </div>
+                            <div class="row" >
+                              <div class="col-md-2 text-center">
+                                  <img id="img-logo"  class="align-self-center img-fluid mr-4" src="{{ asset('images/author/build.png')}}" alt="image" width="150px" >
+                                    <div class="image-upload">
+                                        <label for="file-input">
+                                            <i class="fa fa-camera"></i>  
+                                        </label>
+                                        <input id="file-input" type="file" id="logo" name="logo" @if ($isnew) required="" @endif accept="image/*" />
+                                    </div>                                      
+                              </div>                                
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                          <label for="ruc">RUC/CI/ID</label>
+                                          <input type="text" class="form-control" id="ruc" name="ruc" placeholder="ex. 1724195191001" value="{{ old('ruc',$company->ruc) }}" required="">
+                                          <div class="invalid-feedback">
+                                           Este campo es obligatorio
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                          <label for="lastName">Razón social</label>
+                                          <input type="text" class="form-control" id="name" name="name" placeholder="Ex. Flowers Company" value="{{ old('name',$company->name) }}" required="">
+                                          <div class="invalid-feedback">
+                                              Este campo es obligatorio
+                                          </div>
+                                        </div>
+                                      </div>
+            
+                                      <div class="mb-3">
+                                        <label for="email">Email para facturacion </label>
+                                        <input type="email" class="form-control"  id="email" name="email" placeholder="Ex: ejemplo@correo.com" value="{{ old('email',$company->email) }}" required>
+                                        <div class="invalid-feedback">
+                                         Por favor ingrese un email correcto.
+                                        </div>
+                                      </div>
+                                      <div class="mb-3">
+                                          <label for="address">Dirrección</label>
+                                          <input type="text" class="form-control"  id="address" name="address" placeholder="" value="{{ old('address',$company->address) }}" required="">
+                                          <div class="invalid-feedback">
+                                           Este campo es obligatorio
+                                          </div>
+                                        </div>
+                                </div>                                
+                          </div>                          
               
                           <div class="row">
                             <div class="col-md-3 mb-3">

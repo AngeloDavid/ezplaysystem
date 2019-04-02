@@ -77,7 +77,7 @@ class InvoiceController extends Controller
             $company = \Session::get('user');
             $invoices = DB::table('invoice')                        
                             ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name')
+                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','invoice.id_company')
                             ->where('invoice.id_company','=',$company->id)
                             ->latest('date')
                             ->paginate(10);
