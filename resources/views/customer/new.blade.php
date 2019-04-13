@@ -76,7 +76,7 @@
                                 
                               </select>
                               <div class="invalid-feedback">
-                                  Este campo es obligatorio
+                                  Este campo es obligatorio 
                               </div>
                             </div>
                             <div class="col-md-3 mb-3">

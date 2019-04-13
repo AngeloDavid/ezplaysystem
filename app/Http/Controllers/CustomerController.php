@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class CustomerController extends Controller
 {
     var $title="Cliente";
+    
     var $estados = [
         "AL"=>"Alabama ",
         "AK"=>"Alaska ",
