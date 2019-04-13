@@ -66,7 +66,14 @@
                               <label for="country">Pais<span class="text-muted">(Opcional)</span></label>
                               <select class="custom-select d-block w-100" id="country" name="country" >
                                 <option value="" disabled>Seleccione...</option>
-                                <option value="US">United States</option>                                
+                                @foreach ($countries as $key =>$item)
+                                    @if ( $costumer->country == $key )
+                                      <option value="{{ $key }}" selected>{{ $item }}</option>
+                                    @else        
+                                    <option value="{{ $key }}">{{ $item }}</option>
+                                    @endif
+                                @endforeach
+                                
                               </select>
                               <div class="invalid-feedback">
                                   Este campo es obligatorio
@@ -74,7 +81,8 @@
                             </div>
                             <div class="col-md-3 mb-3">
                               <label for="state">Estado<span class="text-muted">(Opcional)</span></label>
-                              <select class="custom-select d-block w-100" id="state" name="state" placeholder="">
+                              <input type="text" class="form-control" id="state" name="state" value="{{ old('state',$costumer->state) }}" >
+                              {{--  <select class="custom-select d-block w-100" id="state" name="state" placeholder="">
                                 <option value="" disabled >Seleccine...</option>
                                 @foreach ($estados as $key =>$item )
                                 @if ($costumer->state == $key)
@@ -83,7 +91,7 @@
                                   <option value="{{ $key }}">{{ $item }}</option>
                                 @endif                                
                                 @endforeach                                
-                              </select>
+                              </select>   --}}
                               <div class="invalid-feedback">
                                 Please provide a valid state.
                               </div>

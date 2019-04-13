@@ -44,7 +44,8 @@
                                             <i class="fa fa-camera"></i>  
                                         </label>
                                         <input id="file-input" type="file" id="logo" name="logo" @if ($isnew) required="" @endif accept="image/*" />
-                                    </div>                                      
+                                    </div>
+                                    
                               </div>                                
                                 <div class="col-md-10">
                                     <div class="row">
