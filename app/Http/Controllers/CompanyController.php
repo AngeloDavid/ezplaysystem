@@ -144,10 +144,17 @@ class CompanyController extends Controller
         }else{
             $pr_dId=null;
         }
+        if ($request->file('logo')!=null && $request->file('logo')!='') {
+            $logo=$request->file('logo')->hashName('');
+            $request->file('logo')->store('public/logo');
+        }else{
+            $logo=$company->null;
+        }
         try {
             Company::create([
                 'ruc'=>$data['ruc'], 
                 'name'=>$data['name'],
+                'logo'=>$logo,
                 'email'=>$data['email'],
                 'userApp' =>$data['ruc'],
                 'password' => encrypt($data['ruc']),
@@ -258,15 +265,22 @@ class CompanyController extends Controller
             }else{
                 $pr_dId=$company->documentID;
             }
+            if ($request->file('logo')!=null && $request->file('logo')!='') {
+                $logo=$request->file('logo')->hashName('');
+                $request->file('logo')->store('public/logo');
+            }else{
+                $logo=$company->logo;
+            }
             $data['documentNom']=$pr_dNom;
             $data['documentID']=$pr_dId; 
+            $data['logo']= $logo;
             try {
                 $company->update ($data);        
                 $company->save();
-                \Session::flash('flash_success',"Informacion actualizada correctamente.");      
+                \Session::flash('flash_success',"Informacion actualizada correctamente.");
                 if($data['isprofile'] == 1){
-                    return redirect()->route('Empresas.profile');
                     \Session::put('user',$company);
+                    return redirect()->route('Empresas.profile');
                 }else{
                     return redirect()->route('Empresas.edit',['id'=>$id]);
                 }

@@ -38,12 +38,17 @@
                             <input type="hidden" value="{{ $isprofile }}" name="isprofile" id="isprofile">
                             <div class="row" >
                               <div class="col-md-2 text-center">
-                                  <img id="img-logo"  class="align-self-center img-fluid mr-4" src="{{ asset('images/author/build.png')}}" alt="image" width="150px" >
+                                  @if (! empty($company->logo))
+                                      <img id="img-logo"  class="align-self-center img-fluid mr-4" src="{{ asset('storage/logo/'. $company->logo )}}" alt="image" width="150px" >                                    
+                                    @else
+                                      <img id="img-logo"  class="align-self-center img-fluid mr-4" src="{{ asset('images/author/build.png')}}" alt="image" width="150px" >
+                                  @endif
+                                  
                                     <div class="image-upload">
-                                        <label for="file-input">
+                                        <label for="logo">
                                             <i class="fa fa-camera"></i>  
                                         </label>
-                                        <input id="file-input" type="file" id="logo" name="logo" @if ($isnew) required="" @endif accept="image/*" />
+                                        <input type="file" id="logo" name="logo" @if ($isnew) required="" @endif accept="image/*" />
                                     </div>
                                     
                               </div>                                
@@ -260,6 +265,7 @@
             }
           }
         });
+
         $('#documentID').change(function(e){  
           if( e.target.files.length >0){
             var myfile =e.target.files[0].name;
@@ -270,6 +276,16 @@
               $('#file-documentID').html('Subir su factura');
               $(this).val(null);
             }
+          }
+        });
+
+        $('#logo').change(function(e){
+          if( e.target.files.length > 0){
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#img-logo').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(e.target.files[0]);
           }
         });
       });

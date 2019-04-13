@@ -18,7 +18,6 @@ class AddStateTable extends Migration
            $table->string('code', 20)->default('OTR');
            $table->string('descp', 200);
            $table->boolean('status')->default(true);
-                      
            $table->timestamps();
        });
     }

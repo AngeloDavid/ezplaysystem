@@ -192,7 +192,13 @@
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <img class="avatar user-thumb" src="{{ asset('images/author/avatar.png')}}" alt="avatar">
+                            
+                            @if (! empty(Session::get('user')->logo))
+                                <img class="avatar user-thumb" src="{{ asset('storage/logo/'. Session::get('user')->logo )}}" alt="image"   >
+                              @else
+                              <img class="avatar user-thumb" src="{{ asset('images/author/avatar.png')}}" alt="avatar">
+                            @endif
+                            
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown">
                                 {{ Session::get('user')->name }}
                                 @if ( Session::get('user')->id_role==1)
