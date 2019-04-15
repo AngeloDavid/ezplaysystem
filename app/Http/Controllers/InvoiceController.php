@@ -630,39 +630,8 @@ class InvoiceController extends Controller
                 "Facturas"=> "/Facturas",            
                 $invoice->code => ""
             ];
-            $prices=[
-                "subtotal"=>0,
-                "iva"=>0,
-                "totalIva"=>0,
-                'rate'=>0,
-                "total"=>0
-            ];
-            $customer =Costumer::find($invoice->id_customer);               
-            if($invoice->tax=="0%"){
-                $prices['subtotal'] = $invoice->amount;
-                $prices['totalIva'] = $invoice->amount;
-            }else{
-                $iva =substr(trim($invoice->IVA), 0, -1);            
-                
-                if($invoice->ivaincluded){         
-                    $iva = ((float) $iva / 100) + 1;
-                    $prices['subtotal'] = ($invoice->amount)/$iva  ;
-                    $prices['iva'] =$invoice->amount -$prices['subtotal']  ;
-                    $prices['totalIva'] = $invoice->amount;
-                }else{
-                    $iva = (float) $iva / 100;
-                    $prices['subtotal'] = $invoice->amount;
-                    $prices['iva'] = $invoice->amount * $iva  ;
-                    $prices['totalIva'] = $prices['subtotal']+ $prices['iva'];
-                }
-            
-            }        
-            $tax= (float) $invoice->rate / 100 ;
-            $prices['rate'] =  $prices['totalIva']  * $tax;
-            $prices['total'] = $prices['rate'] + $prices['totalIva'];
-        //  dump($prices);
-        
-            
+            $customer =Costumer::find($invoice->id_customer);   
+            $prices = $this->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded);
             $title="Mostrar ".$this->title;
             $estados = $this->estados;
             $urlForm ='Facturas/'.$id;                
@@ -820,6 +789,39 @@ class InvoiceController extends Controller
         }else {
             return false;
         }
+    }
+
+    private function CalTotales($amount,$tax,$rate,$ivaincluded)
+    {
+        $prices=[
+            "subtotal"=>0,
+            "iva"=>0,
+            "totalIva"=>0,
+            'rate'=>0,
+            "total"=>0
+        ];
+        if($tax==0){
+            $prices['subtotal'] = $amount;
+            $prices['totalIva'] = $amount;
+        }else{
+            if($ivaincluded){         
+                $tax = ((float) $tax / 100) + 1;
+                $prices['subtotal'] = ($amount)/$tax  ;
+                $prices['iva'] =$amount -$prices['subtotal']  ;
+                $prices['totalIva'] = $amount;
+            }else{
+                $tax = (float)  $tax  / 100;
+                $prices['subtotal'] = $amount;
+                $prices['iva'] = $amount * $tax  ;
+                $prices['totalIva'] = $prices['subtotal']+ $prices['iva'];
+            }
+        
+        }        
+        $rate= (float) $rate / 100 ;
+        $prices['rate'] =  $prices['totalIva']  * $rate;
+        $prices['total'] = $prices['rate'] + $prices['totalIva'];
+
+        return $prices;
     }
 
 }

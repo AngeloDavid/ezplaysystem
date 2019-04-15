@@ -1,5 +1,9 @@
 @extends('masterPage')
 @section('options')  
+    @if (Session::get('user')->id== $invoice->id_company && ($invoice->status == 1 || $invoice->status == 2) )                                               
+        <a href="{{ url('/Facturas/'.$invoice->id.'/edit')}}" class="text-danger"><li  data-toggle="tooltip" data-placement="bottom" title="Editar Factura" ><i class="fa fa-edit"></i></li></a>
+        <a href="{{ url('/Facturas/'.$invoice->id.'/delete')}}" class="text-danger"><li  data-toggle="tooltip" data-placement="bottom" title="Anular Factura" ><i class="ti-trash"></i></li></a>
+    @endif       
     @if (! empty($invoice->file))
         <a target="_blank" href="{{ asset('storage/docs/'. $invoice->file )}}" class="text-secondary"><li  data-toggle="tooltip" data-placement="bottom" title="Descargar Factura" ><i class="ti-cloud-down"></i></li></a>
     @endif
@@ -70,7 +74,7 @@
                                             <td class="text-center"></td>
                                             <td class="text-left"></td>
                                             <td></td>
-                                            <td>IVA {{ $invoice->IVA }} </td>
+                                            <td>Impuesto:&nbsp;&nbsp; {{ $invoice->tax }}% </td>
                                             <td>$  {{ number_format($prices['iva'],2) }}</td>
                                     </tr>
                                     <tr>

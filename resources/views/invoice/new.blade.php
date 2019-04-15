@@ -8,6 +8,7 @@
     <a target="_blank" href="{{ asset('storage/docs/'. $invoice->file )}}" class="text-secondary"><li  data-toggle="tooltip" data-placement="bottom" title="Descargar Factura" ><i class="ti-cloud-down"></i></li></a>
   @endif
 @endif
+<a href="{{ url('/Facturas/'.$invoice->id)}}"> <li data-toggle="tooltip" data-placemet="bottom" title="Ver Factura"><i class="ti-receipt"></i></li></a>
 <a href="{{ url('/Facturas')}}"> <li data-toggle="tooltip" data-placemet="bottom" title="Lista de Facturas"><i class="ti-view-list-alt"></i></li></a>
 @endsection
 @section('Centro')

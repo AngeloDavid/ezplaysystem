@@ -69,7 +69,7 @@
                                 <li class="mr-3"><a href="{{ url('/Facturas/'.$invoice->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
                             @endif       
                         @endif
-                        <li><a href="{{ url('/Facturas/'.$invoice->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>                        
+                        <li><a href="{{ url('/Facturas/'.$invoice->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
                     @endif
                     @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
 
