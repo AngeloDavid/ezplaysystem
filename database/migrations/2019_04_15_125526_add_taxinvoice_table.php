@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRateInvoiceTable extends Migration
+class AddTaxinvoiceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,9 @@ class AddRateInvoiceTable extends Migration
     public function up()
     {
         Schema::table('invoice', function (Blueprint $table) {
-            $table->unsignedDecimal('rate', 8, 2)->after('IVA');
+            $table->unsignedDecimal('tax', 8, 2)->after('IVA')->default(0.00);
         });        
+
     }
 
     /**
@@ -26,7 +27,7 @@ class AddRateInvoiceTable extends Migration
     public function down()
     {
         Schema::table('invoice', function (Blueprint $table) {
-            $table->dropColumn('rate');
+            $table->dropColumn('tax');
         });
     }
 }

@@ -66,6 +66,210 @@ class InvoiceController extends Controller
         "WI"=>"Wisconsin ",
         "WY"=>"Wyoming "
     ];
+
+    var $countries = [
+        "AL"=>"ALBANIA",
+        "DZ"=>"ALGERIA",
+        "AD"=>"ANDORRA",
+        "AO"=>"ANGOLA",
+        "AI"=>"ANGUILLA",
+        "AG"=>"ANTIGUA & BARBUDA",
+        "AR"=>"ARGENTINA",
+        "AM"=>"ARMENIA",
+        "AW"=>"ARUBA",
+        "AU"=>"AUSTRALIA",
+        "AT"=>"AUSTRIA",
+        "AZ"=>"AZERBAIJAN",
+        "BS"=>"BAHAMAS",
+        "BH"=>"BAHRAIN",
+        "BB"=>"BARBADOS",
+        "BY"=>"BELARUS",
+        "BE"=>"BELGIUM",
+        "BZ"=>"BELIZE",
+        "BJ"=>"BENIN",
+        "BM"=>"BERMUDA",
+        "BT"=>"BHUTAN",
+        "BO"=>"BOLIVIA",
+        "BA"=>"BOSNIA & HERZEGOVINA",
+        "BW"=>"BOTSWANA",
+        "BR"=>"BRAZIL",
+        "VG"=>"BRITISH VIRGIN ISLANDS",
+        "BN"=>"BRUNEI",
+        "BG"=>"BULGARIA",
+        "BF"=>"BURKINA FASO",
+        "BI"=>"BURUNDI",
+        "KH"=>"CAMBODIA",
+        "CM"=>"CAMEROON",
+        "CA"=>"CANADA",
+        "CV"=>"CAPE VERDE",
+        "KY"=>"CAYMAN ISLANDS",
+        "TD"=>"CHAD",
+        "CL"=>"CHILE",
+        "C2"=>"CHINA",
+        "CO"=>"COLOMBIA",
+        "KM"=>"COMOROS",
+        "CG"=>"CONGO - BRAZZAVILLE",
+        "CD"=>"CONGO - KINSHASA",
+        "CK"=>"COOK ISLANDS",
+        "CR"=>"COSTA RICA",
+        "CI"=>"CÔTE D’IVOIRE",
+        "HR"=>"CROATIA",
+        "CY"=>"CYPRUS",
+        "CZ"=>"CZECH REPUBLIC",
+        "DK"=>"DENMARK",
+        "DJ"=>"DJIBOUTI",
+        "DM"=>"DOMINICA",
+        "DO"=>"DOMINICAN REPUBLIC",
+        "EC"=>"ECUADOR",
+        "EG"=>"EGYPT",
+        "SV"=>"EL SALVADOR",
+        "ER"=>"ERITREA",
+        "EE"=>"ESTONIA",
+        "ET"=>"ETHIOPIA",
+        "FK"=>"FALKLAND ISLANDS",
+        "FO"=>"FAROE ISLANDS",
+        "FJ"=>"FIJI",
+        "FI"=>"FINLAND",
+        "FR"=>"FRANCE",
+        "GF"=>"FRENCH GUIANA",
+        "PF"=>"FRENCH POLYNESIA",
+        "GA"=>"GABON",
+        "GM"=>"GAMBIA",
+        "GE"=>"GEORGIA",
+        "DE"=>"GERMANY",
+        "GI"=>"GIBRALTAR",
+        "GR"=>"GREECE",
+        "GL"=>"GREENLAND",
+        "GD"=>"GRENADA",
+        "GP"=>"GUADELOUPE",
+        "GT"=>"GUATEMALA",
+        "GN"=>"GUINEA",
+        "GW"=>"GUINEA-BISSAU",
+        "GY"=>"GUYANA",
+        "HN"=>"HONDURAS",
+        "HK"=>"HONG KONG SAR CHINA",
+        "HU"=>"HUNGARY",
+        "IS"=>"ICELAND",
+        "IN"=>"INDIA",
+        "ID"=>"INDONESIA",
+        "IE"=>"IRELAND",
+        "IL"=>"ISRAEL",
+        "IT"=>"ITALY",
+        "JM"=>"JAMAICA",
+        "JP"=>"JAPAN",
+        "JO"=>"JORDAN",
+        "KZ"=>"KAZAKHSTAN",
+        "KE"=>"KENYA",
+        "KI"=>"KIRIBATI",
+        "KW"=>"KUWAIT",
+        "KG"=>"KYRGYZSTAN",
+        "LA"=>"LAOS",
+        "LV"=>"LATVIA",
+        "LS"=>"LESOTHO",
+        "LI"=>"LIECHTENSTEIN",
+        "LT"=>"LITHUANIA",
+        "LU"=>"LUXEMBOURG",
+        "MK"=>"MACEDONIA",
+        "MG"=>"MADAGASCAR",
+        "MW"=>"MALAWI",
+        "MY"=>"MALAYSIA",
+        "MV"=>"MALDIVES",
+        "ML"=>"MALI",
+        "MT"=>"MALTA",
+        "MH"=>"MARSHALL ISLANDS",
+        "MQ"=>"MARTINIQUE",
+        "MR"=>"MAURITANIA",
+        "MU"=>"MAURITIUS",
+        "YT"=>"MAYOTTE",
+        "MX"=>"MEXICO",
+        "FM"=>"MICRONESIA",
+        "MD"=>"MOLDOVA",
+        "MC"=>"MONACO",
+        "MN"=>"MONGOLIA",
+        "ME"=>"MONTENEGRO",
+        "MS"=>"MONTSERRAT",
+        "MA"=>"MOROCCO",
+        "MZ"=>"MOZAMBIQUE",
+        "NA"=>"NAMIBIA",
+        "NR"=>"NAURU",
+        "NP"=>"NEPAL",
+        "NL"=>"NETHERLANDS",
+        "NC"=>"NEW CALEDONIA",
+        "NZ"=>"NEW ZEALAND",
+        "NI"=>"NICARAGUA",
+        "NE"=>"NIGER",
+        "NG"=>"NIGERIA",
+        "NU"=>"NIUE",
+        "NF"=>"NORFOLK ISLAND",
+        "NO"=>"NORWAY",
+        "OM"=>"OMAN",
+        "PW"=>"PALAU",
+        "PA"=>"PANAMA",
+        "PG"=>"PAPUA NEW GUINEA",
+        "PY"=>"PARAGUAY",
+        "PE"=>"PERU",
+        "PH"=>"PHILIPPINES",
+        "PN"=>"PITCAIRN ISLANDS",
+        "PL"=>"POLAND",
+        "PT"=>"PORTUGAL",
+        "QA"=>"QATAR",
+        "RE"=>"RÉUNION",
+        "RO"=>"ROMANIA",
+        "RU"=>"RUSSIA",
+        "RW"=>"RWANDA",
+        "WS"=>"SAMOA",
+        "SM"=>"SAN MARINO",
+        "ST"=>"SÃO TOMÉ & PRÍNCIPE",
+        "SA"=>"SAUDI ARABIA",
+        "SN"=>"SENEGAL",
+        "RS"=>"SERBIA",
+        "SC"=>"SEYCHELLES",
+        "SL"=>"SIERRA LEONE",
+        "SG"=>"SINGAPORE",
+        "SK"=>"SLOVAKIA",
+        "SI"=>"SLOVENIA",
+        "SB"=>"SOLOMON ISLANDS",
+        "SO"=>"SOMALIA",
+        "ZA"=>"SOUTH AFRICA",
+        "KR"=>"SOUTH KOREA",
+        "ES"=>"SPAIN",
+        "LK"=>"SRI LANKA",
+        "SH"=>"ST. HELENA",
+        "KN"=>"ST. KITTS & NEVIS",
+        "LC"=>"ST. LUCIA",
+        "PM"=>"ST. PIERRE & MIQUELON",
+        "VC"=>"ST. VINCENT & GRENADINES",
+        "SR"=>"SURINAME",
+        "SJ"=>"SVALBARD & JAN MAYEN",
+        "SZ"=>"SWAZILAND",
+        "SE"=>"SWEDEN",
+        "CH"=>"SWITZERLAND",
+        "TW"=>"TAIWAN",
+        "TJ"=>"TAJIKISTAN",
+        "TZ"=>"TANZANIA",
+        "TH"=>"THAILAND",
+        "TG"=>"TOGO",
+        "TO"=>"TONGA",
+        "TT"=>"TRINIDAD & TOBAGO",
+        "TN"=>"TUNISIA",
+        "TM"=>"TURKMENISTAN",
+        "TC"=>"TURKS & CAICOS ISLANDS",
+        "TV"=>"TUVALU",
+        "UG"=>"UGANDA",
+        "UA"=>"UKRAINE",
+        "AE"=>"UNITED ARAB EMIRATES",
+        "GB"=>"UNITED KINGDOM",
+        "US"=>"UNITED STATES",
+        "UY"=>"URUGUAY",
+        "VU"=>"VANUATU",
+        "VA"=>"VATICAN CITY",
+        "VE"=>"VENEZUELA",
+        "VN"=>"VIETNAM",
+        "WF"=>"WALLIS & FUTUNA",
+        "YE"=>"YEMEN",
+        "ZM"=>"ZAMBIA",
+        "ZW"=>"ZIMBABWE"
+        ];
     /**
      * Display a listing of the resource.
      *
@@ -326,9 +530,10 @@ class InvoiceController extends Controller
             $customers = DB::table('costumer')->where('status','=',1)->where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(10);
             $title="Nueva ".$this->title;
             $estados = $this->estados;
+            $countries = $this->countries;
             $urlForm ='Facturas';
             $isnew= true;
-            return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoice','urlForm','isnew'));
+            return view('invoice.new',compact('title','rutes','customers','countries','estados','costumer','invoice','urlForm','isnew'));
         }else{
             return redirect('/logout');
         }
@@ -386,7 +591,8 @@ class InvoiceController extends Controller
                         'date'=>$timedate,
                         'desp'=>$data['desp'],
                         'type'=>'FACT',
-                        'IVA'=> $data['IVA'],
+                        'IVA'=> '0%',
+                        'tax' => $data['tax'],
                         'rate'=> $data['rate'],
                         'wayToPay'=>$data['wayToPay'],
                         'amount'=>$data['amount'],
@@ -432,7 +638,7 @@ class InvoiceController extends Controller
                 "total"=>0
             ];
             $customer =Costumer::find($invoice->id_customer);               
-            if($invoice->iva=="0%"){
+            if($invoice->tax=="0%"){
                 $prices['subtotal'] = $invoice->amount;
                 $prices['totalIva'] = $invoice->amount;
             }else{
@@ -485,10 +691,11 @@ class InvoiceController extends Controller
             $customers = DB::table('costumer')->where('status','=',1)->latest('created_at')->paginate(10);
             $title="Editar ".$this->title;
             $estados = $this->estados;
+            $countries = $this->countries;
             $urlForm ='Facturas/'.$id;
             $isnew= false;
             //dump($costumer);
-            return view('invoice.new',compact('title','rutes','customers','estados','costumer','invoice','urlForm','isnew'));        
+            return view('invoice.new',compact('title','rutes','customers','countries','estados','costumer','invoice','urlForm','isnew'));        
         }else{
             return redirect('/logout');
         }
@@ -539,8 +746,8 @@ class InvoiceController extends Controller
                     }else {
                         $id_customer = $data['id_customer'];
                     }
-                   dump($data);
                     $data['date']= $timedate; 
+                    $data['IVA']= '0%';                                        
                     if(isset($data['ivaincluded'])){
                         $data['ivaincluded']= $data['ivaincluded']=='on'?true:false;
                     }else{

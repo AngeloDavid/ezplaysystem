@@ -94,9 +94,15 @@
                           <div class="row">
                             <div class="col-md-3 mb-3">
                               <label for="country">Pais<span class="text-muted">(Opcional)</span></label>
-                              <select class="custom-select d-block w-100"  id="country" name="country" >
+                              <select class="custom-select d-block w-100" id="country" name="country" >
                                 <option value="" disabled>Seleccione...</option>
-                                <option value="US">United States</option>       
+                                @foreach ($countries as $key =>$item)
+                                    @if ( $costumer->country == $key )
+                                      <option value="{{ $key }}" selected>{{ $item }}</option>
+                                    @else        
+                                    <option value="{{ $key }}">{{ $item }}</option>
+                                    @endif
+                                @endforeach                                
                               </select>
                               <div class="invalid-feedback">
                                 Please select a valid country.
@@ -104,7 +110,8 @@
                             </div>
                             <div class="col-md-3 mb-3">
                               <label for="state">Estado<span class="text-muted">(Opcional)</span></label>
-                              <select class="custom-select d-block w-100" id="state" name="state" >
+                              <input type="text" class="form-control" id="state" name="state" value="{{ old('state',$costumer->state) }}" >
+                              {{--  <select class="custom-select d-block w-100" id="state" name="state" >
                                 <option disabled>Seleccione...</option>
                                 @foreach ($estados as $key =>$item )
                                 @if ($costumer->state == $key)
@@ -113,7 +120,7 @@
                                   <option value="{{ $key }}">{{ $item }}</option>
                                 @endif                                
                                 @endforeach                                
-                              </select>
+                              </select>  --}}
                               <div class="invalid-feedback">
                                 Please provide a valid state.
                               </div>
@@ -167,7 +174,7 @@
                                          Este campo es requerido
                                         </div>
                                     </div>
-                                    <div class="col-md-2 mb-3">
+                                    {{--  <div class="col-md-2 mb-3">
                                       <label for="state">IVA </label>
                                       <select class="custom-select d-block w-100" id="IVA" name="IVA" >
                                         
@@ -182,7 +189,14 @@
                                       <div class="invalid-feedback">
                                          Please provide a valid state.
                                       </div>
-                                    </div>     
+                                    </div>       --}}
+                                    <div class="col-md-2 mb-3">
+                                      <label for="subtotal">Impuestos <span class="text-muted">%</span></label>
+                                      <input type="number" step="any"   min="0" max="20" class="form-control" id="tax" name="tax" placeholder="" required=""  value="{{ old('tax',$invoice->tax) }}" >
+                                      <div class="invalid-feedback">
+                                      Este campo es requerido
+                                      </div>
+                                    </div>  
                                     <div class="col-md-2 mb-3">
                                         <label for="subtotal">Costo de transacción <span class="text-muted">%</span></label>
                                         <input type="number" step="any"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder="" required="" value="{{ old('rate',$invoice->rate) }}" >

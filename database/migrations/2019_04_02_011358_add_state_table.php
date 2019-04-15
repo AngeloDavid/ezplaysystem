@@ -18,6 +18,8 @@ class AddStateTable extends Migration
            $table->string('code', 20)->default('OTR');
            $table->string('descp', 200);
            $table->boolean('status')->default(true);
+           $table->integer('id_country')->unsigned();
+           $table->foreign('id_country')->references('id')->on('country');
            $table->timestamps();
        });
     }
@@ -29,6 +31,6 @@ class AddStateTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('states');    
     }
 }

@@ -8,7 +8,7 @@ class invoice extends Model
 {
     public $table = "invoice";    
     protected $fillable = [
-        'code','date', 'desp', 'type','IVA','wayToPay','file',
+        'code','date', 'desp', 'type','IVA','tax','wayToPay','file',
         'amount','ivaincluded','status','id_company','id_customer','rate'
     ];
 }
