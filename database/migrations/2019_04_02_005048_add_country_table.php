@@ -13,7 +13,7 @@ class AddCountryTable extends Migration
      */
     public function up()
     {
-        Schema::create('Country', function (Blueprint $table) {
+        Schema::create('country', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code', 20)->default('OTR');            
             $table->string('descp', 200);
@@ -30,6 +30,6 @@ class AddCountryTable extends Migration
      */
     public function down()
     {
-      Schema::dropIfExists('Country');        
+      Schema::dropIfExists('country');        
     }
 }
