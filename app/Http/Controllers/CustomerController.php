@@ -281,7 +281,8 @@ class CustomerController extends Controller
                 "Inicio" => "/",
                 "Clientes"=> "",            
             ];
-            $customers = DB::table('costumer')->where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(5);
+            $customers = Costumer::where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(5);
+           // dd($customers);
             if ($request->ajax()) {
                 $invoicelist = view('customer.list', compact('customers'));
                 $contents =  $invoicelist->render();
@@ -520,6 +521,21 @@ class CustomerController extends Controller
         }else{
             return redirect('/logout');
         }
+    }
+
+    public function getInvoices($id)
+    {
+        $customer = Costumer::find($id);
+        $rutes = [
+            "Inicio" => "/",
+            "Clientes"=> "/Clientes",            
+            "Cuentas por Cobrar" => ""
+        ];
+        $costumer=Costumer::find($id);        
+        $invoices= $costumer->invoices;
+        
+        $title= "Cuentas Por Cobrar";        
+        return view ('customer.cxc',compact('customer','title','rutes','invoices'));
     }
 
     

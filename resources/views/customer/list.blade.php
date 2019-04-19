@@ -2,7 +2,7 @@
     @forelse ($customers as $customer)
         <tr>
             <th scope="row">{{ $customer->ruc }}</th>
-            <td>{{ $customer->name }}</td>
+            <td>{{ $customer->name }} </td>
             <td>{{ $customer->created_at }}</td>
             <td>
                 {{ $customer->address }} - {{ $customer->state }} -
@@ -21,10 +21,17 @@
                 @endif
                 
             <td>
-                <ul class="d-flex justify-content-center">
+                <ul class="d-flex justify-content-center notification-area ">
                     @if ($customer->status == 1)
                         <li class="mr-3"><a href="{{ url('/Clientes/'.$customer->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                        <li><a href="{{ url('/Clientes/'.$customer->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
+                        <li  class="mr-3"><a href="{{ url('/Clientes/'.$customer->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
+                        
+                        @if (count($customer->invoices->where('status','<',4)) != 0)
+                            <li  class="mr-3"><a href="{{ url('/CXC/'.$customer->id)}}" class="text-info" title="Facturas Pendientes"><i class="ti-view-list-alt"><span>{{ count($customer->invoices->where('status','<',4)) }}</span> </i> </a> </li>
+                        @endif
+                     
+                       
+                            
                     @else                    
                         <li><a href="{{ url('/Clientes/'.$customer->id.'/delete')}}" class="text-success"><i class="ti-trash"></i></a></li>
                     @endif

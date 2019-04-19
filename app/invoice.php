@@ -11,4 +11,6 @@ class invoice extends Model
         'code','date', 'desp', 'type','IVA','tax','wayToPay','file',
         'amount','ivaincluded','status','id_company','id_customer','rate'
     ];
+
+    
 }

@@ -12,4 +12,9 @@ class Costumer extends Model
         'country','postal_code','type','origin','phone1','phone2',
         'contact','notes','status','id_company'
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(invoice::Class,'id_customer');        
+    }
 }

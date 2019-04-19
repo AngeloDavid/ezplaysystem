@@ -88,6 +88,8 @@
     {{-- paginacion de tabla  --}}
     <tr>
         <td colspan="8">
-        {{ $invoices->links('pagination') }}
+            @if($title !='Cuentas Por Cobrar' )
+            {{ $invoices->links('pagination') }}
+            @endif
         </td>
     </tr>
