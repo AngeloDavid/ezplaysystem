@@ -170,7 +170,7 @@
                           <div  class="row">
                                 <div class="col-md-2 mb-3">
                                         <label for="subtotal">Total <span class="text-muted"></span></label>
-                                        <input type="number" class="form-control" id="amount" name="amount" placeholder="" required="" value="{{ old('amount',$invoice->amount) }}" >
+                                        <input type="number" step="0.01" class="form-control" id="amount" name="amount" placeholder="" required="" value="{{ old('amount',$invoice->amount) }}" >
                                         <div class="invalid-feedback">
                                          Este campo es requerido
                                         </div>
@@ -193,14 +193,14 @@
                                     </div>       --}}
                                     <div class="col-md-2 mb-3">
                                       <label for="subtotal">Impuestos <span class="text-muted">%</span></label>
-                                      <input type="number" step="any"   min="0" max="20" class="form-control" id="tax" name="tax" placeholder="" required=""  value="{{ old('tax',$invoice->tax) }}" >
+                                      <input type="number"  step="0.01"  min="0" max="20" class="form-control" id="tax" name="tax" placeholder="" required=""  value="{{ old('tax',$invoice->tax) }}" >
                                       <div class="invalid-feedback">
                                       Este campo es requerido
                                       </div>
                                     </div>  
                                     <div class="col-md-2 mb-3">
                                         <label for="subtotal">Costo de transacción <span class="text-muted">%</span></label>
-                                        <input type="number" step="any"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder="" required="" value="{{ old('rate',$invoice->rate) }}" >
+                                        <input type="number"  step="0.01"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder="" required="" value="{{ old('rate',$invoice->rate) }}" >
                                         <div class="invalid-feedback">
                                         Este campo es requerido
                                         </div>
