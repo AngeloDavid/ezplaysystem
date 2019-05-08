@@ -199,17 +199,18 @@
                               </div>
                           </div>
                             
-                            
-                          <hr class="mb-4"> 
-                            <div class="mb-3">
-                                        <label for="email">Observaciones <span class="text-muted">(Opcional)</span></label>
-                                        <textarea class="form-control" id="notes" name="notes" placeholder="" >
-                                            {{ old('notes',$company->notes) }}
-                                        </textarea>
-                                        <div class="invalid-feedback"
-                                        .*.
-                                        </div>
-                            </div>
+                            @if (Session::get('user')->id_role=='1')
+                              <hr class="mb-4"> 
+                              <div class="mb-3">
+                                          <label for="email">Observaciones <span class="text-muted">(Opcional)</span></label>
+                                          <textarea class="form-control" id="notes" name="notes" rows="15" placeholder="" >
+                                              {{ old('notes',$company->notes) }}
+                                          </textarea>
+                                          <div class="invalid-feedback"
+                                          .*.
+                                          </div>
+                              </div>                                  
+                            @endif                          
                           @endif   
                           @if ($isprofile)
                             <hr class="mb-4">                   

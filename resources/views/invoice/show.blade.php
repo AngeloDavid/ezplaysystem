@@ -41,6 +41,11 @@
                                 <ul class="invoice-date">
                                     <li>Fecha de Factura  :{{ date('d/m/Y', strtotime($invoice->date)) }}</li>
                                     <li>Fecha de Creación :{{ date('d/m/Y', strtotime($invoice->created_at)) }}</li>
+                                    <li>Forma de Cobro:  @if ($invoice->wayToPay == 'transfer' )
+                                        Transferencia Bancaria
+                                    @else
+                                        Cheque
+                                    @endif  </li>
                                 </ul>
                             </div>
                         </div>

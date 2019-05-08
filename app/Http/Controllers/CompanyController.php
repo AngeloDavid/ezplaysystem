@@ -220,7 +220,7 @@ class CompanyController extends Controller
             $isnew=false;
             $isprofile=false;
             $estados= $this->estados;
-            $title= "Editar ".$this->title;
+            $title= "Editar ".$this->title." - ".$company->name;
             $urlForm ='Empresas/'.$id;
             return view ('company.new',compact( 'estados', 'title','isnew','isprofile','urlForm','company','rutes'));
         }else{
