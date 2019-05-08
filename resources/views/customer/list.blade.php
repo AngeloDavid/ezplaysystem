@@ -26,8 +26,8 @@
                         <li class="mr-3"><a href="{{ url('/Clientes/'.$customer->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
                         <li  class="mr-3"><a href="{{ url('/Clientes/'.$customer->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
                         
-                        @if (count($customer->invoices->where('status','<',4)) != 0)
-                            <li  class="mr-3"><a href="{{ url('/CXC/'.$customer->id)}}" class="text-info" title="Facturas Pendientes"><i class="ti-view-list-alt"><span>{{ count($customer->invoices->where('status','<',4)) }}</span> </i> </a> </li>
+                        @if (count($customer->invoices->whereBetween('status',[1,3])) != 0)
+                            <li  class="mr-3"><a href="{{ url('/CXC/'.$customer->id)}}" class="text-info" title="Facturas Pendientes"><i class="ti-view-list-alt"><span>{{ count($customer->invoices->whereBetween('status',[1,3])) }}</span> </i> </a> </li>
                         @endif
                      
                        

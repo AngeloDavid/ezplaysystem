@@ -17,10 +17,10 @@
                                 <div class="row">
                                     <div class="col-10 mt-5">
                                         <h4 class="header-title">Cuentas Por Cobrar</h4>
-                                        <h5>{{ $customer->name }}</h5>
+                                        <h5>{{ $customer->name }}</h5><br><br>
                                     </div>                                    
                                 </div>
-                                @if (count($customer->invoices->where('status','<',4)) == 0)
+                                @if (count($customer->invoices->whereBetween('status',[1,3])) == 0)
                                     <div class="alert alert-primary" role="alert">
                                         <h4 class="alert-heading">Sin Cuentas pendientes a pagar</h4>                                        
                                     </div>
@@ -42,7 +42,7 @@
                                                         <th scope="col">Acciones</th>
                                                     </tr>
                                                     
-                                                        <tr class="search-box">
+                                                        {{-- <tr class="search-box">
                                                             <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="code" id="code" ></td>
                                                             <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="cli" id="cli"></td>
                                                             <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="desc" id="desc"></td>
@@ -68,7 +68,7 @@
                                                                     <button id="btn-borrar" type="button" class="btn btn-info"><i class="ti-eraser"></i></button>                                                            
                                                                 </div>
                                                             </td>
-                                                        </tr>
+                                                        </tr> --}}
                                                     
                                                 </thead>
                                                 <tbody id="htmldt">

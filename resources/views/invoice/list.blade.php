@@ -5,7 +5,7 @@
             <td>{{ $invoice->name }}</td>
             <td>{{ $invoice->desp }}</td>
             @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
-            <td>{{ $invoice->company }}</td>
+            <td><a href="{{ url('/Empresas/'.$invoice->id_company.'/edit')}}" > {{ $invoice->company }} </a></td>
             @endif
             <td> {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
             <td> $ {{ $invoice->amount }} </td>            
