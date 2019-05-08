@@ -602,7 +602,7 @@ class InvoiceController extends Controller
                         'file'=>$pr_im,
                         'id_company'=>$company->id
                     ]); 
-                    Mail::to('payezrose@ezrose.com')->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));
+                    Mail::to('pay@ezrose.com')->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));
                    Mail::to(\Session::get('user')->email)->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,false,' ingresada '));
                    
                 }            
