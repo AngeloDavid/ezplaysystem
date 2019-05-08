@@ -586,7 +586,7 @@ class InvoiceController extends Controller
                         $id_customer = $data['id_customer'];
                     }
                     // dd($id_customer);    
-                    invoice::create([
+                    $invoiceCreated = invoice::create([
                         'code'=>$data['code'],
                         'date'=>$timedate,
                         'desp'=>$data['desp'],
@@ -606,9 +606,10 @@ class InvoiceController extends Controller
                    Mail::to(\Session::get('user')->email)->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,false,' ingresada '));
                    
                 }            
-            }         
+            }             
             \Session::flash('flash_success',"Factura ingresada correctamente");      
-            return redirect()->route('Facturas.create');
+            return redirect()->route('Facturas.edit',['id'=>$invoiceCreated->id]);
+            //return redirect()->route('Facturas.create');
         }else{
             return redirect('/login');
         }        
