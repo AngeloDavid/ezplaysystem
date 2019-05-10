@@ -303,48 +303,40 @@ class CustomerController extends Controller
     {
         if(!is_null(\Session::get('user'))){
             $company = \Session::get('user');                 
-            $ruc = trim($ruc) == ''?'':'%'.$ruc.'%';
-            $name = trim($name) == ''?'':'%'.$name.'%';            
-            $date= trim($date) == ''?'':'%'.$date.'%';
-            $place= trim($place) == ''?'':'%'.$place.'%';
-            $status  = $status == -1? '' : $status;
-            if($status != ''){
-                $customers = DB::table('costumer')
-                    ->where('id_company','=',$company->id)
-                    -> where(
-                        function ($query)use ($ruc,$name,$date,$place,$status)
-                        {
-                                $query->orWhere('costumer.ruc','like',$ruc)
-                                ->orWhere('costumer.name','like',$name)
-                                ->orWhere('costumer.created_at','like',$date)
-                                ->orWhere('costumer.address','like',$place)
-                                ->orWhere('costumer.city','like',$place)
-                                ->orWhere('costumer.country','like',$place)
-                                ->orWhere('costumer.status','like',$status);
-                        }
-                    )->latest('created_at')->paginate(5);
-                   
-            }else {
-                if ($ruc == '' && $name == '' && $date== '' && $place == '' ){
-                    $customers = DB::table('costumer')
-                    ->where('id_company','=',$company->id)
-                    ->latest('created_at')->paginate(5);
-                }else{
-                    $customers = DB::table('costumer')
-                    ->where('id_company','=',$company->id)
-                    -> where(
-                        function ($query)use ($ruc,$name,$date,$place,$status)
-                        {
-                                $query->orWhere('costumer.ruc','like',$ruc)
-                                ->orWhere('costumer.name','like',$name)
-                                ->orWhere('costumer.created_at','like',$date)
-                                ->orWhere('costumer.address','like',$place)
-                                ->orWhere('costumer.city','like',$place)
-                                ->orWhere('costumer.country','like',$place);
-                        }
-                    )->latest('created_at')->paginate(5);
-                }
-            }
+            $ruc = trim($ruc) == ''?'%%':'%'.$ruc.'%';
+            $name = trim($name) == ''?'%%':'%'.$name.'%';            
+            $date= trim($date) == ''?'%%':'%'.$date.'%';
+            $place= trim($place) == ''?'%%':'%'.$place.'%';
+            $status  = $status == -1? '%%' : $status;
+            DB::enableQueryLog();
+            $customers = Costumer::where(
+                function ($q) use($ruc,$name,$date,$place,$status) {
+                    $q->Where('id_company','=',\Session::get('user')->id);
+                    $q->Where('costumer.ruc','like',$ruc);
+                    $q->Where('costumer.name','like',$name);
+                    $q->Where('costumer.created_at','like',$date);
+                    // $q->Where('costumer.address','like',$place);
+                    // $q->Where('costumer.city','like',$place);
+                    // $q->Where('costumer.country','like',$place);
+                    $q->Where('costumer.status','like',$status);
+                })
+                ->latest('created_at')->paginate(5);
+                 dd((DB::getQueryLog()));
+            // dd($customers);
+                /*-> where(
+                    function ($query)use ($ruc,$name,$date,$place,$status)
+                    {
+                            $query->Where('costumer.ruc','like',$ruc)
+                            ->Where('costumer.name','like',$name)
+                            ->Where('costumer.created_at','like',$date)
+                            ->Where('costumer.address','like',$place)
+                            ->Where('costumer.city','like',$place)
+                            ->Where('costumer.country','like',$place)
+                            ->Where('costumer.status','like',$status);
+                    }
+                )*/
+                // ->latest('created_at')->paginate(5);
+
 
             $invoicelist = view('customer.list', compact('customers'));
             $contents =  $invoicelist->render();

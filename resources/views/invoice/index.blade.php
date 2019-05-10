@@ -47,13 +47,13 @@
                                                             <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="emp" id="emp" ></td>    
                                                             @endif                                     
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
-                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" ></td>                                                    
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>                                                    
                                                         <td scope="col">
                                                             <select class="custom-select input-rounded w-100" id="status" name="status" >
                                                                 <option disabled>Seleccione...</option>
                                                                 <option value="-1">Todas</option>
-                                                                <option value="1">Enviadas</option>
-                                                                <option value="2">Procesadas</option>
+                                                                <option value="1">Ingresadas</option>
+                                                                <option value="2">Enviadas al cliente</option>
                                                                 <option value="3">Pagadas por cliente</option>
                                                                 <option value="4">Depo/transf completada</option>
                                                                 <option value="0">Anuladas</option>

@@ -47,8 +47,12 @@ run seed
 6. se coloca la siguiente sentencia
 `Mail::to('flores.angelo1995@gmail.com')->send( new InvoiceMAils(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));`
 
+ 
+ 
 
 ## EXCEL LARAVEL
 1. debemos instalar el paquete `composer require maatwebsite/excel` [mas info] (https://laraveles.com/exportar-datos-excel-laravel/)
  
+## Debugg sql laravel
 
+para imprimir el sql query se debe añadir la siguiente linea `DB::enableQueryLog();` antes del query y la siguiente linea luego `dump(DB::getQueryLog()); `

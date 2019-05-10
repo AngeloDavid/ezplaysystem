@@ -57,8 +57,8 @@
                                                         </td>
                                                         <td scope="col">
                                                             <div class="btn-group mb-xl-3 " role="group" aria-label="Basic example">
-                                                                <button id="btn-search" type="button" class="btn btn-info"><i class="ti-search"></i></button>
-                                                                <button id="btn-borrar" type="button" class="btn btn-info"><i class="ti-eraser"></i></button>                                                            
+                                                                <button id="btn-search" type="button" class="btn btn-info" disabled="disabled" ><i class="ti-search"></i></button>
+                                                                <button id="btn-borrar" type="button" class="btn btn-info" disabled="disabled" ><i class="ti-eraser"></i></button>                                                            
                                                             </div>
                                                         </td>
                                                     </tr>

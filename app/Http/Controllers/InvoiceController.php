@@ -358,58 +358,31 @@ class InvoiceController extends Controller
 
     public function searchinvoiceadmin($code,$cli,$desc,$emp,$fecha,$amount,$status)
     {
-        //numero de inoices por pagina
+        //numero de invoices por pagina
         $pages=5;
         if($this->isadmin()){          
-            $code = trim($code) == ''?'':'%'.$code.'%';
-            $cli = trim($cli) == ''?'':'%'.$cli.'%';
-            $desc = trim($desc) == ''?'':'%'.$desc.'%';
-            $emp = trim($emp) == ''?'':'%'.$emp.'%';
-            $fecha= trim($fecha) == ''?'':'%'.$fecha.'%';
-            $amount= trim($amount) == ''?'':'%'.$amount.'%';
-            $status  = $status == -1? '' : $status;
+            $code = trim($code) == ''?'%%':'%'.$code.'%';
+            $cli = trim($cli) == ''?'%%':'%'.$cli.'%';
+            $desc = trim($desc) == ''?'%%':'%'.$desc.'%';
+            $emp = trim($emp) == ''?'%%':'%'.$emp.'%';
+            $fecha= trim($fecha) == ''?'%%':'%'.$fecha.'%';
+            $amount= trim($amount) == ''?'%%':'%'.$amount.'%';
+            $status  = $status == -1? '%%' : $status;
             // dump($code,$cli,$desc,$emp,$fecha,$amount,$status);
-            if($status != ''){
-                $invoices = DB::table('invoice')                        
+
+            $invoices = DB::table('invoice')                        
                         ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
                         ->Where('invoice.code','like',$code)
-                        ->orWhere('costumer.name','like',$cli)
-                        ->orWhere('invoice.desp','like',$desc)
-                        ->orWhere('company.name','like',$emp)
-                        ->orWhere('invoice.date','like',$fecha)
-                        ->orWhere('invoice.amount','like',$amount)
-                        ->orWhere('invoice.status','like',$status)
+                        ->Where('costumer.name','like',$cli)
+                        ->Where('invoice.desp','like',$desc)
+                        ->Where('company.name','like',$emp)
+                        ->Where('invoice.date','like',$fecha)
+                        ->Where('invoice.amount','like',$amount)
+                        ->Where('invoice.status','like',$status)
                         ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
                         ->paginate($pages);
-            }else{
-                if ($code == '' && $cli == '' &&
-                    $desc == '' && $emp == '' && 
-                    $fecha == '' && $amount== '' ) {
-                        $invoices = DB::table('invoice')                        
-                            ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                            ->leftjoin('company','invoice.id_company','=','company.id')
-                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
-                            ->latest('date')
-                            ->paginate($pages);
-                }else{
-                    $invoices = DB::table('invoice')                        
-                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                        ->leftjoin('company','invoice.id_company','=','company.id')
-                        ->Where('invoice.code','like',$code)
-                        ->orWhere('costumer.name','like',$cli)
-                        ->orWhere('invoice.desp','like',$desc)
-                        ->orWhere('company.name','like',$emp)
-                        ->orWhere('invoice.date','like',$fecha)
-                        ->orWhere('invoice.amount','like',$amount)                        
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
-                        ->latest('date')
-                        ->paginate($pages);                            
-                }
-                
-            }
-
             $title="Facturas por Empresa";
             $invoicelist = view('invoice.list', compact('invoices','title'));
             $contents =  $invoicelist->render();
@@ -432,81 +405,41 @@ class InvoiceController extends Controller
         $pages=10;
         if(!is_null(\Session::get('user'))){     
             $company = \Session::get('user');     
-            $code = trim($code) == ''?'':'%'.$code.'%';
-            $cli = trim($cli) == ''?'':'%'.$cli.'%';
-            $desc = trim($desc) == ''?'':'%'.$desc.'%';
-            // $emp = trim($emp) == ''?'':'%'.$emp.'%';
-            $fecha= trim($fecha) == ''?'':'%'.$fecha.'%';
-            $amount= trim($amount) == ''?'':'%'.$amount.'%';
-            $status  = $status == -1? '' : $status;
-            // dump($code,$cli,$desc,$fecha,$amount,$status);
-            if($status != ''){
-                $invoices = DB::table('invoice')                        
+            $code = trim($code) == ''?'%%':'%'.$code.'%';
+            $cli = trim($cli) == ''?'%%':'%'.$cli.'%';
+            $desc = trim($desc) == ''?'%%':'%'.$desc.'%';            
+            $fecha= trim($fecha) == ''?'%%':'%'.$fecha.'%';
+            $amount= trim($amount) == ''?'%%':'%'.$amount.'%';
+            $status  = $status == -1? '%%' : $status;
+
+            $invoices = DB::table('invoice')                        
                         ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
                         ->where('invoice.id_company','=',$company->id)
                         ->where(
                             function ($query)use ($code,$cli,$desc,$fecha,$amount,$status)
                             {
-                                $query->orWhere('invoice.code','like',$code)
-                                ->orWhere('costumer.name','like',$cli)
-                                ->orWhere('invoice.desp','like',$desc)
-                                ->orWhere('invoice.date','like',$fecha)
-                                ->orWhere('invoice.amount','like',$amount)
-                                ->orWhere('invoice.status','like',$status);
+                                $query->Where('invoice.code','like',$code)
+                                ->Where('costumer.name','like',$cli)
+                                ->Where('invoice.desp','like',$desc)
+                                ->Where('invoice.date','like',$fecha)
+                                ->Where('invoice.amount','like',$amount)
+                                ->Where('invoice.status','like',$status);
                             }
                         )                            
                         ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
                         ->paginate($pages);
-            }else{
-                if ($code == '' && $cli == '' &&
-                    $desc == '' && 
-                    $fecha == '' && $amount== '' ) {
-                        $invoices = DB::table('invoice')                        
-                            ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                            ->leftjoin('company','invoice.id_company','=','company.id')
-                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
-                            ->where('invoice.id_company','=',$company->id)
-                            ->latest('date')
-                            ->paginate($pages);
-                }else{
-                    //where dentro de otro
-                   // DB::enableQueryLog();
-                    $invoices = DB::table('invoice')                        
-                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                        ->leftjoin('company','invoice.id_company','=','company.id')
-                        ->where('invoice.id_company','=',$company->id)
-                        ->where(
-                            function ($query)use ($code,$cli,$desc,$fecha,$amount)
-                            {
-                                $query->orWhere('invoice.code','like',$code)
-                                ->orWhere('costumer.name','like',$cli)
-                                ->orWhere('invoice.desp','like',$desc)
-                                ->orWhere('invoice.date','like',$fecha)
-                                ->orWhere('invoice.amount','like',$amount);
-                            }
-                        )                        
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
-                        ->latest('date')
-                        ->paginate($pages);        
-                        //dump(DB::getQueryLog());                    
-                        
-                }
-                
-            }
 
             $title="Facturación";
             $invoicelist = view('invoice.list', compact('invoices','title'));
-            $contents =  $invoicelist->render();
-            //dump($invoices);
+            $contents =  $invoicelist->render();            
             return response()->json(array(
                 'tpmsj'=>'success',
                 'message'=>'Consulta realizada con exito',
                 'datahtml'=> $contents
             )
-            );
-            // return view('invoice.index',compact('title','rutes','invoices'));    
+            );            
         }else{
             return redirect('/logout');
         }    
