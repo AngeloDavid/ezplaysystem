@@ -8,10 +8,6 @@
                 {{ $customer->address }} - {{ $customer->state }} -
                 {{ $customer->country }}
             </td>
-            {{-- <td>
-                <div class="progress" style="height: 8px;">
-                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div> --}}
             </td>
             <td>
                 @if ($customer->status == 1)

@@ -95,7 +95,7 @@
         
                 var url = $(this).attr('href');                  
                 getclientes(url);
-                window.history.pushState("", "", url);
+              /*  window.history.pushState("", "", url);*/
             });
 
             $('#btn-search').click(function(e){

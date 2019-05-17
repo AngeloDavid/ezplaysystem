@@ -278,6 +278,7 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         if(!is_null(\Session::get('user'))){
+           
             $company = \Session::get('user');
             $invoices = DB::table('invoice')                        
                             ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
@@ -328,12 +329,24 @@ class InvoiceController extends Controller
     public function allinvoices(Request $request)
     {
         if($this->isadmin()){
-            $invoices = DB::table('invoice')                        
+            $company = Company::find($request->id);            
+            if($company == null){
+                $invoices = DB::table('invoice')                        
                         ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
                         ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
-                        ->paginate(5);
+                        ->paginate(2);
+             }else{
+                $invoices = DB::table('invoice')                        
+                ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+                ->leftjoin('company','invoice.id_company','=','company.id')
+                ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                ->where('invoice.id_company','=',$company->id)
+                ->latest('date')
+                ->paginate(2);
+             }
+            
             // dd($invoices);
             $rutes = [
                 "Inicio" => "/",   
@@ -350,7 +363,8 @@ class InvoiceController extends Controller
                 )
                 );
             }
-            return view('invoice.index',compact('title','rutes','invoices'));    
+            
+            return view('invoice.index',compact('title','rutes','invoices','company'));    
         }else{
             return redirect('/logout');
         }        
@@ -359,7 +373,7 @@ class InvoiceController extends Controller
     public function searchinvoiceadmin($code,$cli,$desc,$emp,$fecha,$amount,$status)
     {
         //numero de invoices por pagina
-        $pages=5;
+        $pages=3;
         if($this->isadmin()){          
             $code = trim($code) == ''?'%%':'%'.$code.'%';
             $cli = trim($cli) == ''?'%%':'%'.$cli.'%';

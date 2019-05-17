@@ -17,13 +17,16 @@
                 @endif
                 
             <td>
-                <ul class="d-flex justify-content-center">
+                <ul class="d-flex justify-content-center notification-area">
+                        <li class="mr-3"><a href="{{ url('/Empresas/'.$company->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>    
                     @if ($company->status == 1)
-                        <li class="mr-3"><a href="{{ url('/Empresas/'.$company->id.'/edit')}}" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                        <li><a href="{{ url('/Empresas/'.$company->id.'/delete')}}" class="text-danger"><i class="ti-trash"></i></a></li>
-                    @else                    
-                        <li><a href="{{ url('/Empresas/'.$company->id.'/delete')}}" class="text-success"><i class="ti-trash"></i></a></li>
+                        <li class="mr-3" ><a href="{{ url('/Empresas/'.$company->id.'/edit')}}" class="text-secondary"> <i class="fa fa-edit"></i></a></li>                        
+                        @if (count($company->invoices->whereBetween('status',[1,3])) != 0)
+                            <li  class="mr-3"><a href="{{ url('/TodasFacturas/'.$company->id)}}" class="text-info" title="Facturas Pendientes"><i class="ti-view-list-alt"><span>{{ count($company->invoices->whereBetween('status',[1,3])) }}</span> </i> </a> </li>
+                        @endif
+                    
                     @endif
+                    
                 </ul>
             </td>
         </tr>

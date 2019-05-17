@@ -12,4 +12,9 @@ class Company extends Model
         'country','postal_code','type','origin','phone1','phone2',
         'contact','legalRepre','documentNom','documentID','notes','status','id_role'
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(invoice::Class,'id_company');        
+    }
 }

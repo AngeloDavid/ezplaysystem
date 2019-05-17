@@ -79,12 +79,14 @@ class CompanyController extends Controller
      public function index(Request $request)
     {
         if($this->isadmin()){
+            
             $title = $this->title.'s';
             $rutes = [
                 "Inicio" => "/",
                 "Empresas"=> "",            
             ];
-            $companies = DB::table('company')->latest('created_at')->where('id_role','<>','1')->paginate(10);
+            $companies = Company::where('id_role','<>','1')->latest('created_at')->paginate(10);
+
             if ($request->ajax()) {
                 return view('company.list', ['companies' => $companies])->render();  
             }

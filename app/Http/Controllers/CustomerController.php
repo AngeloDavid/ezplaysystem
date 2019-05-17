@@ -282,7 +282,7 @@ class CustomerController extends Controller
                 "Clientes"=> "",            
             ];
             $customers = Costumer::where('id_company','=',\Session::get('user')->id)->latest('created_at')->paginate(5);
-           // dd($customers);
+        //    dd($customers[0]);
             if ($request->ajax()) {
                 $invoicelist = view('customer.list', compact('customers'));
                 $contents =  $invoicelist->render();
@@ -293,7 +293,7 @@ class CustomerController extends Controller
                 )
                 );
             }
-            return view('customer.index', compact('title','customers','rutes'));
+             return view('customer.index', compact('title','customers','rutes'));
         }else{
             return redirect('/logout');
         }

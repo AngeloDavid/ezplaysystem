@@ -8,7 +8,12 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-10 mt-5">
-                                    <h4 class="header-title">Lista de Facturas</h4>
+                                    @if($company == null)
+                                        <h4 class="header-title">Lista de Facturas</h4>
+                                    @else
+                                        <h4 class="header-title">Facturas Pendientes - <small>{{ $company->name }}</small></h4>                                        
+                                        <br>
+                                    @endif
                                 </div>
                                 <div class="col-2 mt-5 text-right">
                                         <a href="{{ url('/Facturas/create')}}" class="btn btn-rounded btn-primary mb-3"><i class="ti-plus"></i>&nbsp;&nbsp;&nbsp; Nuevo</a>
@@ -44,7 +49,7 @@
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="cli" id="cli"></td>
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="desc" id="desc"></td>
                                                         @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
-                                                            <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="emp" id="emp" ></td>    
+                                                            <td scope="col"><input type="text" class="form-control form-control-lg input-rounded" placeholder="Buscar..." name="emp" id="emp"  ></td>    
                                                             @endif                                     
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>                                                    
@@ -87,6 +92,7 @@
     <script>
             @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
                 var isadmin = true;
+               
             @else
             var isadmin = false;
             @endif   
@@ -99,9 +105,8 @@
         
                 var url = $(this).attr('href');  
                 getInvoices(url);
-                window.history.pushState("", "", url);
             });
-
+           
             cleanSearch();
             $('#btn-borrar').click(function(e){
                 cleanSearch();
