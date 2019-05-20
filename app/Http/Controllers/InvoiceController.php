@@ -68,6 +68,7 @@ class InvoiceController extends Controller
     ];
 
     var $countries = [
+        "US"=>"UNITED STATES",
         "AL"=>"ALBANIA",
         "DZ"=>"ALGERIA",
         "AD"=>"ANDORRA",
@@ -258,8 +259,7 @@ class InvoiceController extends Controller
         "UG"=>"UGANDA",
         "UA"=>"UKRAINE",
         "AE"=>"UNITED ARAB EMIRATES",
-        "GB"=>"UNITED KINGDOM",
-        "US"=>"UNITED STATES",
+        "GB"=>"UNITED KINGDOM",        
         "UY"=>"URUGUAY",
         "VU"=>"VANUATU",
         "VA"=>"VATICAN CITY",
@@ -302,7 +302,8 @@ class InvoiceController extends Controller
                 "Facturas" => ""
             ];
             $title=$this->title."ción";
-            return view('invoice.index',compact('title','rutes','invoices'));
+            $company =null;
+            return view('invoice.index',compact('title','rutes','invoices','company'));
         }else{
             return redirect('/logout'); 
         }
@@ -529,8 +530,15 @@ class InvoiceController extends Controller
                             'id_company'=>$company->id
                         ]);   
                         $id_customer = $customer_new->id;
+                        $country = $customer_new->country;
                     }else {
                         $id_customer = $data['id_customer'];
+                        $country= Costumer::find($id_customer)->country;
+                    }
+                    if($country != 'US'){
+                        $tax = (float) $data['tax'] + 1.6;
+                    }else{
+                        $tax =$data['tax'];
                     }
                     // dd($id_customer);    
                     $invoiceCreated = invoice::create([
@@ -539,7 +547,7 @@ class InvoiceController extends Controller
                         'desp'=>$data['desp'],
                         'type'=>'FACT',
                         'IVA'=> '0%',
-                        'tax' => $data['tax'],
+                        'tax' =>$tax,
                         'rate'=> $data['rate'],
                         'wayToPay'=>$data['wayToPay'],
                         'amount'=>$data['amount'],
@@ -549,8 +557,8 @@ class InvoiceController extends Controller
                         'file'=>$pr_im,
                         'id_company'=>$company->id
                     ]); 
-                    Mail::to('pay@ezrose.com')->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,true,' ingresado '));
-                   Mail::to(\Session::get('user')->email)->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Enviada',$timedate,false,' ingresada '));
+                    Mail::to('pay@ezrose.com')->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Ingresada',$timedate,date("Y-m-d H:i:s"),true,' ingresado '));
+                   Mail::to(\Session::get('user')->email)->send( new InvoiceMails(\Session::get('user')->name,$data['code'],$data['desp'],'Ingresada',$timedate,date("Y-m-d H:i:s"),false,' ingresada '));
                    
                 }            
             }             
@@ -711,14 +719,36 @@ class InvoiceController extends Controller
 
     public function changestatus($id) {
         if(!is_null(\Session::get('user'))){
-            $costumer=invoice::find($id);
-
-            if( $costumer->status <4 ){
-                $status =$costumer->status +1;
+            
+            $invoice=invoice::find($id);
+            $company = Company::find($invoice->id_company);
+            if( $invoice->status <4 ){
+                $status =$invoice->status +1;
                 $prom=DB::table('invoice')
                                 ->where('id',$id)
                                 ->update(['status'=>$status]);
-            }        
+            }  
+            $estado='';
+            $invoice=invoice::find($id);
+            switch ($invoice->status) {
+                case 1:
+                   $estado='ingresada';
+                    break;   
+                case 2:
+                    $estado='Enviada al cliente';
+                    break;                
+                case 3:
+                    $estado='Pagada por cliente';
+                    break;   
+                case 4:
+                    $estado='Depositada o transferida a su cuenta';
+                    break;               
+                default:
+                    # code...
+                    break;
+            } 
+            // dd($company);
+            Mail::to($company->email)->send( new InvoiceMails($company->name,$invoice->code,$invoice->desp,$estado,$invoice->date,date("Y-m-d H:i:s"),false,$estado    ));
             return redirect()->route('Empresas.allinvoices');   
         }else{
             return redirect('/logout');

@@ -16,6 +16,7 @@ class InvoiceMails extends Mailable
     public $concepto;
     public $estado;
     public $fecha;
+    public $fechaTransaccion;
     public $isadmin;
     public $action;
 
@@ -25,13 +26,14 @@ class InvoiceMails extends Mailable
      *
      * @return void
      */
-    public function __construct($username,$factura,$concepto,$estado,$fecha,$isadmin,$action)
+    public function __construct($username,$factura,$concepto,$estado,$fecha,$fechaTransaccion,$isadmin,$action)
     {
         $this->username=$username;
         $this->factura = $factura;
         $this->concepto= $concepto;
         $this->estado =$estado;
         $this->fecha = $fecha;
+        $this->fechaTransaccion = $fechaTransaccion;
         $this->isadmin =$isadmin;
         $this->action=$action;
         // dump($this->username,$this->factura,$this->concepto,$this->estado,$this->fecha,$this->isadmin,$this->action);
@@ -41,9 +43,9 @@ class InvoiceMails extends Mailable
      * Build the message.
      *
      * @return $this
-     */
+     */    
     public function build()
     {        
-        return $this->view('e-mails.invoicesNew')->subject('Facturas electonicas -EZPAY');
+        return $this->view('e-mails.invoicesNew')->subject('EZPAY - Sistema de Cobro en Linea | Factura '.$action.' correctamente');
     }
 }

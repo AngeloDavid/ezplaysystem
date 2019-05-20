@@ -248,7 +248,7 @@
                             @else
                               <input type="checkbox" class="custom-control-input" id="ivaincluded" name="ivaincluded" >  
                             @endif                              
-                              <label class="custom-control-label" for="ivaincluded">Impuestos Incluidos</label>
+                              <label class="custom-control-label" for="ivaincluded">Impuestos Incluidos <div id="msg"></div></label>
                           </div>  
                           <div class="custom-control custom-checkbox">
                                   <input type="checkbox" class="custom-control-input"  name="terminos" id="terminos" required="">
@@ -387,7 +387,15 @@
           cleanCustomer(true);
         }   
       @endif    
-      
+      $('#country').change( function(){
+        var country =$('#country').val();
+        if( country != 'US'){
+          $('#msg').text('(Se añade 1.6% como impuesto a los paises fuera de Estados Unidos)');
+        }else{
+          $('#msg').text('');
+        }        
+        
+      });
       
       $('.btn-select').click(function(){
         var row = $(this).parents('tr');
@@ -403,7 +411,12 @@
         $('#Form-create #state').val(data.state);
         $('#Form-create #country').val(data.country);
         $('#Form-create #postal_code').val(data.postal_code);
-
+        var country =$('#country').val();
+        if( country != 'US'){
+          $('#msg').text('(Se añade 1.6% como impuesto a los paises fuera de Estados Unidos)');
+        }else{
+          $('#msg').text('');
+        } 
         //Desactivar los input
         cleanCustomer(true);
         

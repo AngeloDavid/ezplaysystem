@@ -49,7 +49,11 @@
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="cli" id="cli"></td>
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="desc" id="desc"></td>
                                                         @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
-                                                            <td scope="col"><input type="text" class="form-control form-control-lg input-rounded" placeholder="Buscar..." name="emp" id="emp"  ></td>    
+                                                            @if (!is_null($company))
+                                                                <td scope="col"><input type="text" class="form-control form-control-lg input-rounded" placeholder="Buscar..." name="emp" id="emp" value="{{ $company->name }}" ></td>        
+                                                            @else
+                                                                <td scope="col"><input type="text" class="form-control form-control-lg input-rounded" placeholder="Buscar..." name="emp" id="emp" ></td>
+                                                            @endif
                                                             @endif                                     
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>                                                    
@@ -92,14 +96,16 @@
     <script>
             @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
                 var isadmin = true;
-               
+                
             @else
             var isadmin = false;
             @endif   
         $(document).ready(function (){
             $('body').on('click', '.pagination a', function(e) {
                 e.preventDefault();
-        
+                @if (!is_null($company))
+                    $('#emp').val(""+{{ $company->name }});    
+                @endif                
                 $('li').removeClass('active');
                 $(this).parent('li').addClass('active');
         

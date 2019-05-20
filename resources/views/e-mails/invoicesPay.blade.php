@@ -38,13 +38,13 @@
                 <form>
                     <div class="login-form-head">
                         <img src="{{ asset('images/icon/ezplayrose.png')}}" alt="logo"  width="150"><br><br>
-                    <h5 style="text-align:center; color:#1c73b8;" >Factura {{ $action }}</h5>                       
+                    <h5 style="text-align:center; color:#1c73b8;" >Factura Recibida</h5>                       
                     </div>
                     <div class="login-form-body">                        
                         <div class="form-gp">
                             @if ($isadmin)
                                 <p>Estimado Administrador</><br><br>    
-                                    <p>El cliente <strong>{{ $username }} </strong> ha <em>{{ $action }}</em> la factura.</p><br>
+                                    <p>El cliente <strong>{{ $username }} </strong> ha {{ $action }} la factura.</p><br>
                                     <ul>
                                         <li>Numero: {{ $factura }}</li>
                                         <li>Detalle: {{ $concepto  }}</li>
@@ -53,12 +53,11 @@
                                     </ul><br>                                    
                             @else
                                 <p>Estimado ciente, <strong> {{ $username }}</strong></p><br><br>    
-                                <p>Su factuta <strong>{{ $factura }} </strong> ya sido <em>{{ $action }} </em>  correctamente.</p><br>
+                                <p>Su factuta <strong>{{ $factura }} </strong> ya sido {{ $action }} correctamente.</p><br>
                                     <ul>
                                             <li>Numero: {{ $factura }}</li>
                                             <li>Detalle: {{ $concepto  }}</li>
                                             <li>Fecha: {{ $fecha }}</li>
-                                            <li>Fecha de transaccion: {{ $fechaTransaccion }}</li>
                                             <li>Estado: {{ $estado }}</li>
                                         </ul>
                                     </p>    
