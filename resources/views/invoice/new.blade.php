@@ -413,7 +413,7 @@
         $('#Form-create #postal_code').val(data.postal_code);
         var country =$('#country').val();
         if( country != 'US'){
-          $('#msg').text('(Se añade 1.6% como impuesto a los paises fuera de Estados Unidos)');
+          $('#msg').text('(Se añade 1.5% como impuesto a los paises fuera de Estados Unidos)');
         }else{
           $('#msg').text('');
         } 

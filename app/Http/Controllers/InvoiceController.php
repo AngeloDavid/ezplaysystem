@@ -536,7 +536,7 @@ class InvoiceController extends Controller
                         $country= Costumer::find($id_customer)->country;
                     }
                     if($country != 'US'){
-                        $tax = (float) $data['tax'] + 1.6;
+                        $tax = (float) $data['tax'] + 1.5;
                     }else{
                         $tax =$data['tax'];
                     }
