@@ -46,6 +46,6 @@ class InvoiceMails extends Mailable
      */    
     public function build()
     {        
-        return $this->view('e-mails.invoicesNew')->subject('EZPAY - Sistema de Cobro en Linea | Factura '.$action.' correctamente');
+        return $this->view('e-mails.invoicesNew')->subject('EZPAY - Sistema de Cobro en Linea | Factura '.$this->action.' correctamente');
     }
 }
