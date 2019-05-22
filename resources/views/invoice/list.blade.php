@@ -7,8 +7,18 @@
             @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
             <td><a href="{{ url('/Empresas/'.$invoice->id_company.'/edit')}}" > {{ $invoice->company }} </a></td>
             @endif
-            <td> {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
-            <td> $ {{ $invoice->amount }} </td>            
+            <td width="2%" > {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
+            <td width="15%" > $ {{ number_format($invoice->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["subtotal"] ,2) }}
+            </td>        
+            <td>
+                ${{  number_format($invoice->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["iva"],2)  }}
+            </td>    
+            <td>
+                ${{ number_format( $invoice->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["rate"],2)  }}
+            </td>
+            <td>
+                    ${{ number_format( $invoice->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["total"],2)  }}
+            </td>
             <td>
                 @switch($invoice->status)
                             @case(1)

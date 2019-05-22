@@ -39,7 +39,10 @@
                                                         <th scope="col">Empresa</th>    
                                                     @endif                                                    
                                                     <th scope="col">Fecha</th>
-                                                    <th scope="col">Monto</th>                                                    
+                                                    <th scope="col">Monto</th>
+                                                    <th scope="col">Impuesto (1.5%)</th>                                                    
+                                                    <th scope="col">C.T</th>
+                                                    <th scope="col">TOTAL</th>
                                                     <th scope="col">Estado</th>
                                                     <th scope="col">Acciones</th>
                                                 </tr>
@@ -56,7 +59,7 @@
                                                             @endif
                                                             @endif                                     
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
-                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>                                                    
+                                                        <td scope="col" colspan="4"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>                                                                                                            
                                                         <td scope="col">
                                                             <select class="custom-select input-rounded w-100" id="status" name="status" >
                                                                 <option disabled>Seleccione...</option>

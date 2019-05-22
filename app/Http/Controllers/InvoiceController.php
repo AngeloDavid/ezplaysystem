@@ -280,10 +280,9 @@ class InvoiceController extends Controller
         if(!is_null(\Session::get('user'))){
            
             $company = \Session::get('user');
-            $invoices = DB::table('invoice')                        
+            $invoices = invoice::where('invoice.id_company','=',$company->id)
                             ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','invoice.id_company')
-                            ->where('invoice.id_company','=',$company->id)
+                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','invoice.id_company')                            
                             ->latest('date')
                             ->paginate(10);
             //dump($invoices);
@@ -332,20 +331,18 @@ class InvoiceController extends Controller
         if($this->isadmin()){
             $company = Company::find($request->id);            
             if($company == null){
-                $invoices = DB::table('invoice')                        
-                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+                $invoices = invoice::leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
-                        ->paginate(2);
+                        ->paginate(10);
              }else{
-                $invoices = DB::table('invoice')                        
+                $invoices = invoice::where('invoice.id_company','=',$company->id)
                 ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
                 ->leftjoin('company','invoice.id_company','=','company.id')
-                ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
-                ->where('invoice.id_company','=',$company->id)
+                ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                 ->latest('date')
-                ->paginate(2);
+                ->paginate(10);
              }
             
             // dd($invoices);
@@ -385,8 +382,7 @@ class InvoiceController extends Controller
             $status  = $status == -1? '%%' : $status;
             // dump($code,$cli,$desc,$emp,$fecha,$amount,$status);
 
-            $invoices = DB::table('invoice')                        
-                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+            $invoices = invoice::leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
                         ->Where('invoice.code','like',$code)
                         ->Where('costumer.name','like',$cli)
@@ -395,7 +391,7 @@ class InvoiceController extends Controller
                         ->Where('invoice.date','like',$fecha)
                         ->Where('invoice.amount','like',$amount)
                         ->Where('invoice.status','like',$status)
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
                         ->paginate($pages);
             $title="Facturas por Empresa";
@@ -427,8 +423,7 @@ class InvoiceController extends Controller
             $amount= trim($amount) == ''?'%%':'%'.$amount.'%';
             $status  = $status == -1? '%%' : $status;
 
-            $invoices = DB::table('invoice')                        
-                        ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+            $invoices = invoice::leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
                         ->where('invoice.id_company','=',$company->id)
                         ->where(
@@ -442,7 +437,7 @@ class InvoiceController extends Controller
                                 ->Where('invoice.status','like',$status);
                             }
                         )                            
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
                         ->latest('date')
                         ->paginate($pages);
 
@@ -587,7 +582,7 @@ class InvoiceController extends Controller
                 $invoice->code => ""
             ];
             $customer =Costumer::find($invoice->id_customer);   
-            $prices = $this->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded);
+            $prices = $invoice->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded);
             $title="Mostrar ".$this->title;
             $estados = $this->estados;
             $urlForm ='Facturas/'.$id;                
@@ -767,39 +762,6 @@ class InvoiceController extends Controller
         }else {
             return false;
         }
-    }
-
-    private function CalTotales($amount,$tax,$rate,$ivaincluded)
-    {
-        $prices=[
-            "subtotal"=>0,
-            "iva"=>0,
-            "totalIva"=>0,
-            'rate'=>0,
-            "total"=>0
-        ];
-        if($tax==0){
-            $prices['subtotal'] = $amount;
-            $prices['totalIva'] = $amount;
-        }else{
-            if($ivaincluded){         
-                $tax = ((float) $tax / 100) + 1;
-                $prices['subtotal'] = ($amount)/$tax  ;
-                $prices['iva'] =$amount -$prices['subtotal']  ;
-                $prices['totalIva'] = $amount;
-            }else{
-                $tax = (float)  $tax  / 100;
-                $prices['subtotal'] = $amount;
-                $prices['iva'] = $amount * $tax  ;
-                $prices['totalIva'] = $prices['subtotal']+ $prices['iva'];
-            }
-        
-        }        
-        $rate= (float) $rate / 100 ;
-        $prices['rate'] =  $prices['totalIva']  * $rate;
-        $prices['total'] = $prices['rate'] + $prices['totalIva'];
-
-        return $prices;
     }
 
 }
