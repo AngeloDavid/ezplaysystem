@@ -582,7 +582,7 @@ class InvoiceController extends Controller
                 $invoice->code => ""
             ];
             $customer =Costumer::find($invoice->id_customer);   
-            $prices = $invoice->CalTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded);
+            $prices = $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded);
             $title="Mostrar ".$this->title;
             $estados = $this->estados;
             $urlForm ='Facturas/'.$id;                

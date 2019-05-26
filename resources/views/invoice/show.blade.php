@@ -95,6 +95,10 @@
                                         <td colspan="4">Total</td>
                                         <td>$ {{ number_format( $prices['total'],2) }}</td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="4">Total a Recibir</td>
+                                        <td>$ {{ number_format( $prices['toPay'],2) }}</td>
+                                    </tr>
                                 </tfoot>
                             </table>
                         </div>

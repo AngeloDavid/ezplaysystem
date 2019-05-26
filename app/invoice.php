@@ -36,12 +36,38 @@ class invoice extends Model
                 $prices['iva'] = $amount * $tax  ;
                 $prices['totalIva'] = $prices['subtotal']+ $prices['iva'];
             }
-        
+            
         }        
         $rate= (float) $rate / 100 ;
         $prices['rate'] =  $prices['totalIva']  * $rate;
         $prices['total'] = $prices['rate'] + $prices['totalIva'];
 
+        return $prices;
+    }
+
+    public function ClTotales($amount,$tax,$rate,$ivaincluded)
+    {
+        $rateTotal = (float) 5/100;
+        $rate = (float) ($rate/100);
+        $tax = (float) ($tax/100);
+        $prices=[
+            "subtotal"=>0,
+            "iva"=>0,
+            'rate'=>0,
+            "total"=>0,
+            "toPay"=>0
+        ];
+        $prices["subtotal"]= $ivaincluded==true?$amount/($tax+1):$amount;
+        $prices["iva"] = $ivaincluded==true? $amount -$prices["subtotal"] : $amount * $tax;
+        
+        // CT sobre el calculo del tax. se aumenta   
+        // $prices["rate"] = ( $prices["subtotal"] + $prices["iva"] ) * $rate;
+
+        $prices["rate"] = $amount * $rate;
+        $prices ["total"] = $prices["subtotal"] + $prices["iva"] + $prices["rate"];
+
+        // $prices["total"] = $ivaincluded==true?(($amount*$rate)+$amount):(($amount*($rate+$tax))+$amount);
+        $prices ["toPay"] = $prices["total"] - ($prices["total"] * ($rateTotal+ $tax));
         return $prices;
     }
     
