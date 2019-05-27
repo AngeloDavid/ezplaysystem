@@ -32,6 +32,9 @@
                                         <table class="table table-hover progress-table text-center">
                                             <thead class="text-uppercase">
                                                 <tr>
+                                                    @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
+                                                        <th scope="col">ID </th>
+                                                    @endif
                                                     <th scope="col">code</th>
                                                     <th scope="col">Cliente</th>
                                                     <th scope="col">Descripcion</th>
@@ -49,6 +52,9 @@
                                                 </tr>
                                                 
                                                     <tr class="search-box">
+                                                        @if (Session::get('user')->id_role=='1' && $title !='Facturación') 
+                                                            <td scope="col"></td>
+                                                        @endif
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="code" id="code" ></td>
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="cli" id="cli"></td>
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="text" placeholder="Buscar..." name="desc" id="desc"></td>
@@ -60,7 +66,8 @@
                                                             @endif
                                                             @endif                                     
                                                         <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
-                                                        <td scope="col" colspan="5"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>                                                                                                            
+                                                        <td scope="col" colspan="5"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>
+                                                        
                                                         <td scope="col">
                                                             <select class="custom-select input-rounded w-100" id="status" name="status" >
                                                                 <option disabled>Seleccione...</option>

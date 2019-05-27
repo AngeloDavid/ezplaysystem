@@ -48,7 +48,7 @@
                                         <label for="logo">
                                             <i class="fa fa-camera"></i>  
                                         </label>
-                                        <input type="file" id="logo" name="logo" @if ($isnew) required="" @endif accept="image/*" />
+                                        <input type="file" id="logo" name="logo"   accept="image/*" />
                                     </div>
                                     
                               </div>                                
@@ -143,11 +143,19 @@
                                   </div>                                  
                                   <div class="mb-3">
                                       <label for="">Telefono <span class="text-muted">(Opcional)</span></label>
-                                      <input type="text" class="form-control" id="phone1" name="phone1" placeholder=""  value="{{ old('contact',$company->phone1) }}" >
+                                      <input type="text" class="form-control" id="phone1" name="phone1" placeholder=""  value="{{ old('phone1',$company->phone1) }}" >
                                       <div class="invalid-feedback">
                                       .*.
                                       </div>
                                   </div>
+                                  <h4 class="header-title">Datos Contable</h4>
+                                  <div class="mb-3">
+                                    <label for="">Costo de Transaccion General<span class="text-muted">(Por defecto ser[a 5%])</span></label>
+                                    <input type="number" step="0.01"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder=""  value="{{ old('rate',$company->rate) }}"  >
+                                    <div class="invalid-feedback">
+                                    *Este campo es requerido
+                                    </div>
+                                </div>
                               </div>
                               <div class="col-md-6 mb-3">
                                   <h4 class="header-title">Representante Legal</h4>    
@@ -155,7 +163,7 @@
                                       <label for="">Nombre </label>
                                       <input type="text" class="form-control" id="legalRepre" name="legalRepre" placeholder=""  value="{{ old('legalRepre',$company->legalRepre) }}"  required="" >
                                       <div class="invalid-feedback">
-                                      .*.
+                                      *Este campo es requerido
                                       </div>
                                   </div>
                                   <div class="mb-3" >

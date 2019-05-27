@@ -282,7 +282,8 @@ class InvoiceController extends Controller
             $company = \Session::get('user');
             $invoices = invoice::where('invoice.id_company','=',$company->id)
                             ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','invoice.id_company')                            
+                            ->leftjoin('company','invoice.id_company','=','company.id')
+                            ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','invoice.id_company','company.rate as rateTotal')                            
                             ->latest('date')
                             ->paginate(10);
             //dump($invoices);
@@ -333,16 +334,16 @@ class InvoiceController extends Controller
             if($company == null){
                 $invoices = invoice::leftjoin('costumer','invoice.id_customer','=','costumer.id')
                         ->leftjoin('company','invoice.id_company','=','company.id')
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company','company.rate as rateTotal')
                         ->latest('date')
                         ->paginate(10);
              }else{
                 $invoices = invoice::where('invoice.id_company','=',$company->id)
-                ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
-                ->leftjoin('company','invoice.id_company','=','company.id')
-                ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
-                ->latest('date')
-                ->paginate(10);
+                    ->leftjoin('costumer','invoice.id_customer','=','costumer.id')
+                    ->leftjoin('company','invoice.id_company','=','company.id')
+                    ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company','company.rate as rateTotal')
+                    ->latest('date')
+                    ->paginate(10);
              }
             
             // dd($invoices);
@@ -391,7 +392,7 @@ class InvoiceController extends Controller
                         ->Where('invoice.date','like',$fecha)
                         ->Where('invoice.amount','like',$amount)
                         ->Where('invoice.status','like',$status)
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company','company.rate as rateTotal')
                         ->latest('date')
                         ->paginate($pages);
             $title="Facturas por Empresa";
@@ -437,7 +438,7 @@ class InvoiceController extends Controller
                                 ->Where('invoice.status','like',$status);
                             }
                         )                            
-                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company')
+                        ->select('invoice.id','invoice.code','invoice.date','invoice.desp','invoice.created_at','invoice.amount','invoice.tax','invoice.ivaincluded','invoice.rate','invoice.file','invoice.status','costumer.id as id_customer','costumer.name','company.id as id_company','company.name as company','company.rate as rateTotal')
                         ->latest('date')
                         ->paginate($pages);
 
@@ -493,7 +494,8 @@ class InvoiceController extends Controller
         $data = request()->all();
         if(!is_null(\Session::get('user'))) 
         {
-            if ( isset($data['terminos']) ){ 
+            if ( isset($data['terminos']) ){                 
+                $data['tax'] = $data['tax'] == null? 0:$data['tax'];    
                 $company= \Session::get('user');
                 //Subir archivo -- tener encuenta que en el formulario lleve enctype="multipart/form-data"
                 if ($request->file('file')!=null && $request->file('file')!='') {
@@ -581,8 +583,9 @@ class InvoiceController extends Controller
                 "Facturas"=> "/Facturas",            
                 $invoice->code => ""
             ];
-            $customer =Costumer::find($invoice->id_customer);   
-            $prices = $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded);
+            $customer =Costumer::find($invoice->id_customer);
+            $company = Company::find($invoice->id_company);
+            $prices = $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$company->rate);
             $title="Mostrar ".$this->title;
             $estados = $this->estados;
             $urlForm ='Facturas/'.$id;                

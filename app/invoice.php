@@ -45,9 +45,9 @@ class invoice extends Model
         return $prices;
     }
 
-    public function ClTotales($amount,$tax,$rate,$ivaincluded)
+    public function ClTotales($amount,$tax,$rate,$ivaincluded,$rateTotal)
     {
-        $rateTotal = (float) 5/100;
+        $rateTotal = (float) $rateTotal/100;
         $rate = (float) ($rate/100);
         $tax = (float) ($tax/100);
         $prices=[
@@ -69,6 +69,32 @@ class invoice extends Model
         // $prices["total"] = $ivaincluded==true?(($amount*$rate)+$amount):(($amount*($rate+$tax))+$amount);
         $prices ["toPay"] = $prices["total"] - ($prices["total"] * ($rateTotal+ $tax));
         return $prices;
+    }
+
+    public function getStatus($status)
+    {
+        $estado ='';
+        switch ($status) {
+            case 1:
+               $estado='Ingresada';
+                break;   
+            case 2:
+                $estado='Enviada al cliente';
+                break;                
+            case 3:
+                $estado='Pagada por cliente';
+                break;   
+            case 4:
+                $estado='Depositada o transferida a su cuenta';
+                break;       
+            case 0:
+                $estado='Anulado';
+                break;               
+            default:
+                $estado = 'Estado erroneo';
+                break;
+        }
+        return $estado;
     }
     
 }

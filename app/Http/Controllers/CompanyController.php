@@ -132,7 +132,7 @@ class CompanyController extends Controller
     {
         if($this->isadmin()){
         $data = request()->all();
-
+        $data['rate'] = $data['rate'] == null? 5.00: $data['rate'];
         if ($request->file('documentNom')!=null && $request->file('documentNom')!='') {
             $pr_dNom=$request->file('documentNom')->hashName('');
             //dump($request->file('documentNom'));
@@ -150,7 +150,7 @@ class CompanyController extends Controller
             $logo=$request->file('logo')->hashName('');
             $request->file('logo')->store('public/logo');
         }else{
-            $logo=$company->null;
+            $logo=null;
         }
         try {
             Company::create([
@@ -172,6 +172,7 @@ class CompanyController extends Controller
                 'documentNom'=> $pr_dNom,
                 'documentID'=> $pr_dId,
                 'notes' => $data['notes'],
+                'rate' => $data['rate'],
                 'status'=>1,
                 'id_role'=>2
                ]);

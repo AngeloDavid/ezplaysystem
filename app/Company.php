@@ -10,7 +10,7 @@ class Company extends Model
     protected $fillable = [
         'ruc', 'name', 'logo','email','userApp','password','address','state','city',
         'country','postal_code','type','origin','phone1','phone2',
-        'contact','legalRepre','documentNom','documentID','notes','status','id_role'
+        'contact','legalRepre','documentNom','documentID','notes','rate','status','id_role'
     ];
 
     public function invoices()

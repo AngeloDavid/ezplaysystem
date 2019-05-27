@@ -1,6 +1,9 @@
                                            
     @forelse ($invoices as $invoice)
         <tr>
+            @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
+                <th scope="row">{{ $invoice->id }} </th>
+            @endif
             <th scope="row">{{ $invoice->code }} </th>
             <td>{{ $invoice->name }}</td>
             <td>{{ $invoice->desp }}</td>
@@ -8,19 +11,19 @@
             <td><a href="{{ url('/Empresas/'.$invoice->id_company.'/edit')}}" > {{ $invoice->company }} </a></td>
             @endif
             <td width="2%" > {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
-            <td width="15%" > $ {{ number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["subtotal"] ,2) }}
+            <td width="15%" > $ {{ number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["subtotal"] ,2) }}
             </td>        
             <td>
-                ${{  number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["iva"],2)  }}
+                ${{  number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["iva"],2)  }}
             </td>    
             <td>
-                ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["rate"],2)  }}
+                ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["rate"],2)  }}
             </td>
             <td>
-                    ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["total"],2)  }}
+                    ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["total"],2)  }}
             </td>
             <td>
-                ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded)["toPay"],2)  }}
+                ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["toPay"],2)  }}
             </td>
             <td>
                 @switch($invoice->status)

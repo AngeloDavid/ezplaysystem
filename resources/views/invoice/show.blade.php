@@ -22,7 +22,7 @@
                                     <span>Factura</span>
                                 </div>
                                 <div class="iv-right col-6 text-md-right">
-                                    <span># {{ $invoice->code}}</span>
+                                    <span># @if (Session::get('user')->id_role=='1') {{ $invoice->id}} - @endif {{ $invoice->code}} </span>
                                 </div>
                             </div>
                         </div>
@@ -46,6 +46,11 @@
                                     @else
                                         Cheque
                                     @endif  </li>
+                                    <li>Estado Factura:  @if ($invoice->status == 0)
+                                            <span class="text-danger">{{ strtoupper($invoice->getStatus($invoice->status)) }}  </span>
+                                    @else
+                                    {{ strtoupper($invoice->getStatus($invoice->status)) }} 
+                                    @endif   </li>
                                 </ul>
                             </div>
                         </div>

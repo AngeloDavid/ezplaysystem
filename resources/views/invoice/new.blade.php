@@ -193,7 +193,7 @@
                                     </div>       --}}
                                     <div class="col-md-2 mb-3">
                                       <label for="subtotal">Impuestos <span class="text-muted">%</span></label>
-                                      <input type="number"  step="0.01"  min="0" max="20" class="form-control" id="tax" name="tax" placeholder="" required=""  value="{{ old('tax',$invoice->tax) }}" >
+                                      <input type="number"  step="0.01"  min="0" max="20" class="form-control" id="tax" name="tax" placeholder=""  value="{{ old('tax',$invoice->tax) }}" >
                                       <div class="invalid-feedback">
                                       Este campo es requerido
                                       </div>
@@ -390,7 +390,7 @@
       $('#country').change( function(){
         var country =$('#country').val();
         if( country != 'US'){
-          $('#msg').text('(Se añade 1.6% como impuesto a los paises fuera de Estados Unidos)');
+          $('#msg').text('(Se añade 1.5% como impuesto a los paises fuera de Estados Unidos)');
         }else{
           $('#msg').text('');
         }        
