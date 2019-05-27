@@ -148,14 +148,16 @@
                                       .*.
                                       </div>
                                   </div>
-                                  <h4 class="header-title">Datos Contable</h4>
-                                  <div class="mb-3">
-                                    <label for="">Costo de Transaccion General<span class="text-muted">(Por defecto ser[a 5%])</span></label>
-                                    <input type="number" step="0.01"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder=""  value="{{ old('rate',$company->rate) }}"  >
-                                    <div class="invalid-feedback">
-                                    *Este campo es requerido
+                                  @if (Session::get('user')->id_role=='1')
+                                    <h4 class="header-title">Datos Contable</h4>
+                                    <div class="mb-3">
+                                      <label for="">Costo de Transaccion General<span class="text-muted">(Por defecto ser[a 5%])</span></label>
+                                      <input type="number" step="0.01"   min="0" max="5" class="form-control" id="rate" name="rate" placeholder=""  value="{{ old('rate',$company->rate) }}"  >
+                                      <div class="invalid-feedback">
+                                      *Este campo es requerido
+                                      </div>
                                     </div>
-                                </div>
+                                  @endif
                               </div>
                               <div class="col-md-6 mb-3">
                                   <h4 class="header-title">Representante Legal</h4>    
