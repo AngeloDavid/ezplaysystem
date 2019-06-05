@@ -46,11 +46,18 @@
                                     @else
                                         Cheque
                                     @endif  </li>
+                                    <li></br></li>
                                     <li>Estado Factura:  @if ($invoice->status == 0)
                                             <span class="text-danger">{{ strtoupper($invoice->getStatus($invoice->status)) }}  </span>
                                     @else
                                     {{ strtoupper($invoice->getStatus($invoice->status)) }} 
                                     @endif   </li>
+                                    <li class="text-info" >Cobrar Impuesto 1.5% al cliente: @if ($invoice->ivaincluded)
+                                        NO
+                                    @else
+                                        SI
+                                    @endif</li>
+                                    <li>FACTURA - MONTO : $ {{ number_format($invoice->amount,2) }}</li>
                                 </ul>
                             </div>
                         </div>

@@ -10,8 +10,9 @@
             @if (Session::get('user')->id_role=='1' && $title !='Facturación')  
             <td><a href="{{ url('/Empresas/'.$invoice->id_company.'/edit')}}" > {{ $invoice->company }} </a></td>
             @endif
-            <td width="2%" > {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
-            <td width="15%" > $ {{ number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["subtotal"] ,2) }}
+            <td scope="col" > {{ date('d/m/Y', strtotime($invoice->date))}}</td>            
+            <td class="text-info" width="15%">$ {{ number_format($invoice->amount,2) }}</td>
+            <td width="30%" > $ {{ number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["subtotal"] ,2) }}
             </td>        
             <td>
                 ${{  number_format($invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["iva"],2)  }}
@@ -22,7 +23,7 @@
             <td>
                     ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["total"],2)  }}
             </td>
-            <td>
+            <td class="text-success">
                 ${{ number_format( $invoice->ClTotales($invoice->amount,$invoice->tax,$invoice->rate,$invoice->ivaincluded,$invoice->rateTotal)["toPay"],2)  }}
             </td>
             <td>

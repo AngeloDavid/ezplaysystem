@@ -42,7 +42,8 @@
                                                         <th scope="col">Empresa</th>    
                                                     @endif                                                    
                                                     <th scope="col">Fecha</th>
-                                                    <th scope="col">Monto</th>
+                                                    <th scope="col">Factura</th>
+                                                    <th scope="col">SubTotal</th>
                                                     <th scope="col">Impuesto (1.5%)</th>                                                    
                                                     <th scope="col">C.T</th>
                                                     <th scope="col">TOTAL</th>
@@ -65,8 +66,8 @@
                                                                 <td scope="col"><input type="text" class="form-control form-control-lg input-rounded" placeholder="Buscar..." name="emp" id="emp" ></td>
                                                             @endif
                                                             @endif                                     
-                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
-                                                        <td scope="col" colspan="5"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>
+                                                        <td scope="col"><input class="form-control form-control-lg input-rounded" style="width: 90%;" type="date" placeholder="Buscar..." name="fecha" id="fecha" ></td>
+                                                        <td scope="col" colspan="6"><input class="form-control form-control-lg input-rounded" type="number" placeholder="Buscar..." name="amount" id="amount" step="0.01" ></td>
                                                         
                                                         <td scope="col">
                                                             <select class="custom-select input-rounded w-100" id="status" name="status" >
