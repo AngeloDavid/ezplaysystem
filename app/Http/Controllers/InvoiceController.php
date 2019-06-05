@@ -537,7 +537,9 @@ class InvoiceController extends Controller
                     }else{
                         $tax =$data['tax'];
                     }
-                    // dd($id_customer);    
+                    // dd($id_customer);   
+                    
+                    $data['ivaincluded'] = isset( $data['ivaincluded']) == true? $data['ivaincluded']: 'off';
                     $invoiceCreated = invoice::create([
                         'code'=>$data['code'],
                         'date'=>$timedate,
