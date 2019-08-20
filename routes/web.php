@@ -44,7 +44,8 @@ Route::get('/Clientes/buscar/{ruc}/{name}/{date}/{place}/{status}','CustomerCont
 Route::resources([
     'Clientes'=> 'CustomerController',
     'Facturas'=> 'InvoiceController',
-    'Empresas'=> 'CompanyController'
+    'Empresas'=> 'CompanyController',
+    'paypal'=>'PayPalInvoicesController'
 ]);
 Route::get('/mail', function ()
 {
