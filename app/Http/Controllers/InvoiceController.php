@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PPInvoice;
 use App\invoice;
 use App\Costumer;
 use App\Company;
@@ -595,6 +596,17 @@ class InvoiceController extends Controller
         }else{
                 return redirect('/logout');
             }
+    }
+
+    public function sendPayPal($id)
+    {
+        $ppi = new PPInvoice();
+        $invoice = invoice::find($id);
+        $company = Company::find($invoice->id_company);
+        $customer = Costumer::find ($invoice->id_customer);
+        $ppi->createInvoice($company,$customer,$invoice);
+      //dd();  
+
     }
 
     /**

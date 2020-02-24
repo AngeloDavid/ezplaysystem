@@ -14,7 +14,7 @@ class PayPalInvoicesController extends Controller
      */
     public function index()
     {
-        $payPalConfig= \Config::get('paypal');
+        // $payPalConfig= \Config::get('paypal');
         /*$apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
                 'AdTG5HIyXFQMpOtgR-8DEeU8q87le9OohEE2acrzVujJm2NAZ9N5-Q7Jls9OiQOqDBkoT5KSdljJN4B8',     // ClientID
@@ -24,11 +24,12 @@ class PayPalInvoicesController extends Controller
     
         //crea el objeto de la factura
         $ppi = new PPInvoice();
+        
         //escoje los datos de conexion
-        $cliente_id = $payPalConfig['mode'] == 'sandbox'? $payPalConfig['sandbox']['username']:$payPalConfig['live']['username'] ;
-        $password = $payPalConfig['mode'] == 'sandbox'? $payPalConfig['sandbox']['password']:$payPalConfig['live']['password'] ;
+        // $cliente_id = $payPalConfig['mode'] == 'sandbox'? $payPalConfig['sandbox']['username']:$payPalConfig['live']['username'] ;
+        // $password = $payPalConfig['mode'] == 'sandbox'? $payPalConfig['sandbox']['password']:$payPalConfig['live']['password'] ;
 
-        $ppi->setApiContext($cliente_id,$password); 
+        // $ppi->setApiContext($cliente_id,$password); 
 
         //muestra el numero de factura que toca
         //dd($ppi->getNextNumberInvoice());

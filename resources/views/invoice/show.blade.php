@@ -116,6 +116,7 @@
                         </div>
                     </div>
                     <div class="invoice-buttons text-right">
+                        {{-- <a href="{{ url('/Facturas/'.$invoice->id.'/send')}}"  class="invoice-btn btn-info "> <i class="fa fa-send"></i>Enviar Factura</a> --}}
                         <a target="_blank" href="{{ asset('storage/docs/'. $invoice->file )}}"  class="invoice-btn"> <i class="ti-cloud-down"></i> Descargar Factura</a>                       
                     </div>
                 </div>

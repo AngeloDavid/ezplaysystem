@@ -36,7 +36,7 @@
                             </div>  --}}
                         </div>
                         <div class="col-6 text-right">
-                            <a href="#">Olvide mi contraseña</a>
+                            <a href="#" data-toggle="modal" data-target="#forgetPassword" >Olvide mi contraseña</a>
                         </div>
                     </div>
                     <div class="submit-btn-area">
@@ -58,4 +58,20 @@
         </div>
     </div>
     </div>
+    {{-- Modal para mensaje de olvidar contrasenia --}}
+    <div class="modal fade" id="forgetPassword" tabindex="-1" role="dialog" aria-labelledby="forgetPassword" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="forgetPassword">Olvide mi Contraseña</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Para recuperar su contraseña favor contactarse con el administrador del sistema al numero 0992084746
+            </div>
+          </div>
+        </div>
+      </div>
 @endsection

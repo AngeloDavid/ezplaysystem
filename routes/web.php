@@ -32,6 +32,7 @@ Route::get('/Clientes/{id}/delete', 'CustomerController@activar')->where('id','[
 Route::get('/CXC/{id}/', 'CustomerController@getInvoices')->where('id','[0-9]+')->name('Clientes.facturas');
 Route::get('/Facturas/{id}/delete', 'InvoiceController@anular')->where('id','[0-9]+')->name('Facturas.anular');
 Route::get('/Facturas/{id}/status', 'InvoiceController@changestatus')->where('id','[0-9]+')->name('Facturas.changestatus');
+Route::get('/Facturas/{id}/send','InvoiceController@sendPayPal')->where('id','[0-9]+')->name('Facturas.send');
 Route::get('/Empresas/{id}/delete', 'CompanyController@activar')->where('id','[0-9]+')->name('Clientes.activar');
 Route::get('/Empresas/{id}/resetarPWD', 'CompanyController@resetarPWD')->where('id','[0-9]+')->name('Empresas.resetearPwd');
 Route::get('/TodasFacturas', 'InvoiceController@allinvoices')->name('Empresas.allinvoices');
@@ -47,6 +48,8 @@ Route::resources([
     'Empresas'=> 'CompanyController',
     'paypal'=>'PayPalInvoicesController'
 ]);
+
+
 Route::get('/mail', function ()
 {
     return view('e-mails.invoicesNewadmin');
