@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     $rutes = [
-        "Inicio" => "",      
+        "Inicio" => "",
     ];
     $title="Inicio";
     return view('welcome',compact('rutes','title'));
@@ -54,3 +54,5 @@ Route::get('/mail', function ()
 {
     return view('e-mails.invoicesNewadmin');
 });
+
+Route::post('/pago', 'SuscripcionController@pago');
